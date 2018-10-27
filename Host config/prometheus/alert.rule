@@ -1,0 +1,420 @@
+groups:                                                                                                                                                                          
+- name: targets                                                                                                                                                                  
+  rules:                                                                                                                                                                         
+  - alert: monitor_service_down                                                                                                                                                  
+    expr: up == 0                                                                                                                                                                
+    for: 30s                                                                                                                                                                     
+    labels:                                                                                                                                                                             
+      severity: critical                                                                                                                                                         
+    annotations:                                                                                                                                                                 
+      summary: "Monitor service non-operational"                                                                                                                                 
+      description: "Service {{ $labels.instance }} is down."                                                                                                                     
+                                                                                                                                                                                 
+- name: host                                                                                                                                                                     
+  rules:                                                                                                                                                                         
+  - alert: high_cpu_load                                                                                                                                                                
+    expr: node_load1 > 3.0                                                                                                                                                              
+    for: 30s                                                                                                                                                                            
+    labels:                                                                                                                                                                      
+      severity: warning                                                                                                                                                          
+    annotations:                                                                                                                                                                 
+      summary: "Server under high load"                                                                                                                                          
+      description: "Docker host is under high load, the avg load 1m is at {{ $value}}. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}."                    
+                                                                                                                                                                                 
+  - alert: high_memory_load                                                                                                                                                      
+    expr: (sum(node_memory_MemTotal_bytes) - sum(node_memory_MemFree_bytes + node_memory_Buffers_bytes + node_memory_Cached_bytes) ) / sum(node_memory_MemTotal_bytes) * 100 > 85
+    for: 30s                                                                                                                                             
+    labels:                                                                                                                                              
+      severity: warning                                                                                                                                  
+    annotations:                                                                                                                                         
+      summary: "Server memory is almost full"                                                                                                            
+      description: "Docker host memory usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}."            
+
+  - alert: high_storage_load                                                                                                                                                     
+    expr: (node_filesystem_size_bytes{fstype="aufs"} - node_filesystem_free_bytes{fstype="aufs"}) / node_filesystem_size_bytes{fstype="aufs"}  * 100 > 85                        
+    for: 30s                                                                                                                                                                     
+    labels:                                                                                                                                                                             
+      severity: warning                                                                                                                                                          
+    annotations:                                                                                                                                                                 
+      summary: "Server storage is almost full"                                                                                                                                   
+      description: "Docker host storage usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}."                                   
+                                                                                                                                                                                 
+- name: containers                                                                                                                                                               
+  rules:                                                                                                                                                                         
+  - alert: sabnzbd_down                                                                                                                                                                 
+    expr: absent(container_memory_usage_bytes{name="sabnzbd"})                                                                                                                          
+    for: 30s                                                                                                                                                                            
+    labels:                                                                                                                                                                      
+      severity: critical                                                                                                                                                         
+    annotations:                                                                                                                                                                 
+      summary: "Sabnzbd down"                                                                                                                                                    
+      description: "Sabnzbd container is down for more than 30 seconds."                                                                                                         
+                                                                                                                                                                                 
+  - alert: sabnzbd_high_cpu                                                                                                                                                      
+    expr: sum(rate(container_cpu_usage_seconds_total{name="sabnzbd"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10                                             
+    for: 30s                                                                                                                                             
+    labels:                                                                                                                                              
+      severity: warning                                                                                                                                  
+    annotations:                                                                                                                                         
+      summary: "Sabnzbd high CPU usage"                                                                                                                  
+      description: "Sabnzbd CPU usage is {{ humanize $value}}%."                                                                                         
+                                                                                                                                                         
+  - alert: sabnzbd_high_memory                                                                                                                           
+    expr: sum(container_memory_usage_bytes{name="sabnzbd"}) > 1200000000                                                                                 
+    for: 30s                                                                                                                                  
+    labels:                                                                                                                                   
+      severity: warning                                                                                                                                                                 
+    annotations:                                                                                                                                                                        
+      summary: "Sabnzbd high memory usage"                                                                                                                                              
+      description: "Sabnzbd memory consumption is at {{ humanize $value}}." 
+
+  - alert: hydra2_down     
+    expr: absent(container_memory_usage_bytes{name="hydra2"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "hydra2 down"    
+      description: "hydra2 container is down for more than 30 seconds."
+
+  - alert: hydra2_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="hydra2"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "hydra2 high CPU usage"  
+      description: "hydra2 CPU usage is {{ humanize $value}}%."      
+
+  - alert: hydra2_high_memory   
+    expr: sum(container_memory_usage_bytes{name="hydra2"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "hydra2 high memory usage"    
+      description: "hydra2 memory consumption is at {{ humanize $value}}."
+
+  - alert: transmission_down     
+    expr: absent(container_memory_usage_bytes{name="transmission"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "transmission down"    
+      description: "transmission container is down for more than 30 seconds."
+
+  - alert: transmission_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="transmission"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "transmission high CPU usage"  
+      description: "transmission CPU usage is {{ humanize $value}}%."      
+
+  - alert: transmission_high_memory   
+    expr: sum(container_memory_usage_bytes{name="transmission"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "transmission high memory usage"    
+      description: "transmission memory consumption is at {{ humanize $value}}." 
+
+  - alert: emby_down     
+    expr: absent(container_memory_usage_bytes{name="emby"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "emby down"    
+      description: "emby container is down for more than 30 seconds."
+
+  - alert: emby_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="emby"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "emby high CPU usage"  
+      description: "emby CPU usage is {{ humanize $value}}%."      
+
+  - alert: emby_high_memory   
+    expr: sum(container_memory_usage_bytes{name="emby"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "emby high memory usage"    
+      description: "emby memory consumption is at {{ humanize $value}}." 
+
+  - alert: lazylibrarian_down     
+    expr: absent(container_memory_usage_bytes{name="lazylibrarian"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "lazylibrarian down"    
+      description: "lazylibrarian container is down for more than 30 seconds."
+
+  - alert: lazylibrarian_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="lazylibrarian"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "lazylibrarian high CPU usage"  
+      description: "lazylibrarian CPU usage is {{ humanize $value}}%."      
+
+  - alert: lazylibrarian_high_memory   
+    expr: sum(container_memory_usage_bytes{name="lazylibrarian"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "lazylibrarian high memory usage"    
+      description: "lazylibrarian memory consumption is at {{ humanize $value}}." 
+
+  - alert: mylar_down     
+    expr: absent(container_memory_usage_bytes{name="mylar"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "mylar down"    
+      description: "mylar container is down for more than 30 seconds."
+
+  - alert: mylar_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="mylar"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "mylar high CPU usage"  
+      description: "mylar CPU usage is {{ humanize $value}}%."      
+
+  - alert: mylar_high_memory   
+    expr: sum(container_memory_usage_bytes{name="mylar"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "mylar high memory usage"    
+      description: "mylar memory consumption is at {{ humanize $value}}." 
+
+  - alert: lidarr_down     
+    expr: absent(container_memory_usage_bytes{name="lidarr"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "lidarr down"    
+      description: "lidarr container is down for more than 30 seconds."
+
+  - alert: lidarr_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="lidarr"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "lidarr high CPU usage"  
+      description: "lidarr CPU usage is {{ humanize $value}}%."      
+
+  - alert: lidarr_high_memory   
+    expr: sum(container_memory_usage_bytes{name="lidarr"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "lidarr high memory usage"    
+      description: "lidarr memory consumption is at {{ humanize $value}}." 
+
+  - alert: radarr_down     
+    expr: absent(container_memory_usage_bytes{name="radarr"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "radarr down"    
+      description: "radarr container is down for more than 30 seconds."
+
+  - alert: radarr_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="radarr"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "radarr high CPU usage"  
+      description: "radarr CPU usage is {{ humanize $value}}%."      
+
+  - alert: radarr_high_memory   
+    expr: sum(container_memory_usage_bytes{name="radarr"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "radarr high memory usage"    
+      description: "radarr memory consumption is at {{ humanize $value}}." 
+
+  - alert: jackett_down     
+    expr: absent(container_memory_usage_bytes{name="jackett"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "jackett down"    
+      description: "jackett container is down for more than 30 seconds."
+
+  - alert: jackett_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="jackett"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "jackett high CPU usage"  
+      description: "jackett CPU usage is {{ humanize $value}}%."      
+
+  - alert: jackett_high_memory   
+    expr: sum(container_memory_usage_bytes{name="jackett"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "jackett high memory usage"    
+      description: "jackett memory consumption is at {{ humanize $value}}." 
+
+  - alert: ubooquity_down     
+    expr: absent(container_memory_usage_bytes{name="ubooquity"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "ubooquity down"    
+      description: "ubooquity container is down for more than 30 seconds."
+
+  - alert: ubooquity_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="ubooquity"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "ubooquity high CPU usage"  
+      description: "ubooquity CPU usage is {{ humanize $value}}%."      
+
+  - alert: ubooquity_high_memory   
+    expr: sum(container_memory_usage_bytes{name="ubooquity"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "ubooquity high memory usage"    
+      description: "ubooquity memory consumption is at {{ humanize $value}}." 
+
+  - alert: sonarr_down     
+    expr: absent(container_memory_usage_bytes{name="sonarr"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "sonarr down"    
+      description: "sonarr container is down for more than 30 seconds."
+
+  - alert: sonarr_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="sonarr"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "sonarr high CPU usage"  
+      description: "sonarr CPU usage is {{ humanize $value}}%."      
+
+  - alert: sonarr_high_memory   
+    expr: sum(container_memory_usage_bytes{name="sonarr"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "sonarr high memory usage"    
+      description: "sonarr memory consumption is at {{ humanize $value}}." 
+
+  - alert: sonarr2_down     
+    expr: absent(container_memory_usage_bytes{name="sonarr2"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "sonarr2 down"    
+      description: "sonarr2 container is down for more than 30 seconds."
+
+  - alert: sonarr2_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="sonarr2"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "sonarr2 high CPU usage"  
+      description: "sonarr2 CPU usage is {{ humanize $value}}%."      
+
+  - alert: sonarr2_high_memory   
+    expr: sum(container_memory_usage_bytes{name="sonarr2"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "sonarr2 high memory usage"    
+      description: "sonarr2 memory consumption is at {{ humanize $value}}." 
+
+  - alert: heimdall_down     
+    expr: absent(container_memory_usage_bytes{name="heimdall"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "heimdall down"    
+      description: "heimdall container is down for more than 30 seconds."
+
+  - alert: heimdall_high_cpu 
+    expr: sum(rate(container_cpu_usage_seconds_total{name="heimdall"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10   
+    for: 30s  
+    labels:   
+      severity: warning    
+    annotations:    
+      summary: "heimdall high CPU usage"  
+      description: "heimdall CPU usage is {{ humanize $value}}%."      
+
+  - alert: heimdall_high_memory   
+    expr: sum(container_memory_usage_bytes{name="heimdall"}) > 1200000000
+    for: 30s
+    labels: 
+      severity: warning  
+    annotations: 
+      summary: "heimdall high memory usage"    
+      description: "heimdall memory consumption is at {{ humanize $value}}." 
+
+  - alert: portainer_down     
+    expr: absent(container_memory_usage_bytes{name="portainer"})
+    for: 30s
+    labels:   
+      severity: critical    
+    annotations:    
+      summary: "portainer down"    
+      description: "portainer container is down for more than 30 seconds."
+
+  - alert: portainer_high_cpu
+    expr: sum(rate(container_cpu_usage_seconds_total{name="portainer"}[1m])) / count(node_cpu_seconds_total{mode="system"}) * 100 > 10
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      summary: "portainer high CPU usage"
+      description: "portainer CPU usage is {{ humanize $value}}%."
+
+  - alert: portainer_high_memory
+    expr: sum(container_memory_usage_bytes{name="portainer"}) > 1200000000
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      summary: "portainer high memory usage"
+      description: "portainer memory consumption is at {{ humanize $value}}." 
