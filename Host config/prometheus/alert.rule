@@ -60,13 +60,13 @@ groups:
       description: "Sabnzbd CPU usage is {{ humanize $value}}%."                                                                                         
                                                                                                                                                          
   - alert: sabnzbd_high_memory                                                                                                                           
-    expr: sum(container_memory_usage_bytes{name="sabnzbd"}) > 1200000000                                                                                 
+    expr: sum((container_memory_usage_bytes{name="sabnzbd"} * 100) / container_memory_max_usage_bytes{name="sabnzbd"}) > 90                                                                                
     for: 30s                                                                                                                                  
     labels:                                                                                                                                   
       severity: warning                                                                                                                                                                 
     annotations:                                                                                                                                                                        
       summary: "Sabnzbd high memory usage"                                                                                                                                              
-      description: "Sabnzbd memory consumption is at {{ humanize $value}}." 
+      description: "Sabnzbd memory consumption is at {{ humanize $value}} %." 
 
   - alert: hydra2_down     
     expr: absent(container_memory_usage_bytes{name="hydra2"})
@@ -87,13 +87,13 @@ groups:
       description: "hydra2 CPU usage is {{ humanize $value}}%."      
 
   - alert: hydra2_high_memory   
-    expr: sum(container_memory_usage_bytes{name="hydra2"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="hydra2"} * 100) / container_memory_max_usage_bytes{name="hydra2"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "hydra2 high memory usage"    
-      description: "hydra2 memory consumption is at {{ humanize $value}}."
+      description: "hydra2 memory consumption is at {{ humanize $value}} %."
 
   - alert: transmission_down     
     expr: absent(container_memory_usage_bytes{name="transmission"})
@@ -114,13 +114,13 @@ groups:
       description: "transmission CPU usage is {{ humanize $value}}%."      
 
   - alert: transmission_high_memory   
-    expr: sum(container_memory_usage_bytes{name="transmission"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="transmission"} * 100) / container_memory_max_usage_bytes{name="transmission"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "transmission high memory usage"    
-      description: "transmission memory consumption is at {{ humanize $value}}." 
+      description: "transmission memory consumption is at {{ humanize $value}} %." 
 
   - alert: emby_down     
     expr: absent(container_memory_usage_bytes{name="emby"})
@@ -141,13 +141,13 @@ groups:
       description: "emby CPU usage is {{ humanize $value}}%."      
 
   - alert: emby_high_memory   
-    expr: sum(container_memory_usage_bytes{name="emby"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="emby"} * 100) / container_memory_max_usage_bytes{name="emby"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "emby high memory usage"    
-      description: "emby memory consumption is at {{ humanize $value}}." 
+      description: "emby memory consumption is at {{ humanize $value}} %." 
 
   - alert: lazylibrarian_down     
     expr: absent(container_memory_usage_bytes{name="lazylibrarian"})
@@ -168,13 +168,13 @@ groups:
       description: "lazylibrarian CPU usage is {{ humanize $value}}%."      
 
   - alert: lazylibrarian_high_memory   
-    expr: sum(container_memory_usage_bytes{name="lazylibrarian"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="lazylibrarian"} * 100) / container_memory_max_usage_bytes{name="lazylibrarian"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "lazylibrarian high memory usage"    
-      description: "lazylibrarian memory consumption is at {{ humanize $value}}." 
+      description: "lazylibrarian memory consumption is at {{ humanize $value}} %." 
 
   - alert: mylar_down     
     expr: absent(container_memory_usage_bytes{name="mylar"})
@@ -195,13 +195,13 @@ groups:
       description: "mylar CPU usage is {{ humanize $value}}%."      
 
   - alert: mylar_high_memory   
-    expr: sum(container_memory_usage_bytes{name="mylar"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="mylar"} * 100) / container_memory_max_usage_bytes{name="mylar"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "mylar high memory usage"    
-      description: "mylar memory consumption is at {{ humanize $value}}." 
+      description: "mylar memory consumption is at {{ humanize $value}} %." 
 
   - alert: lidarr_down     
     expr: absent(container_memory_usage_bytes{name="lidarr"})
@@ -222,13 +222,13 @@ groups:
       description: "lidarr CPU usage is {{ humanize $value}}%."      
 
   - alert: lidarr_high_memory   
-    expr: sum(container_memory_usage_bytes{name="lidarr"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="lidarr"} * 100) / container_memory_max_usage_bytes{name="lidarr"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "lidarr high memory usage"    
-      description: "lidarr memory consumption is at {{ humanize $value}}." 
+      description: "lidarr memory consumption is at {{ humanize $value}} %." 
 
   - alert: radarr_down     
     expr: absent(container_memory_usage_bytes{name="radarr"})
@@ -249,13 +249,13 @@ groups:
       description: "radarr CPU usage is {{ humanize $value}}%."      
 
   - alert: radarr_high_memory   
-    expr: sum(container_memory_usage_bytes{name="radarr"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="radarr"} * 100) / container_memory_max_usage_bytes{name="radarr"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "radarr high memory usage"    
-      description: "radarr memory consumption is at {{ humanize $value}}." 
+      description: "radarr memory consumption is at {{ humanize $value}} %." 
 
   - alert: jackett_down     
     expr: absent(container_memory_usage_bytes{name="jackett"})
@@ -276,13 +276,13 @@ groups:
       description: "jackett CPU usage is {{ humanize $value}}%."      
 
   - alert: jackett_high_memory   
-    expr: sum(container_memory_usage_bytes{name="jackett"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="jackett"} * 100) / container_memory_max_usage_bytes{name="jackett"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "jackett high memory usage"    
-      description: "jackett memory consumption is at {{ humanize $value}}." 
+      description: "jackett memory consumption is at {{ humanize $value}} %." 
 
   - alert: ubooquity_down     
     expr: absent(container_memory_usage_bytes{name="ubooquity"})
@@ -303,13 +303,13 @@ groups:
       description: "ubooquity CPU usage is {{ humanize $value}}%."      
 
   - alert: ubooquity_high_memory   
-    expr: sum(container_memory_usage_bytes{name="ubooquity"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="ubooquity"} * 100) / container_memory_max_usage_bytes{name="ubooquity"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "ubooquity high memory usage"    
-      description: "ubooquity memory consumption is at {{ humanize $value}}." 
+      description: "ubooquity memory consumption is at {{ humanize $value}} %." 
 
   - alert: sonarr_down     
     expr: absent(container_memory_usage_bytes{name="sonarr"})
@@ -330,13 +330,13 @@ groups:
       description: "sonarr CPU usage is {{ humanize $value}}%."      
 
   - alert: sonarr_high_memory   
-    expr: sum(container_memory_usage_bytes{name="sonarr"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="sonarr"} * 100) / container_memory_max_usage_bytes{name="sonarr"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "sonarr high memory usage"    
-      description: "sonarr memory consumption is at {{ humanize $value}}." 
+      description: "sonarr memory consumption is at {{ humanize $value}} %." 
 
   - alert: sonarr2_down     
     expr: absent(container_memory_usage_bytes{name="sonarr2"})
@@ -357,13 +357,13 @@ groups:
       description: "sonarr2 CPU usage is {{ humanize $value}}%."      
 
   - alert: sonarr2_high_memory   
-    expr: sum(container_memory_usage_bytes{name="sonarr2"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="sonarr2"} * 100) / container_memory_max_usage_bytes{name="sonarr2"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "sonarr2 high memory usage"    
-      description: "sonarr2 memory consumption is at {{ humanize $value}}." 
+      description: "sonarr2 memory consumption is at {{ humanize $value}} %." 
 
   - alert: heimdall_down     
     expr: absent(container_memory_usage_bytes{name="heimdall"})
@@ -384,13 +384,13 @@ groups:
       description: "heimdall CPU usage is {{ humanize $value}}%."      
 
   - alert: heimdall_high_memory   
-    expr: sum(container_memory_usage_bytes{name="heimdall"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="heimdall"} * 100) / container_memory_max_usage_bytes{name="heimdall"}) > 90
     for: 30s
     labels: 
       severity: warning  
     annotations: 
       summary: "heimdall high memory usage"    
-      description: "heimdall memory consumption is at {{ humanize $value}}." 
+      description: "heimdall memory consumption is at {{ humanize $value}} %." 
 
   - alert: portainer_down     
     expr: absent(container_memory_usage_bytes{name="portainer"})
@@ -411,10 +411,10 @@ groups:
       description: "portainer CPU usage is {{ humanize $value}}%."
 
   - alert: portainer_high_memory
-    expr: sum(container_memory_usage_bytes{name="portainer"}) > 1200000000
+    expr: sum((container_memory_usage_bytes{name="portainer"} * 100) / container_memory_max_usage_bytes{name="portainer"}) > 90
     for: 30s
     labels:
       severity: warning
     annotations:
       summary: "portainer high memory usage"
-      description: "portainer memory consumption is at {{ humanize $value}}." 
+      description: "portainer memory consumption is at {{ humanize $value}} %." 
