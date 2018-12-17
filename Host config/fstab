@@ -1,0 +1,17 @@
+UUID=7de97a73-9f06-4c90-94ba-7605abce5bbd       /       ext4    rw,relatime,data=ordered 0 1
+UUID=8B82-C8B9  /boot/efi       vfat    rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=utf8,shortname=mixed,errors=remount-ro 0 2
+UUID=560f2149-4371-482e-aca6-2c572622468e       swap    swap    defaults        0 0
+/dev/cdrom      /media/cdrom    iso9660 noauto,ro 0 0
+/dev/usbdisk    /media/usb      vfat    noauto  0 0
+x.x.x.2:/volume1/docker/ /mount/docker nfs nolock,hard,_netdev 0 0
+x.x.x.2:/volume1/Books/Comics/ /mount/comics nfs nolock,hard,_netdev 0 0
+x.x.x.2:/volume1/Books/Books/ /mount/books nfs nolock,hard,_netdev 0 0
+x.x.x.2:/volume1/downloads/incomplete/ /mount/incomplete-downloads nfs nolock,hard,_netdev 0 0
+x.x.x.2:/volume1/downloads/torrent_hole_jackett/ /mount/torrent_hole_jackett nfs nolock,hard,_netdev 0 0
+x.x.x.4:/volume1/music/ /mount/music nfs nolock,hard,_netdev 0 0
+x.x.x.2:/volume1/downloads/ /mount/downloads nfs nolock,hard,_netdev 0 0
+x.x.x.2:/volume1/video/ /mount/video nfs nolock,hard,_netdev 0 0
+x.x.x.2:/volume1/Anime/ /mount/anime nfs nolock,hard,_netdev 0 0
+x.x.x.2:/volume1/TV-Archive/ /mount/tv-archive nfs nolock,hard,_netdev 0 0
+x.x.x.2:/volume1/video/TV/ /mount/tv nfs nolock,hard,_netdev 0 0
+x.x.x.4:/volume1/private/ /mount/private nfs nolock,hard,_netdev 0 0

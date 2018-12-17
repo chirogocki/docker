@@ -1,4 +1,11 @@
-# docker
+### Docker
+
+#Hardware
+PC : eGlobal
+CPU : Core i7 7500U
+Ram : 32Go DDR4 Sodimm
+SSD : 100Go Intel
+Eth : 1x1Gb
 
 #Configuration of home infra
 
