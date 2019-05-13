@@ -1,5 +1,5 @@
 # eGlobal PC
-![eGlobal PC]($/pictures/eglobal-pc.png | width=400)
+![eGlobal PC](../pictures/eglobal-pc.png)
 
 ### Hardware
   
