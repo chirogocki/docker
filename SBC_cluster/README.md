@@ -29,9 +29,20 @@ Some pictures of my project :
 ![running](../pictures/SBC/hardware/running.png)
   
 ## OS
-  
-Using [DietPi](https://dietpi.com/) OS cause it's fully optimized according to this hardware.  
-  
+### Distribution
+
+Using [DietPi](https://dietpi.com/) OS because it's fully optimized according to this specific hardware. And, of course, it's Debian.  
 Considering low storage support for these SBC, mounted shares are used. Here is why I choose NFS :  
   
-![benchmark](../pictures/SBC/benchmark.png)
+![benchmark](../pictures/SBC/benchmark.png)  
+  
+### Configuration
+First installation was straightforward ! System menu help me to :
+* configure basic access :
+  * users passwords
+  * hostname
+  * IP
+* install optimized software for ARMv7 (wich is 32 bits) such as :  
+  * docker
+  * OpenSSL
+  
