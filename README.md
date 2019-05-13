@@ -1,4 +1,5 @@
 ## Docker Home
+![Docker CE](pictures/docker-logo.png)
 
 ### Hardware
 
