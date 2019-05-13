@@ -7,3 +7,7 @@
 - import_tasks: bashrc.yml
   tags:
     - bashrc
+
+- import_tasks: mount.yml
+  tags:
+    - mount
