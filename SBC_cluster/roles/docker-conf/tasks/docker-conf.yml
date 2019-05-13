@@ -1,0 +1,30 @@
+---
+
+- name: Create local directory
+  file:
+    path: "{{local_docker_path}}"
+    owner: root
+    group: docker
+    mode: 0755
+    state: directory
+  tags: docker-ce_local_docker_path
+
+- name: Create docker conf
+  template:
+    src: daemon.json.j2
+    dest: "{{docker_path}}daemon.json"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart Docker-CE
+  tags:
+    - docker-ce_conf
+
+- name: Ensure docker group on local docker directories
+  file:
+    path: "{{local_docker_path}}"
+    owner: root
+    group: docker
+    mode: g+rwX
+    recurse: yes
+  tags: docker-ce_local_docker_path

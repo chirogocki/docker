@@ -1,0 +1,8 @@
+---
+
+local_docker_path: "/local/docker-data"
+logrotate_path: "/etc/logrotate.d"
+docker_path: "/etc/docker/"
+docker_prune_logfile_dir: "/local/docker-prune-log"
+docker_prune_volume_logfile_path: "/local/docker-prune-log/prune-volume-log.log"
+docker_prune_system_logfile_path: "/local/docker-prune-log/prune-system-log.log"
