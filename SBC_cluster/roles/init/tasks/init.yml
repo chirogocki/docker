@@ -9,6 +9,7 @@
     packages:
       - net-tools
       - python3
+      - python3-apt
   tags:
     - init
     - init_install
