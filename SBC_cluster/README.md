@@ -21,12 +21,12 @@ Cases printed with [Neva Magis](https://dagoma.fr/neva-magis.html) by Dagoma, or
   
 Some pictures of my project :  
 
-![slim-case](../pictures/SBC/hardware/slim-case.png)  
-![slim-case-2](../pictures/SBC/hardware/slim-case-2.png)  
-![stack](../pictures/SBC/hardware/stack.png)  
-![stack-front](../pictures/SBC/hardware/stack-front.png)  
-![running-single](../pictures/SBC/hardware/running-single.png)  
-![running](../pictures/SBC/hardware/running.png)  
+![slim-case](../pictures/SBC/hardware/slim-case.png)
+![slim-case-2](../pictures/SBC/hardware/slim-case-2.png)
+![stack](../pictures/SBC/hardware/stack.png)
+![stack-front](../pictures/SBC/hardware/stack-front.png)
+![running-single](../pictures/SBC/hardware/running-single.png)
+![running](../pictures/SBC/hardware/running.png)
   
 ## OS
   
@@ -34,4 +34,4 @@ Using [DietPi](https://dietpi.com/) OS cause it's fully optimized according to t
   
 Considering low storage support for these SBC, mounted shares are used. Here is why I choose NFS :  
   
-![benchmark](../pictures/SBC/bencmark.png)
+![benchmark](../pictures/SBC/benchmark.png)
