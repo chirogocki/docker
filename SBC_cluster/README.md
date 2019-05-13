@@ -1,4 +1,5 @@
 # Single Board Computing
+![Asus Tinker Board S](../pictures/asus-tinker-logo.png)
 
 New docker swarm with 8 [Asus Tinker Board S](https://www.asus.com/us/Single-Board-Computer/Tinker-Board-S/)  
 

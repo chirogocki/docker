@@ -1,3 +1,6 @@
+# eGlobal PC
+![eGlobal PC](../pictures/eglobal-pc.png)
+
 ### Hardware
   
 | Type | Values |
