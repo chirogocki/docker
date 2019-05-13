@@ -1,0 +1,14 @@
+---
+
+- name: Ensure minimal package for ansible
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - net-tools
+      - python3
+  tags:
+    - init
+    - init_install

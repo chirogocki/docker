@@ -1,0 +1,7 @@
+---
+- hosts: manager1
+  vars_files:
+    - "../env_vars/{{environnement}}.yml"
+    - "../env_vars/vault.yml"
+  roles:
+    - init

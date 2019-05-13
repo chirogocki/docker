@@ -1,0 +1,7 @@
+---
+
+- name: Restart enabled Keepalived
+  systemd:
+    name: keepalived
+    enabled: yes
+    state: restarted

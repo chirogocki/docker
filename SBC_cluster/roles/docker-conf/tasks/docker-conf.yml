@@ -1,13 +1,37 @@
 ---
 
-- name: Create local directory
+- name: Create parent docker directory
   file:
-    path: "{{local_docker_path}}"
+    path: "{{docker_mount_nfs_path_parent}}"
     owner: root
     group: docker
     mode: 0755
     state: directory
-  tags: docker-ce_local_docker_path
+  tags:
+    - docker-conf
+    - docker-conf-parent-dir
+
+- name: Create directory
+  file:
+    path: "{{docker_mount_nfs_path}}"
+    owner: root
+    group: docker
+    mode: 0755
+    state: directory
+  tags:
+    - docker-conf
+    - docker-conf-dir
+
+- name: Ensure docker group on docker directories
+  file:
+    path: "{{docker_mount_nfs_path}}"
+    owner: root
+    group: docker
+    mode: g+rwX
+    recurse: yes
+  tags:
+    - docker-conf
+    - docker-conf-dir
 
 - name: Create docker conf
   template:
@@ -18,13 +42,5 @@
     mode: 0644
   notify: Restart Docker-CE
   tags:
-    - docker-ce_conf
-
-- name: Ensure docker group on local docker directories
-  file:
-    path: "{{local_docker_path}}"
-    owner: root
-    group: docker
-    mode: g+rwX
-    recurse: yes
-  tags: docker-ce_local_docker_path
+    - docker-conf
+    - docker-conf-daemon

@@ -1,0 +1,36 @@
+---
+
+- name: Ensure local mount dir
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: docker
+    mode: 0755
+    state: directory
+  with_items:
+    - {{ docker_home_path }}
+    - {{ comics_path }}
+    - {{ books_path }}
+    - {{ incomplete_path }}
+    - {{ downloads_path }}
+    - {{ music_path }}
+    - {{ hole_path }}
+    - {{ video_path }}
+    - {{ anime_path }}
+    - {{ tv_archive_path }}
+    - {{ tv_path }}
+    - {{ private_path }}
+  tags:
+    - mount
+    - mount-ensure-dir
+
+- set_fact:
+  hosts_content: "{{ lookup('template', 'templates/fstab.j2') }}"
+
+- blockinfile:
+    dest: /etc/fstab
+    content: '{{ hosts_content }}'
+    insertafter: "#Please use DietPi-Drive_Manager to setup network mounts"
+    state: present
+    validate: "/bin/mount -fav"
+

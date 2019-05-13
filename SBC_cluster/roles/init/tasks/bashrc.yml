@@ -1,0 +1,12 @@
+---
+
+- name: Copy root bash profile
+  copy:
+    src: ".bashrc"
+    dest: /root/.bashrc
+    mode: 0600
+    owner: root
+    group: root
+  tags:
+    - init
+    - init_bashrc

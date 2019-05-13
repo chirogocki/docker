@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+{{ docker_prune_logfile_dir }}/*system-log.log
+{
+ copytruncate
+ daily
+ rotate 7
+ maxage 7
+ compress
+ delaycompress
+ missingok
+ size 5M
+}

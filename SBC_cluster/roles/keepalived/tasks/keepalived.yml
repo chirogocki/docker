@@ -1,0 +1,29 @@
+---
+
+- name: Install keepalived (Centos)
+  apt:
+    name: keepalived
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags:
+    - keepalived-install
+  notify: Restart enabled Keepalived
+
+- name: Check service
+  template: 
+    src: check_script.sh.j2 
+    dest: /etc/keepalived/check_script.sh
+    mode: 0755
+    owner: root
+    group: root
+  tags:
+    - keepalived-check-service
+  notify: Restart enabled Keepalived
+
+- name: Keepalived config
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  tags:
+    - keepalived-config
+  notify: Restart enabled Keepalived

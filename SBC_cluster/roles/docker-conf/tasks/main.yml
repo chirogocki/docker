@@ -1,0 +1,5 @@
+---
+
+- import_tasks: docker-conf.yml
+  tags:
+    - docker-conf
