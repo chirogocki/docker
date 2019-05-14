@@ -2,7 +2,7 @@
 
 - name: Ensure local mount dir
   file:
-    path: "{{ items }}"
+    path: "{{ item }}"
     owner: root
     group: docker
     mode: 0755
