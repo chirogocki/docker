@@ -5,4 +5,4 @@
   roles:
     - init
     - keepalived
-    - docker-conf
+    - docker
