@@ -15,6 +15,9 @@
 
 - set_fact:
     hosts_content: "{{ lookup('template', 'templates/fstab.j2') }}"
+  tags :
+    - mount
+    - mount_facts
 
 - blockinfile:
     dest: /etc/fstab
@@ -22,4 +25,8 @@
     insertafter: "#Please use DietPi-Drive_Manager to setup network mounts"
     state: present
     validate: "/bin/mount -fav %s"
+  notify: Mount share
+  tags :
+    - mount
+    - mount_share
 
