@@ -44,7 +44,7 @@
 
 - name: Install prune cron
   cron:
-    name: "Docker prune dangling volume without vsphere"
+    name: "Docker prune dangling volume"
     user: root
     hour: "9"
     minute: "40"
