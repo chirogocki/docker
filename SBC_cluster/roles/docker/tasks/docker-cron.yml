@@ -16,9 +16,6 @@
   template:
     src: docker-prune-volume.sh.j2
     dest: "{{ docker_prune_logfile_dir }}/docker-prune-volume.sh"
-    owner: root
-    group: root
-    mode: "u+rwx,g+r,o+r"
   tags:
     - docker-cron
     - docker-cron_prune_volume_script
@@ -27,9 +24,6 @@
   file:
     path: "{{ docker_prune_volume_logfile_path }}"
     state: touch
-    mode: "u+rw,g+r,o+r"
-    #modification_time: "preserve"
-    #access_time: "preserve"
   tags:
     - docker-cron
     - docker-cron_prune_volume_logfile
@@ -61,9 +55,6 @@
   template:
     src: docker-prune-system.sh.j2
     dest: "{{ docker_prune_logfile_dir }}/docker-prune-system.sh"
-    owner: root
-    group: root
-    mode: "u+rwx,g+r,o+r"
   tags:
     - docker-cron
     - docker-cron_prune_system_script
@@ -72,9 +63,6 @@
   file:
     path: "{{ docker_prune_system_logfile_path }}"
     state: touch
-    mode: "u+rw,g+r,o+r"
-    #modification_time: "preserve"
-    #access_time: "preserve"
   tags:
     - docker-cron
     - docker-cron_prune_system_logfile
