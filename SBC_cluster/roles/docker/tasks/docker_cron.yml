@@ -7,8 +7,8 @@
     state: directory
     mode: 0755
   tags:
-    - docker_cron
-    - docker_cron_prune_dir
+    - docker-cron
+    - docker-cron_prune_dir
 
 # Docker prune volume dangling
 
@@ -20,8 +20,8 @@
     group: root
     mode: "u+rwx,g+r,o+r"
   tags:
-    - docker_cron
-    - docker_cron_prune_volume_script
+    - docker-cron
+    - docker-cron_prune_volume_script
 
 - name: Ensure docker prune volume log file
   file:
@@ -31,16 +31,16 @@
     #modification_time: "preserve"
     #access_time: "preserve"
   tags:
-    - docker_cron
-    - docker_cron_prune_volume_logfile
+    - docker-cron
+    - docker-cron_prune_volume_logfile
 
 - name: Copy docker prune volume logrotate
   template:
     src: docker-prune-volume-log.j2
     dest: "{{ logrotate_path }}/docker-prune-volume-log"
   tags:
-    - docker_cron
-    - docker_cron_prune_volume_logrotate
+    - docker-cron
+    - docker-cron_prune_volume_logrotate
 
 - name: Install prune cron
   cron:
@@ -52,8 +52,8 @@
     state: present
     cron_file: prune-volume
   tags:
-    - docker_cron
-    - docker_cron_prune_volume_install
+    - docker-cron
+    - docker-cron_prune_volume_install
 
 # Docker prune system
 
@@ -65,8 +65,8 @@
     group: root
     mode: "u+rwx,g+r,o+r"
   tags:
-    - docker_cron
-    - docker_cron_prune_system_script
+    - docker-cron
+    - docker-cron_prune_system_script
 
 - name: Ensure docker prune system log file
   file:
@@ -76,16 +76,16 @@
     #modification_time: "preserve"
     #access_time: "preserve"
   tags:
-    - docker_cron
-    - docker_cron_prune_system_logfile
+    - docker-cron
+    - docker-cron_prune_system_logfile
 
 - name: Copy docker prune system logrotate
   template:
     src: docker-prune-system-log.j2
     dest: "{{ logrotate_path }}/docker-prune-system-log"
   tags:
-    - docker_cron
-    - docker_cron_prune_volume_logrotate
+    - docker-cron
+    - docker-cron_prune_volume_logrotate
 
 - name: Install prune cron
   cron:
@@ -97,5 +97,5 @@
     state: present
     cron_file: prune-system
   tags:
-    - docker_cron
-    - docker_cron_prune_system_install
+    - docker-cron
+    - docker-cron_prune_system_install
