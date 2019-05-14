@@ -14,7 +14,7 @@
     - mount-ensure-dir
 
 - set_fact:
-  hosts_content: "{{ lookup('template', 'templates/fstab.j2') }}"
+    hosts_content: "{{ lookup('template', 'templates/fstab.j2') }}"
 
 - blockinfile:
     dest: /etc/fstab
