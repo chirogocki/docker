@@ -1,5 +1,6 @@
 ---
 
+
 docker_home_path: "/mnt/docker_home"
 comics_path: "/mnt/comics"
 books_path: "/mnt/books"
@@ -12,3 +13,17 @@ anime_path: "/mnt/anime"
 tv_archive_path: "/mnt/tv_archive"
 tv_path: "/mnt/tv"
 private_path: "/mnt/private"
+
+mount_nfs_path:
+  - "/mnt/docker_home"
+  - "/mnt/comics"
+  - "/mnt/books"
+  - "/mnt/incomplete"
+  - "/mnt/downloads"
+  - "/mnt/music"
+  - "/mnt/hole"
+  - "/mnt/video"
+  - "/mnt/anime"
+  - "/mnt/tv_archive"
+  - "/mnt/tv"
+  - "/mnt/private"

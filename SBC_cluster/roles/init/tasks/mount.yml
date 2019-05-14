@@ -2,23 +2,13 @@
 
 - name: Ensure local mount dir
   file:
-    path: 
-    - "{{ docker_home_path }}"
-    - "{{ comics_path }}"
-    - "{{ books_path }}"
-    - "{{ incomplete_path }}"
-    - "{{ downloads_path }}"
-    - "{{ music_path }}"
-    - "{{ hole_path }}"
-    - "{{ video_path }}"
-    - "{{ anime_path }}"
-    - "{{ tv_archive_path }}"
-    - "{{ tv_path }}"
-    - "{{ private_path }}"
+    path: "{{ items }}"
     owner: root
     group: docker
     mode: 0755
     state: directory
+  with_items: 
+    - "{{ mount_nfs_path }}"
   tags:
     - mount
     - mount-ensure-dir
