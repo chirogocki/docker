@@ -16,6 +16,7 @@
   template:
     src: docker-prune-volume.sh.j2
     dest: "{{ docker_prune_logfile_dir }}/docker-prune-volume.sh"
+    mode: u+x
   tags:
     - docker-cron
     - docker-cron_prune_volume_script
@@ -55,6 +56,7 @@
   template:
     src: docker-prune-system.sh.j2
     dest: "{{ docker_prune_logfile_dir }}/docker-prune-system.sh"
+    mode: u+x
   tags:
     - docker-cron
     - docker-cron_prune_system_script
