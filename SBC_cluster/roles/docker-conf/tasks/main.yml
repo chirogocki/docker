@@ -2,12 +2,15 @@
 
 - import_tasks: docker-conf.yml
   tags:
+    - docker
     - docker-conf
 
 - import_tasks: docker-cron.yml
   tags:
+    - docker
     - docker-cron
 
 - import_tasks: docker-tune-limits.yml
   tags:
+    - docker
     - docker-tune-limits
