@@ -1,10 +1,10 @@
 ---
 
-- name: Install keepalived (Centos)
+- name: Install keepalived
   apt:
     name: keepalived
     state: present
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "Debian"
   tags:
     - keepalived-install
   notify: Restart enabled Keepalived
