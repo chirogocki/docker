@@ -40,7 +40,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: Restart Docker-CE
+  notify: Restart Docker
   tags:
     - docker-conf
     - docker-conf-daemon
