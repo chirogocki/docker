@@ -3,9 +3,6 @@
 - name: Ensure local mount dir
   file:
     path: "{{ item }}"
-    owner: root
-    group: docker
-    mode: 0755
     state: directory
   with_items: 
     - "{{ mount_nfs_path }}"
