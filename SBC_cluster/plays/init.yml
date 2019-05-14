@@ -1,4 +1,6 @@
 ---
 - hosts: takashi
+  vars_files:
+    - "../env_vars/main.yml"
   roles:
     - init
