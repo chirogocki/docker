@@ -46,3 +46,7 @@ First installation was straightforward ! System menu help me to :
   * docker
   * OpenSSL
   
+Prior to automate all the operations some packages are needed to use **Ansible** :  
+```
+apt-get install python3 python3-apt net-tools nfs-common libipset-dev -y
+```
