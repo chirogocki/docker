@@ -4,3 +4,5 @@
     - "../env_vars/main.yml"
   roles:
     - init
+    - keepalived
+    - docker-conf
