@@ -1,0 +1,9 @@
+---
+
+- name: Increase default ulimit
+  template:
+    src: 30-docker.conf.j2
+    dest: /etc/security/limits.d/30-docker.conf
+  notify: Sysctl
+  tags:
+    - docker-ce-tune-limits

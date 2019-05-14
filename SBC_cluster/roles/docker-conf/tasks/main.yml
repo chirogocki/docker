@@ -3,3 +3,11 @@
 - import_tasks: docker-conf.yml
   tags:
     - docker-conf
+
+- import_tasks: docker-cron.yml
+  tags:
+    - docker-cron
+
+- import_tasks: docker-tune-limits.yml
+  tags:
+    - docker-tune-limits
