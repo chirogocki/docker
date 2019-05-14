@@ -3,9 +3,6 @@
 - name: Create parent docker directory
   file:
     path: "{{docker_mount_nfs_path_parent}}"
-    owner: root
-    group: docker
-    mode: 0755
     state: directory
   tags:
     - docker-conf
@@ -14,21 +11,7 @@
 - name: Create directory
   file:
     path: "{{docker_mount_nfs_path}}"
-    owner: root
-    group: docker
-    mode: 0755
     state: directory
-  tags:
-    - docker-conf
-    - docker-conf-dir
-
-- name: Ensure docker group on docker directories
-  file:
-    path: "{{docker_mount_nfs_path}}"
-    owner: root
-    group: docker
-    mode: g+rwX
-    recurse: yes
   tags:
     - docker-conf
     - docker-conf-dir
