@@ -1,0 +1,10 @@
+---
+
+- name: Join as a worker
+  shell: "docker swarm join --token {{ hostvars[item]['worker_token']['stdout'] }} {{ hostvars[item]['ansible_default_ipv4']['address'] }}:2377"
+  with_items: "{{ groups['manager1'] }}"
+  when:
+    - "docker_info.stdout.find('Swarm: inactive') != -1"
+    - inventory_hostname in groups['workers']
+  retries: 6
+  delay: 30

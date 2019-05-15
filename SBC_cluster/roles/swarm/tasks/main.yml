@@ -1,0 +1,18 @@
+---
+
+- import_tasks: swarm-init.yml
+  tags:
+    - swarm
+    - swarm_init
+
+- import_tasks: swarm-add-man.yml
+  tags:
+    - swarm
+    - swarm-add-man
+
+- import_tasks: swarm-add-work.yml
+  tags:
+    - swarm
+    - swarm-add-work
+
+
