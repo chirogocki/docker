@@ -2,6 +2,7 @@
 
 
 dietpi_home_path: "/mnt/user_data"
+docker_conf_path: "/mnt/docker"
 comics_path: "/mnt/comics"
 books_path: "/mnt/books"
 incomplete_path: "/mnt/incomplete"
@@ -16,6 +17,7 @@ private_path: "/mnt/private"
 
 mount_nfs_path:
   - "/mnt/user_data"
+  - "/mnt/docker"
   - "/mnt/comics"
   - "/mnt/books"
   - "/mnt/incomplete"
