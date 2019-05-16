@@ -29,9 +29,7 @@
 - blockinfile:
     dest: /etc/fstab
     content: '{{ hosts_content }}'
-    insertafter: "#----------------------------------------------------------------
-# NETWORK
-#----------------------------------------------------------------"
+    insertafter: EOF
     state: present
     validate: "/bin/mount -fav %s"
   notify: Mount share
