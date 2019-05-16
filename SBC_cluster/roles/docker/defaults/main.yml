@@ -1,8 +1,0 @@
----
-
-
-logrotate_path: "/etc/logrotate.d"
-docker_path: "/etc/docker/"
-docker_prune_logfile_dir: "{{docker_mount_nfs_path}}/docker-prune-log"
-docker_prune_volume_logfile_path: "{{docker_mount_nfs_path}}/docker-prune-log/prune-volume-log.log"
-docker_prune_system_logfile_path: "{{docker_mount_nfs_path}}/docker-prune-log/prune-system-log.log"

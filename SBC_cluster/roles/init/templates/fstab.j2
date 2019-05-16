@@ -1,5 +1,5 @@
 # Added with Ansible :
-{{NAS1}}:/{{docker_home_remote_path}} {{docker_home_path}} nfs auto,_netdev,nofail 0 0
+{{NAS1}}:/{{dietpi_user_data_share}}/{{ansible.host}} {{dietpi_home_path}} nfs auto,_netdev,nofail 0 0
 {{NAS1}}:/{{comics_remote_path}} {{comics_path}} nfs auto,_netdev,nofail 0 0
 {{NAS1}}:/{{books_remote_path}} {{books_path}} nfs auto,_netdev,nofail 0 0
 {{NAS1}}:/{{incomplete_remote_path}} {{incomplete_path}} nfs auto,_netdev,nofail 0 0
