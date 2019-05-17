@@ -1,6 +1,4 @@
 ---
-- name: Shutdown host
-  command: /sbin/shutdown -h now
 
 - name: Slack notify
   slack:
@@ -12,6 +10,12 @@
     username: 'Ansible'
   run_once: true
   when: slack_notify
+  tags:
+    - shutdown_notify
+
+- name: Shutdown host
+  command: /sbin/shutdown -h now
+  ignore_errors: yes
 
 - name: wait go down
   local_action: wait_for host={{ ansible_ssh_host }} port=22 state=stopped
