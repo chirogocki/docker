@@ -15,3 +15,5 @@
 
 - name: Rebooting host
   reboot:
+    pre_reboot_delay: 10
+  ignore_errors: yes
