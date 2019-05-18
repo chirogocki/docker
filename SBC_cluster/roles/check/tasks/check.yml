@@ -2,6 +2,7 @@
 
 - name: Check host availability
   ping:
+  delegate_to: localhost
   register: ping_result
   ignore_errors: yes
 
