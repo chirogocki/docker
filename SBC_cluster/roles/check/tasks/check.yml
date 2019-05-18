@@ -5,7 +5,7 @@
   delegate_to: localhost
   register: ping_result
   ignore_errors: yes
-  meta: clear_host_errors
+  
 
 
 - name: Slack notify on success
