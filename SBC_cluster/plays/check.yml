@@ -19,12 +19,10 @@
             ping_result|success
       tags:
         - check_notify
-
     - name: clearing host errors
       meta: clear_host_errors
-
     - local_action:
-        module: slack
+      slack:
         channel: "{{ slack_channel }}"
         color: 'danger'
         icon_url: 'https://www.ansible.com/favicon.ico'
