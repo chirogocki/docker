@@ -28,7 +28,7 @@
       channel: "{{ slack_channel }}"
       color: 'good'
       icon_url: 'https://www.ansible.com/favicon.ico'
-      msg: "{{ reachable.ansible_hostname }} : UP"
+      msg: "{{ ansible_hostname }} : UP"
       token: "{{ slack_token }}"
       username: 'Ansible Check'
   run_once: yes
