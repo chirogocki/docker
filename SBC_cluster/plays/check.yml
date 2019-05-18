@@ -21,7 +21,7 @@
     msg: "{{ ansible_hostname }} is online"
     token: "{{ slack_token }}"
     username: 'Ansible Check'
-  run_once: true
+  #run_once: true
   when: slack_notify
   tags:
     - check_notify
