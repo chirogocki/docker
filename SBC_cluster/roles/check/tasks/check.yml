@@ -15,7 +15,6 @@
     msg: "{{ ansible_hostname }} is online"
     token: "{{ slack_token }}"
     username: 'Ansible Check'
-  run_once: true
   when: slack_notify and
         ping_result|success
   tags:
@@ -29,7 +28,6 @@
     msg: "{{ ansible_hostname }} is down"
     token: "{{ slack_token }}"
     username: 'Ansible Check'
-  run_once: true
   when: slack_notify and
         ping_result|failure
   tags:
