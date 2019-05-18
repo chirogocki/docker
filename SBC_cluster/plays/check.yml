@@ -21,7 +21,8 @@
         - check_notify
     - name: clearing host errors
       meta: clear_host_errors
-    - local_action:
+    - name: Bad
+      delegate_to: localhost
       slack:
         channel: "{{ slack_channel }}"
         color: 'danger'
