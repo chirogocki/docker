@@ -21,8 +21,8 @@
       tags:
         - check_notify
 
-    - name: clearing host errors
-      meta: clear_host_errors
+  - name: clearing host errors
+    meta: clear_host_errors
 
   - block:
     - local_action:
