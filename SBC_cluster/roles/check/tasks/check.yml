@@ -22,7 +22,7 @@
 - name: Slack notify on failure
   slack:
     channel: "{{ slack_channel }}"
-    color: 'bad'
+    color: 'danger'
     icon_url: 'https://www.ansible.com/favicon.ico'
     msg: "{{ ansible_hostname }} is down"
     token: "{{ slack_token }}"
