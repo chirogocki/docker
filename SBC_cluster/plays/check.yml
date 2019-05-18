@@ -2,7 +2,6 @@
 - hosts: all
   gather_facts: no
   tasks:
-  - block:
     - name: Check host availability
       ping:
       delegate_to: localhost
@@ -21,10 +20,9 @@
       tags:
         - check_notify
 
-  - name: clearing host errors
-    meta: clear_host_errors
+    - name: clearing host errors
+      meta: clear_host_errors
 
-  - block:
     - local_action:
         module: slack
         channel: "{{ slack_channel }}"
