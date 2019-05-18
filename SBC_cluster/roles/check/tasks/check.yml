@@ -32,6 +32,6 @@
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   when: slack_notify and
-        "'FAILED' in ping_result"
+        result.unreachable is defined
   tags:
     - check_notify
