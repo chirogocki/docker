@@ -24,7 +24,7 @@
 
 - meta: clear_host_errors
 
-- name: Slack notify on failure
+- block:
   local_action:
     slack:
       channel: "{{ slack_channel }}"
