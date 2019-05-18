@@ -31,7 +31,7 @@
         msg: "{{ ansible_hostname }} is down"
         token: "{{ slack_token }}"
         username: 'Ansible Check'
-    when: slack_notify and
-          result.unreachable is defined
-    tags:
-      - check_notify
+      when: slack_notify and
+            result.unreachable is defined
+      tags:
+        - check_notify
