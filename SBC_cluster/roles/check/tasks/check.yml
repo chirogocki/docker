@@ -1,9 +1,7 @@
 ---
 
 - name: Check host availability
-  ping: " item "
-  with_items: "{{ inventory_hostname }}"
-  delegate_to: localhost
+  ping:
   register: ping_result
   ignore_errors: yes
 
