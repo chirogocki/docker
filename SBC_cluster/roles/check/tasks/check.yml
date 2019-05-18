@@ -21,6 +21,8 @@
   tags:
     - check_notify
 
+- meta: clear_host_errors
+
 - name: Slack notify on failure
   slack:
     channel: "{{ slack_channel }}"
