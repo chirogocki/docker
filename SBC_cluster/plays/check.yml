@@ -8,6 +8,7 @@
       register: ping_result
       ignore_errors: yes
     - name: Slack notify on success
+      delegate_to: localhost
       slack:
         channel: "{{ slack_channel }}"
         color: 'good'
