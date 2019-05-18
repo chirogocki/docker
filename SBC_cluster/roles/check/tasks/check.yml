@@ -24,15 +24,14 @@
 
 - meta: clear_host_errors
 
-- name: Failed
-  local_action:
-    slack:
-      channel: "{{ slack_channel }}"
-      color: 'danger'
-      icon_url: 'https://www.ansible.com/favicon.ico'
-      msg: "{{ ansible_hostname }} is down"
-      token: "{{ slack_token }}"
-      username: 'Ansible Check'
+- local_action:
+    module: slack
+    channel: "{{ slack_channel }}"
+    color: 'danger'
+    icon_url: 'https://www.ansible.com/favicon.ico'
+    msg: "{{ ansible_hostname }} is down"
+    token: "{{ slack_token }}"
+    username: 'Ansible Check'
   when: slack_notify and
         result.unreachable is defined
   tags:
