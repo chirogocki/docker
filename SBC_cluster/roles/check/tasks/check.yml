@@ -5,6 +5,7 @@
   delegate_to: localhost
   register: ping_result
   ignore_errors: yes
+  meta: clear_host_errors
 
 
 - name: Slack notify on success
@@ -29,6 +30,6 @@
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   when: slack_notify and
-        "'FAILED' in ping_result.stderr"
+        "'FAILED' in ping_result"
   tags:
     - check_notify
