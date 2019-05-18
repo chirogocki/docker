@@ -16,7 +16,7 @@
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   when: slack_notify and
-        ping_result != success
+        ping_result == success
   tags:
     - check_notify
 
