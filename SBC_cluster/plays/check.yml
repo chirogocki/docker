@@ -10,42 +10,18 @@
       ignore_errors: yes
     - group_by: key=reachable
       when: ping_result|success
-    - group_by: key=unreachable
-      when: ping_result|failure
 
-#- name: Play role on rechable
-#  hosts: reachable
-#  gather_facts: yes
-#  vars_files:
-#    - "../env_vars/main.yml"
-#  roles:
-#    - check
-
-- name: Slack notify on success
+- name: Slack notify
   hosts: reachable
+  gather_facts: yes
   slack:
     channel: "{{ slack_channel }}"
     color: 'good'
     icon_url: 'https://www.ansible.com/favicon.ico'
-    msg: "{{ ansible_hostname }} : UP"
+    msg: "{{ ansible_hostname }} is online"
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   run_once: true
-  when: slack_notify and
-        ping_result|success
-  tags:
-    - check_notify
-
-- name: Slack notify on failure
-  hosts: unreachable
-  slack:
-    channel: "{{ slack_channel }}"
-    color: 'bad'
-    icon_url: 'https://www.ansible.com/favicon.ico'
-    msg: "{{ ansible_hostname }} : DOWN"
-    token: "{{ slack_token }}"
-    username: 'Ansible Check'
-  when: slack_notify and
-        ping_result|success
+  when: slack_notify
   tags:
     - check_notify
