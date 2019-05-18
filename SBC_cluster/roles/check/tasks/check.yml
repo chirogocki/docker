@@ -1,6 +1,13 @@
 ---
 
-- name: Slack notify
+- name: Check host availability
+  command: ping -c1 {{ inventory_hostname }}
+  delegate_to: localhost
+  register: ping_result
+  ignore_errors: yes
+
+
+- name: Slack notify on success
   slack:
     channel: "{{ slack_channel }}"
     color: 'good'
@@ -9,6 +16,21 @@
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   run_once: true
-  when: slack_notify
+  when: slack_notify and
+        ping_result|success
+  tags:
+    - check_notify
+
+- name: Slack notify on failure
+  slack:
+    channel: "{{ slack_channel }}"
+    color: 'bad'
+    icon_url: 'https://www.ansible.com/favicon.ico'
+    msg: "{{ ansible_hostname }} is down"
+    token: "{{ slack_token }}"
+    username: 'Ansible Check'
+  run_once: true
+  when: slack_notify and
+        ping_result|failure
   tags:
     - check_notify
