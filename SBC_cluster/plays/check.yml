@@ -23,14 +23,13 @@
 
 - name: Slack notify on success
   hosts: reachable
-  tasks:
-    - slack:
-      channel: "{{ slack_channel }}"
-      color: 'good'
-      icon_url: 'https://www.ansible.com/favicon.ico'
-      msg: "{{ ansible_hostname }} : UP"
-      token: "{{ slack_token }}"
-      username: 'Ansible Check'
+  slack:
+    channel: "{{ slack_channel }}"
+    color: 'good'
+    icon_url: 'https://www.ansible.com/favicon.ico'
+    msg: "{{ ansible_hostname }} : UP"
+    token: "{{ slack_token }}"
+    username: 'Ansible Check'
   run_once: true
   when: slack_notify and
         ping_result|success
@@ -39,14 +38,13 @@
 
 - name: Slack notify on failure
   hosts: unreachable
-  tasks:
-    - slack:
-      channel: "{{ slack_channel }}"
-      color: 'bad'
-      icon_url: 'https://www.ansible.com/favicon.ico'
-      msg: "{{ ansible_hostname }} : DOWN"
-      token: "{{ slack_token }}"
-      username: 'Ansible Check'
+  slack:
+    channel: "{{ slack_channel }}"
+    color: 'bad'
+    icon_url: 'https://www.ansible.com/favicon.ico'
+    msg: "{{ ansible_hostname }} : DOWN"
+    token: "{{ slack_token }}"
+    username: 'Ansible Check'
   when: slack_notify and
         ping_result|success
   tags:
