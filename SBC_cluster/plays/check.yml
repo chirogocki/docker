@@ -15,6 +15,7 @@
         msg: "{{ ansible_hostname }} is online"
         token: "{{ slack_token }}"
         username: 'Ansible Check'
+      ignore_errors: yes
       when: slack_notify and
             ping_result|success
       tags:
