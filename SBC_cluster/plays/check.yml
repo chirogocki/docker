@@ -31,7 +31,7 @@
       msg: "{{ ansible_hostname }} : UP"
       token: "{{ slack_token }}"
       username: 'Ansible Check'
-  run_once: yes
+  run_once: true
   when: slack_notify and
         ping_result|success
   tags:
