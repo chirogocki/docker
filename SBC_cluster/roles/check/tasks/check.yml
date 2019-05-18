@@ -1,0 +1,27 @@
+---
+
+- name: check reachable hosts
+  hosts: all
+  gather_facts: no
+  tasks:
+    - command: ping -c1 {{ inventory_hostname }}
+      delegate_to: localhost
+      register: ping_result
+      ignore_errors: yes
+    - group_by: key=reachable
+      when: ping_result|success
+
+- name: Slack notify
+  hosts: reachable
+  gather_facts: yes
+  slack:
+    channel: "{{ slack_channel }}"
+    color: 'good'
+    icon_url: 'https://www.ansible.com/favicon.ico'
+    msg: "{{ ansible_hostname }} is online"
+    token: "{{ slack_token }}"
+    username: 'Ansible Check'
+  run_once: true
+  when: slack_notify
+  tags:
+    - check_notify
