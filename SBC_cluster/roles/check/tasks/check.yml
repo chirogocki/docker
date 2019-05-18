@@ -1,7 +1,8 @@
 ---
 
 - name: Check host availability
-  command: ping -c1 {{ inventory_hostname }}
+  ping: " item "
+  with_items: "{{ inventory_hostname }}"
   delegate_to: localhost
   register: ping_result
   ignore_errors: yes
@@ -16,7 +17,7 @@
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   when: slack_notify and
-        ping_result == success
+        ping_result == "pong"
   tags:
     - check_notify
 
@@ -29,6 +30,6 @@
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   when: slack_notify and
-        ping_result|failed
+        ping_result != "pong"
   tags:
     - check_notify
