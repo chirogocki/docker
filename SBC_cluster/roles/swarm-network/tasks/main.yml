@@ -1,0 +1,6 @@
+---
+
+- import_tasks: swarm-network.yml
+  tags:
+    - swarm_network
+    - swarm_network_default

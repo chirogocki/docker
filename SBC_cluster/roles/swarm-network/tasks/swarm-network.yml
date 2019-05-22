@@ -1,0 +1,9 @@
+---
+
+- name: Create a Traefik network
+  docker_network:
+    name: traefik_public
+    attachable: yes
+    driver: overlay
+    ipam_config:
+      - subnet: 172.16.200.0/24

@@ -1,0 +1,6 @@
+---
+
+- import_tasks: traefik.yml
+  tags:
+    - stack
+    - stack_traefik

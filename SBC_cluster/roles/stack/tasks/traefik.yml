@@ -1,0 +1,21 @@
+---
+
+- name: Template 'Traefik' compose file
+  template:
+    src: traefik.yml.j2
+    dest: "{{docker_conf_path}}/Traefik/traefik-app.yml"
+
+- name: Ensure acme.json
+  file:
+    path: "{{docker_conf_path}}/Traefik/acme.json"
+    state: touch
+    mode : 0600
+    modification_time: preserve
+    access_time: preserve
+
+- name: Deploy 'Traefik' stack from file
+  docker_stack:
+    state: present
+    name: stack1
+    compose:
+     - "{{docker_conf_path}}/Traefik/traefik-app.yml"
