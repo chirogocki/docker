@@ -15,7 +15,7 @@ services:
 #        - traefik.frontend.auth.forward.trustForwardHeader=true
 #  traefik-forward-auth:
 #    image: thomseddon/traefik-forward-auth
-#    env_file: /mnt/docker/Traefik/traefik-forward-auth.env
+#    env_file: {{docker_conf_path}}/Traefik/traefik-forward-auth.env
 #    networks:
 #      - traefik_public
     # Uncomment these lines if you're using auth host mode
@@ -46,13 +46,13 @@ services:
         protocol: tcp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /mnt/docker/Traefik:/etc/traefik
-      - /mnt/docker/Traefik/traefik.log:/traefik.log
-      - /mnt/docker/Traefik/acme.json:/acme.json
-      - /mnt/docker/Traefik/traefik.toml:/traefik.toml:ro
-      - /mnt/docker/Traefik/servers.toml:/servers.toml:ro
-      - /mnt/docker/Traefik/tmp:/tmp
-      - /mnt/docker/SSL:/etc/traefik/certs
+      - {{docker_conf_path}}/Traefik:/etc/traefik
+      - {{docker_conf_path}}/Traefik/traefik.log:/traefik.log
+      - {{docker_conf_path}}/Traefik/acme.json:/acme.json
+      - {{docker_conf_path}}/Traefik/traefik.toml:/traefik.toml:ro
+      - {{docker_conf_path}}/Traefik/servers.toml:/servers.toml:ro
+      - {{docker_conf_path}}/Traefik/tmp:/tmp
+      - {{docker_conf_path}}/SSL:/etc/traefik/certs
     networks:
       - traefik_public
     # Global mode makes an instance of traefik listen on _every_ node, so that regardless of which
