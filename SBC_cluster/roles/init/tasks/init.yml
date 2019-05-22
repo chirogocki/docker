@@ -20,6 +20,7 @@
 
 # apt-get install python-pip
 # pip install pip --upgrade
-# apt-get install python-setuptools
-# pip2 install docker-compose-swarm-mode
-# pip2 install request
+# apt-get install python-setuptools NOK
+# pip2 install docker-compose-swarm-mode NOK
+# pip2 install request NOK
+# pip install docker
