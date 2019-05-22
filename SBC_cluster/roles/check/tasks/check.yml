@@ -1,37 +1,39 @@
 ---
 
-- block:
-  - name: Check host availability
-    ping:
-    delegate_to: localhost
-    register: ping_result
-    ignore_errors: yes
-  - name: Slack notify on success
-    slack:
-      channel: "{{ slack_channel }}"
-      color: 'good'
-      icon_url: 'https://www.ansible.com/favicon.ico'
-      msg: "{{ inventory_hostname }} is online"
-      token: "{{ slack_token }}"
-      username: 'Ansible Check'
-    when: slack_notify and
-          ping_result|success
-    tags:
-      - check_notify
+- name: Check host availability
+  command: ping -c1 {{ inventory_hostname }}
+  delegate_to: localhost
+  register: ping_result
+  ignore_errors: yes
 
-  - name: clearing host errors
-    meta: clear_host_errors
+- name: Slack notify on success
+  delegate_to: localhost
+  slack:
+    channel: "{{ slack_channel }}"
+    color: 'good'
+    icon_url: 'https://www.ansible.com/favicon.ico'
+    msg: "{{ inventory_hostname }} is online"
+    token: "{{ slack_token }}"
+    username: 'Ansible Check'
+  ignore_errors: yes
+  when: slack_notify and
+        ping_result|success
+  tags:
+    - check_notify
 
-- block:
-  - local_action:
-      module: slack
-      channel: "{{ slack_channel }}"
-      color: 'danger'
-      icon_url: 'https://www.ansible.com/favicon.ico'
-      msg: "{{ inventory_hostname }} is down"
-      token: "{{ slack_token }}"
-      username: 'Ansible Check'
-    when: slack_notify and
-          result.unreachable is defined
-    tags:
-      - check_notify
+- name: clearing host errors
+  meta: clear_host_errors
+
+- name: Bad
+  delegate_to: localhost
+  slack:
+    channel: "{{ slack_channel }}"
+    color: 'danger'
+    icon_url: 'https://www.ansible.com/favicon.ico'
+    msg: "{{ inventory_hostname }} is down"
+    token: "{{ slack_token }}"
+    username: 'Ansible Check'
+  when: slack_notify and
+        ping_result|failed
+  tags:
+    - check_notify
