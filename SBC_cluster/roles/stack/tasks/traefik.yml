@@ -16,6 +16,6 @@
 - name: Deploy 'Traefik' stack from file
   docker_stack:
     state: present
-    name: stack1
+    name: traefik
     compose:
      - "{{docker_conf_path}}/Traefik/traefik-app.yml"
