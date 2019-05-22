@@ -17,3 +17,9 @@
   tags:
     - init
     - init_install
+
+# apt-get install python-pip
+# pip install pip --upgrade
+# apt-get install python-setuptools
+# pip2 install docker-compose-swarm-mode
+# pip2 install request
