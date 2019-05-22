@@ -24,3 +24,4 @@
 # pip2 install docker-compose-swarm-mode NOK
 # pip2 install request NOK
 # pip install docker
+# pip install jsondiff
