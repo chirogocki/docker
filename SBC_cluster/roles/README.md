@@ -15,7 +15,7 @@ Two variables are important :
 ### Keepalived
 
 Keepalived help accessing the swarm with a virtual IP. Each hosts participate as a node with two role master or backup.  
-All config variables are in ![inventory file](../inventories/README.md).  
+All config variables are in [inventory file](../inventories/README.md).  
 
 ### Docker
 

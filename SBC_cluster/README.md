@@ -56,4 +56,4 @@ All the configurations are done with ansible but due to **Dietpi** distribution,
 **Dietpi** monitor /mnt/ and fstab with internal services so I have to :  
 * not touch /etc/docker/daemon.json prior to move /mnt/dietpi_userdata on nfs share : /mnt/user_data/dietpi_userdata
 
-Ansible ![roles](roles/README.md) are documented.
+Ansible [roles](roles/README.md) are documented.
