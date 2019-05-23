@@ -13,7 +13,7 @@ services:
       - /opt/registry:{{docker_conf_path}}/Docker-registry
     environment:
       REGISTRY_LOG_LEVEL: warn
-      REGISTRY_STORAGE_DELETE_ENABLED: true
+      REGISTRY_STORAGE_DELETE_ENABLED: 'true'
       REGISTRY_AUTH: token
       REGISTRY_AUTH_TOKEN_REALM: https://token.{{domain}}/auth
       REGISTRY_AUTH_TOKEN_SERVICE: Docker registry
