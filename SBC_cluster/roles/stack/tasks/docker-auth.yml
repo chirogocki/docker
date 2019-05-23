@@ -1,0 +1,51 @@
+---
+
+- name: Ensure mandatory directories
+  file:
+    path: "{{docker_conf_path}}/Docker-auth/{{item}}"
+    mode: directory
+  with_items:
+    - logs
+    - config
+    - certs
+  tags:
+  - docker_auth_dir
+
+- block:
+  - name: Check if privkey is already configured.
+    stat:
+      - path: "{{docker_conf_path}}/Docker-auth/certs/privkey.pem"
+    register: privkey_result
+  - name: Check if fullchain is already configured.
+    stat:
+      - path: "{{docker_conf_path}}/Docker-auth/certs/fullchain.pem"
+    register: fullchain_result
+
+- block:
+  - name: Template privkey
+    template:
+      src: docker-auth/privkey.pem.j2
+      dest: "{{docker_conf_path}}/Docker-auth/certs/privkey.pem"
+    when: not privkey_result.stat.exists
+  - name: Template fullchain
+    template:
+      src: docker-auth/fullchain.pem.j2
+      dest: "{{docker_conf_path}}/Docker-auth/certs/fullchain.pem"
+    when: not fullchain_result.stat.exists
+
+- block:
+  - name: Template 'Docker-Auth' config file
+    template:
+      src: docker-auth/auth_config.yml.j2
+      dest: "{{docker_conf_path}}/Docker-auth/config/auth_config.yml"
+  - name: Template 'Docker-Auth compose file
+    template:
+      src: docker-auth/docker-auth.yml.j2
+      dest: "{{docker_conf_path}}/Docker-auth/docker-auth.yml"
+
+- name: Deploy 'Docker-Auth' stack from file
+  docker_stack:
+    state: present
+    name: docker-auth
+    compose:
+     - "{{docker_conf_path}}/Docker-auth/docker-auth.yml"

@@ -4,3 +4,8 @@
   tags:
     - stack
     - stack_traefik
+
+- import_tasks: docker-auth.yml
+  tags:
+    - stack
+    - stack_docker-auth
