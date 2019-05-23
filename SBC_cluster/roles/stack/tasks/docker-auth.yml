@@ -4,6 +4,7 @@
   file:
     path: "{{docker_conf_path}}/Docker-auth/{{item}}"
     mode: directory
+    recurse: yes
   with_items:
     - logs
     - config
