@@ -3,7 +3,7 @@
 - name: Ensure mandatory directories
   file:
     path: "{{docker_conf_path}}/Docker-auth/{{item}}"
-    mode: directory
+    state: directory
     recurse: yes
   with_items:
     - logs
