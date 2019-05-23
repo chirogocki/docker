@@ -9,3 +9,8 @@
   tags:
     - stack
     - stack_docker-auth
+
+- import_tasks: docker-registry.yml
+  tags:
+    - stack
+    - stack_docker-registry

@@ -1,0 +1,20 @@
+---
+
+- name: Ensure mandatory directories
+  file:
+    path: "{{docker_conf_path}}/Docker-registry"
+    mode: directory
+  tags:
+  - docker_registry_dir
+
+- name: Template 'Docker-Auth compose file
+  template:
+    src: docker-registry/docker-registry.yml.j2
+    dest: "{{docker_conf_path}}/Docker-registry/docker-registry.yml"
+
+- name: Deploy 'Docker-Registry' stack from file
+  docker_stack:
+    state: present
+    name: docker-registry
+    compose:
+     - "{{docker_conf_path}}/Docker-registry/docker-registry.yml"

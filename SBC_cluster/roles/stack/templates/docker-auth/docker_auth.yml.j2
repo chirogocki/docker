@@ -1,38 +1,32 @@
----
-Name: docker-auth
-Labels:
-  traefik.docker.network: traefik_public
-  traefik.enable: 'true'
-  traefik.frontend.rule: Host:[token.{{domain}}]
-  traefik.port: '5001'
-TaskTemplate:
-  ContainerSpec:
-    Image: cesanta/docker_auth:stable
-    Args:
-    - "/config/auth_config.yml"
-    Mounts:
-    - Type: bind
-      Source: "{{docker_conf_path}}/Docker-auth/config"
-      Target: "/config"
-    - Type: bind
-      Source: "{{docker_conf_path}}/Docker-auth/logs"
-      Target: "/logs"
-    - Type: bind
-      Source: "{{docker_conf_path}}/Docker-auth/certs"
-      Target: "/certs"
-  RestartPolicy:
-    Condition: any
-    MaxAttempts: 0
-  Placement:
-    Constraints:
-    - node.role==manager
-Mode:
-  Replicated:
-    Replicas: 1
-UpdateConfig:
-  Parallelism: 1
-  FailureAction: pause
-Networks:
-- Target: traefik_public
-EndpointSpec:
-  Mode: vip
+version: "3.2"
+
+services:
+  docker-auth:
+    labels:
+      traefik.docker.network: traefik_public
+      traefik.enable: 'true'
+      traefik.frontend.rule: Host:[token.{{domain}}]
+      traefik.port: '5001'
+    image: cesanta/docker_auth:stable
+    build:
+      args:
+      - "/config/auth_config.yml"
+    volumes:
+      - {{docker_conf_path}}/Docker-auth/config:/config
+      - {{docker_conf_path}}/Docker-auth/logs:/logs
+      - {{docker_conf_path}}/Docker-auth/certs:/certs
+    deploy:
+      mode: replicated
+        replicas: 1
+      update_config:
+        parallelism: 1
+        failure_action: pause
+      restart_policy:
+        condition: any
+        max_attempts: 0
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  traefik_public:
+    external: true
