@@ -11,15 +11,16 @@
   tags:
   - docker_auth_dir
 
-- block:
-  - name: Check if privkey is already configured.
-    stat:
-      - path: "{{docker_conf_path}}/Docker-auth/certs/privkey.pem"
-    register: privkey_result
-  - name: Check if fullchain is already configured.
-    stat:
-      - path: "{{docker_conf_path}}/Docker-auth/certs/fullchain.pem"
-    register: fullchain_result
+
+- name: Check if privkey is already configured.
+  stat:
+    - path: "{{docker_conf_path}}/Docker-auth/certs/privkey.pem"
+  register: privkey_result
+
+- name: Check if fullchain is already configured.
+  stat:
+    - path: "{{docker_conf_path}}/Docker-auth/certs/fullchain.pem"
+  register: fullchain_result
 
 - block:
   - name: Template privkey
