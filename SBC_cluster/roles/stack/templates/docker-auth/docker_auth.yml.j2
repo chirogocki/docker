@@ -16,8 +16,7 @@ services:
       - {{docker_conf_path}}/Docker-auth/logs:/logs
       - {{docker_conf_path}}/Docker-auth/certs:/certs
     deploy:
-      mode: replicated
-        replicas: 1
+      replicas: 1
       update_config:
         parallelism: 1
         failure_action: pause
