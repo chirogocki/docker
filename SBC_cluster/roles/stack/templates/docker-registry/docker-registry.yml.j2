@@ -20,8 +20,7 @@ services:
       - REGISTRY_AUTH_TOKEN_ISSUER=Acme auth server
       - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/fullchain.pem
     deploy:
-      mode: replicated
-        replicas: 1
+      replicas: 1
       update_config:
         parallelism: 1
         failure_action: pause
