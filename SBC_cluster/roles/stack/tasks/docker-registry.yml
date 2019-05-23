@@ -3,7 +3,7 @@
 - name: Ensure mandatory directories
   file:
     path: "{{docker_conf_path}}/Docker-registry"
-    mode: directory
+    state: directory
   tags:
   - docker_registry_dir
 
