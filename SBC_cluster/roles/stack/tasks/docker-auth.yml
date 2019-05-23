@@ -40,7 +40,7 @@
       dest: "{{docker_conf_path}}/Docker-auth/config/auth_config.yml"
   - name: Template 'Docker-Auth compose file
     template:
-      src: docker-auth/docker-auth.yml.j2
+      src: docker-auth/docker_auth.yml.j2
       dest: "{{docker_conf_path}}/Docker-auth/docker-auth.yml"
 
 - name: Deploy 'Docker-Auth' stack from file
