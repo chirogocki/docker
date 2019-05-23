@@ -11,7 +11,7 @@ services:
     volumes:
       - {{docker_conf_path}}/Docker-auth/certs:/certs
       - /opt/registry:{{docker_conf_path}}/Docker-registry
-    environnement:
+    environment:
       REGISTRY_LOG_LEVEL: warn
       REGISTRY_STORAGE_DELETE_ENABLED: true
       REGISTRY_AUTH: token
