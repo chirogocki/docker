@@ -49,3 +49,4 @@
     name: docker-auth
     compose:
      - "{{docker_conf_path}}/Docker-auth/docker-auth.yml"
+
