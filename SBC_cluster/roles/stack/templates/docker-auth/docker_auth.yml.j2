@@ -7,7 +7,7 @@ services:
       traefik.enable: 'true'
       traefik.frontend.rule: Host:[token.{{domain}}]
       traefik.port: '5001'
-    image: cesanta/docker_auth:stable
+    image: chirogocki/docker-auth:latest
     build:
       args:
       - "/config/auth_config.yml"
