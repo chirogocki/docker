@@ -5,6 +5,11 @@
     - stack
     - stack_traefik
 
+- import_tasks: swarm-dashboard.yml
+  tags:
+    - stack
+    - stack_swarm-dashboard
+
 - import_tasks: docker-auth.yml
   tags:
     - stack
