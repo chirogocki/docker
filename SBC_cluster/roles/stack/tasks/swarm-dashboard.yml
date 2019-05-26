@@ -1,0 +1,19 @@
+---
+
+- name: Swarm-dashboard dir
+  file:
+    path: "{{docker_conf_path}}/Swarm-dashboard"
+    state: directory
+
+- name: Template 'Swarm-dashboard' compose file
+  template:
+    src: swarm-dashboard.yml.j2
+    dest: "{{docker_conf_path}}/Swarm-dashboard/swarm-dashboard.yml"
+
+
+- name: Deploy 'Swarm-dashboard' stack from file
+  docker_stack:
+    state: present
+    name: swarm-dashboard
+    compose:
+     - "{{docker_conf_path}}/Swarm-dashboard/swarm-dashboard.yml"
