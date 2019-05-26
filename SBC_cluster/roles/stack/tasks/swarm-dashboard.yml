@@ -7,7 +7,7 @@
 
 - name: Template 'Swarm-dashboard' compose file
   template:
-    src: swarm-dashboard.yml.j2
+    src: swarm-dashboard.j2
     dest: "{{docker_conf_path}}/Swarm-dashboard/swarm-dashboard.yml"
 
 
