@@ -10,7 +10,7 @@ services:
       labels:
         - traefik.frontend.rule=Host:whoami.w00t.ovh
         - traefik.port=80
-        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+        - traefik.frontend.auth.forward.address=http://auth.w00t.ovh:4181
         - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
         - traefik.frontend.auth.forward.trustForwardHeader=true
   traefik-forward-auth:
@@ -23,7 +23,7 @@ services:
       labels:
         - traefik.port=4181
         - traefik.frontend.rule=Host:auth.w00t.ovh
-        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+        - traefik.frontend.auth.forward.address=http://auth.w00t.ovh:4181
         - traefik.frontend.auth.forward.trustForwardHeader=true
   traefik:
     image: traefik
