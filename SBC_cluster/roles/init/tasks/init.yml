@@ -14,6 +14,7 @@
       - libipset-dev #Needed for keepalived
       - python3-jsondiff #Needed for ansible stack module
       - python3-yaml #Needed for ansible stack module
+      - python3-pip
   tags:
     - init
     - init_install
@@ -25,3 +26,6 @@
 # pip2 install request NOK
 # pip install docker
 # pip install jsondiff
+# apt-get install python3-pip
+# pip3 install --upgrade pip
+# pip install docker
