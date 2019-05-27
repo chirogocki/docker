@@ -14,7 +14,7 @@ services:
     - {{docker_conf_path}}/Heimdall:/config
   heimdall_proxy:
     image: funkypenguin/oauth2_proxy:latest
-    #env_file : /var/data/config/autopirate/heimdall.env
+    env_file : {{docker_conf_path}}/Traefik/traefik-forward-auth.env
     networks:
       - internal
       - traefik_public
