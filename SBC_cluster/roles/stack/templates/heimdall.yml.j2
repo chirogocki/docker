@@ -1,0 +1,35 @@
+version: "3.2"
+
+services:
+  heimdall:
+    image: lsioarmhf/heimdall
+    networks:
+      - traefik_public
+    env:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    ports:
+      - target: 80
+        published: 880
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 3443
+        protocol: tcp
+        mode: host
+    volumes:
+    - {{docker_conf_path}}/Heimdall:/config
+    deploy:
+      labels:
+        - traefik.frontend.rule=Host:start.w00t.ovh
+        - traefik.port=443
+        - traefik.enable=true
+      placement:
+        constraints: [node.role == worker]
+      restart_policy:
+        condition: on-failure
+
+networks:
+  traefik_public:
+    external: true

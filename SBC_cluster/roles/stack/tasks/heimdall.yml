@@ -1,0 +1,14 @@
+---
+- name: Template 'Heimdall' compose file
+  template:
+    src: heimdall.yml.j2
+    dest: "{{docker_conf_path}}/Heimdall/heimdall.yml"
+
+- name: Deploy 'Heimdall' stack from file
+  docker_stack:
+    state: present
+    name: heimdall
+    compose:
+     - "{{docker_conf_path}}/Heimdall/heimdallyml"
+
+
