@@ -23,7 +23,7 @@ services:
     deploy:
       labels:
         - traefik.frontend.rule=Host:start.w00t.ovh
-        - traefik.port=3443
+        - traefik.port=880
         - traefik.enable=true
       placement:
         constraints: [node.role == worker]
