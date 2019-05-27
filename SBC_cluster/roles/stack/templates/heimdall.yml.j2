@@ -14,11 +14,9 @@ services:
       - target: 80
         published: 880
         protocol: tcp
-        mode: host
       - target: 443
         published: 3443
         protocol: tcp
-        mode: host
     volumes:
     - {{docker_conf_path}}/Heimdall:/config
     deploy:
