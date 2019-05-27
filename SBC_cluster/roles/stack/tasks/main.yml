@@ -5,6 +5,11 @@
     - stack
     - stack_traefik
 
+- import_tasks: heimdall.yml
+  tags:
+    - stack
+    - stack_heimdall
+
 - import_tasks: swarm-dashboard.yml
   tags:
     - stack
