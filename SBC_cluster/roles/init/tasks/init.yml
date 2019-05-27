@@ -19,6 +19,12 @@
     - init
     - init_install
 
+- name: Install pip python3
+  command: pip3 install pip --upgrade
+  tags:
+    - init
+    - init_pip
+
 # apt-get install python-pip
 # pip install pip --upgrade
 # apt-get install python-setuptools NOK
