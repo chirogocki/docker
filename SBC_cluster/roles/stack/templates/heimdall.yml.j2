@@ -5,7 +5,7 @@ services:
     image: lsioarmhf/heimdall
     networks:
       - traefik_public
-    env:
+    environment:
       - PGID=100
       - PUID=1024
       - TZ=Europe/Paris
