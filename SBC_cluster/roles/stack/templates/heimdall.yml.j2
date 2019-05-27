@@ -10,12 +10,12 @@ services:
       - PUID=1024
       - TZ=Europe/Paris
     ports:
-      - target: 80
-        published: 880
+      - target: 880
+        published: 80
         protocol: tcp
         mode: host
-      - target: 443
-        published: 3443
+      - target: 3443
+        published: 443
         protocol: tcp
         mode: host
     volumes:
@@ -23,7 +23,7 @@ services:
     deploy:
       labels:
         - traefik.frontend.rule=Host:start.w00t.ovh
-        - traefik.port=3443
+        - traefik.port=443
         - traefik.enable=true
       placement:
         constraints: [node.role == worker]
