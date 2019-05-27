@@ -18,5 +18,5 @@ alias l='ls $LS_OPTIONS -lA'
 # alias mv='mv -i'
 export HISTTIMEFORMAT="%d/%m/%y %T "
 export PS1="\[\e[32m\][\[\e[m\]\[\e[41m\]\u\[\e[m\]\[\e[32m\]@\[\e[m\]\[\e[31m\]\h\[\e[m\]:\[\e[36m\]\w\[\e[m\]\[\e[32m\]]\[\e[m\]\[\e[32;47m\]\\$\[\e[m\] "
-bind '"\e[A"':history-search-backward # Use up and down arrow to search
-bind '"\e[B"':history-search-forward  # the history. Invaluable!
+. ./bind '"\e[A"':history-search-backward # Use up and down arrow to search
+. ./bind '"\e[B"':history-search-forward  # the history. Invaluable!
