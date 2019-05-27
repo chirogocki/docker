@@ -14,6 +14,7 @@
     - reboot_notify
 
 - name: Rebooting host
-  reboot:
-    pre_reboot_delay: 10
+  #reboot:
+  #  pre_reboot_delay: 10
+  command: /sbin/shutdown -r now
   ignore_errors: yes
