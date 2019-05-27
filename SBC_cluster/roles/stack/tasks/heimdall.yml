@@ -9,6 +9,6 @@
     state: present
     name: heimdall
     compose:
-     - "{{docker_conf_path}}/Heimdall/heimdallyml"
+     - "{{docker_conf_path}}/Heimdall/heimdall.yml"
 
 
