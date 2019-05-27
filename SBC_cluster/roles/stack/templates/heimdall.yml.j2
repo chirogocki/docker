@@ -5,22 +5,35 @@ services:
     image: linuxserver/heimdall
     networks:
       - internal
-      - traefik_public
     environment:
       - PGID=100
       - PUID=1024
       - TZ=Europe/Paris
     volumes:
+    - /etc/localtime:/etc/localtime:ro
     - {{docker_conf_path}}/Heimdall:/config
+  heimdall_proxy:
+    image: funkypenguin/oauth2_proxy:latest
+    #env_file : /var/data/config/autopirate/heimdall.env
+    networks:
+      - internal
+      - traefik_public
     deploy:
       labels:
         - traefik.frontend.rule=Host:start.w00t.ovh
-        - traefik.port=80
-        - traefik.enable=true
-      placement:
-        constraints: [node.role == worker]
-      restart_policy:
-        condition: on-failure
+        - traefik.docker.network=traefik_public
+        - traefik.port=4180
+    volumes:
+      - /etc/localtime:/etc/localtime:ro  
+      - {{docker_conf_path}}/Oauth/authenticated-emails.txt:/authenticated-emails.txt
+    command: |
+      -cookie-secure=false
+      -upstream=http://start.w00t.ovh:80
+      -redirect-url=https://start.w00t.ovh
+      -http-address=http://0.0.0.0:4180
+      -email-domain=w00t.ovh
+      -provider=github
+      -authenticated-emails-file=/authenticated-emails.txt
 
 networks:
   traefik_public:
