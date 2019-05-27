@@ -10,13 +10,6 @@ services:
       - PGID=100
       - PUID=1024
       - TZ=Europe/Paris
-    ports:
-      - target: 80
-        published: 880
-        protocol: tcp
-      - target: 443
-        published: 3443
-        protocol: tcp
     volumes:
     - {{docker_conf_path}}/Heimdall:/config
     deploy:
