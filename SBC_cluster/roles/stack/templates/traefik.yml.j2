@@ -1,30 +1,6 @@
 version: "3.2"
 
 services:
-# This simply validates that traefik forward authentication is working
-  whoami:
-    image: chirogocki/whoami
-    networks:
-      - traefik_public
-    deploy:
-      labels:
-        - traefik.frontend.rule=Host:whoami.w00t.ovh
-        - traefik.port=80
-        - traefik.frontend.auth.forward.address=http://auth.w00t.ovh:4181
-        - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
-        - traefik.frontend.auth.forward.trustForwardHeader=true
-  traefik-forward-auth:
-    image: chirogocki/traefik-forward-auth
-    env_file: {{docker_conf_path}}/Traefik/traefik-forward-auth.env
-    networks:
-      - traefik_public
-    # Uncomment these lines if you're using auth host mode
-    deploy:
-      labels:
-        - traefik.port=4181
-        - traefik.frontend.rule=Host:auth.w00t.ovh
-        - traefik.frontend.auth.forward.address=http://auth.w00t.ovh:4181
-        - traefik.frontend.auth.forward.trustForwardHeader=true
   traefik:
     image: traefik
     command: --web --docker --docker.swarmmode --docker.watch --docker.domain=w00t.ovh --logLevel=DEBUG
