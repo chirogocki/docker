@@ -5,6 +5,7 @@ services:
     image: linuxserver/heimdall
     networks:
       - internal
+      - traefik_public
     environment:
       - PGID=100
       - PUID=1024
@@ -23,7 +24,7 @@ services:
     deploy:
       labels:
         - traefik.frontend.rule=Host:start.w00t.ovh
-        - traefik.port=880
+        - traefik.port=443
         - traefik.enable=true
       placement:
         constraints: [node.role == worker]
