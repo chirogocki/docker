@@ -26,8 +26,8 @@ services:
       - /etc/localtime:/etc/localtime:ro  
       - {{docker_conf_path}}/Oauth/authenticated-emails.txt:/authenticated-emails.txt
     command: |
-      -client-id="{{oauth2_client-id}}"
-      -client-secret="{{oauth2_client-secret}}"
+      -client-id="{{oauth2_client_id}}"
+      -client-secret="{{oauth2_client_secret}}"
       -oidc-issuer-url=https://accounts.google.com
       -cookie-secret="{{oauth2_cookie-secret}}"
       -cookie-domain="{{domain}}"
