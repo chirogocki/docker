@@ -9,7 +9,7 @@
   command: |
         docker swarm leave --force
   when:
-    - "docker_info.stdout.find('Swarm: inactive') != -1"
+    - "docker_info.stdout.find('Swarm: inactive') != 1"
   tags:
     - swarm_reset
     - swarm_reset_leave
