@@ -17,7 +17,7 @@
     channel: "{{ slack_channel }}"
     color: 'good'
     icon_url: 'https://www.ansible.com/favicon.ico'
-    msg: "*{{ inventory_hostname }}* is online :smile:. Docker status {{docker_status}}"
+    msg: "*{{ inventory_hostname|UPPER }}* is online :smile:. Docker status {{docker_status.stdout}}"
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   ignore_errors: yes
@@ -35,7 +35,7 @@
     channel: "{{ slack_channel }}"
     color: 'danger'
     icon_url: 'https://www.ansible.com/favicon.ico'
-    msg: "{{ inventory_hostname }} is down"
+    msg: "*{{ inventory_hostname|UPPER }}* is down :skull: :sob:. You have to do somethings !"
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   when: slack_notify and
