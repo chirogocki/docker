@@ -25,6 +25,12 @@
     - init
     - init_pip
 
+- name: Install docker python SDK
+  command: pip install docker
+  tags:
+    - init
+    - init_pip_docker
+    
 # apt-get install python-pip
 # pip install pip --upgrade
 # apt-get install python-setuptools NOK
