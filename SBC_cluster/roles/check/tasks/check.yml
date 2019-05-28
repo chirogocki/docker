@@ -6,13 +6,18 @@
   register: ping_result
   ignore_errors: yes
 
+- name: retreive docker status
+  command: systemctl status docker
+  register: docker_status
+  when: ping_result|success
+
 - name: Slack notify on success
   delegate_to: localhost
   slack:
     channel: "{{ slack_channel }}"
     color: 'good'
     icon_url: 'https://www.ansible.com/favicon.ico'
-    msg: "{{ inventory_hostname }} is online"
+    msg: "{{ inventory_hostname }} is online. Docker status {{docker_status.stdout}}"
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   ignore_errors: yes
