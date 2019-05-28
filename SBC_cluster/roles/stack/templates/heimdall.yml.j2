@@ -22,6 +22,7 @@ services:
         - traefik.frontend.rule=Host:start.w00t.ovh
         - traefik.docker.network=traefik_public
         - traefik.port=4180
+        - traefik.protocol=https
     volumes:
       - /etc/localtime:/etc/localtime:ro  
       - {{docker_conf_path}}/Oauth/authenticated-emails.txt:/authenticated-emails.txt
@@ -34,7 +35,7 @@ services:
       -cookie-secure=false
       -upstream=https://heimdall:443
       -redirect-url=https://{{url_heimdall}}.{{domain}}
-      -http-address=http://0.0.0.0:4180
+      -http-address=https://0.0.0.0:4180
       -email-domain=*
       -provider=google
       -authenticated-emails-file="/authenticated-emails.txt"
