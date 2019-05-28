@@ -35,9 +35,10 @@ services:
     # node the request arrives on, it'll be forwarded to the correct backend service.
     deploy:
       labels:
-        - "traefik.enable=true"
-        - "traefik.frontend.rule=Host:traefik.{{domain}}"
-        - "traefik.port=8081"
+        - traefik.enable=true
+        - traefik.frontend.rule=Host:traefik.{{domain}}
+        - traefik.docker.network=traefik_public
+        - traefik.port=8080
       mode: global
       placement:
         constraints: [node.role == manager]
