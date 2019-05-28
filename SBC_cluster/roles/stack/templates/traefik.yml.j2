@@ -31,6 +31,7 @@ services:
       - {{docker_conf_path}}/SSL:/etc/traefik/certs
     networks:
       - traefik_public
+      - internal
     # Global mode makes an instance of traefik listen on _every_ node, so that regardless of which
     # node the request arrives on, it'll be forwarded to the correct backend service.
     deploy:
@@ -49,3 +50,8 @@ services:
 networks:
   traefik_public:
     external: true
+  internal:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.11.0/24
