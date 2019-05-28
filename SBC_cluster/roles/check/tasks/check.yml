@@ -17,7 +17,7 @@
     channel: "{{ slack_channel }}"
     color: 'good'
     icon_url: 'https://www.ansible.com/favicon.ico'
-    msg: "*{{ inventory_hostname }}* is online :smile:. Docker status {{docker_status.stdout}}"
+    msg: "*{{ inventory_hostname }}* is online :smile:. Docker status {{docker_status}}"
     token: "{{ slack_token }}"
     username: 'Ansible Check'
   ignore_errors: yes
