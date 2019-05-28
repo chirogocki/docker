@@ -1,8 +1,15 @@
 ---
 
+- name: Get docker info
+  shell: docker info
+  register: docker_info
+  changed_when: false
+
 - name: Leaving swarm
   command: |
         docker swarm leave --force
+  when:
+    - "docker_info.stdout.find('Swarm: inactive') != -1"
   tags:
     - swarm_reset
     - swarm_reset_leave
