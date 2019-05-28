@@ -22,7 +22,6 @@ services:
         - traefik.frontend.rule=Host:start.w00t.ovh
         - traefik.docker.network=traefik_public
         - traefik.port=4180
-        - traefik.protocol=https
     volumes:
       - /etc/localtime:/etc/localtime:ro  
       - {{docker_conf_path}}/Oauth/authenticated-emails.txt:/authenticated-emails.txt
