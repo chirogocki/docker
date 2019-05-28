@@ -1,0 +1,19 @@
+---
+
+- hosts: [workers]
+  vars_files:
+    - "../env_vars/main.yml"
+  roles:
+    - swarm-reset
+
+- hosts: [managers]
+  vars_files:
+    - "../env_vars/main.yml"
+  roles:
+    - swarm-reset
+
+- hosts: [manager1]
+  vars_files:
+    - "../env_vars/main.yml"
+  roles:
+    - swarm-reset

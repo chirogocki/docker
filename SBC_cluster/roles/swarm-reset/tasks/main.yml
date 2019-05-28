@@ -1,0 +1,5 @@
+---
+
+- import_tasks: swarm-reset.yml
+  tags:
+    - swarm_reset

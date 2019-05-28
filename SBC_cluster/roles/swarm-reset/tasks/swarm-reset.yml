@@ -1,0 +1,24 @@
+---
+
+- name: Leaving swarm
+  command: |
+        docker swarm leave --force
+  tags:
+    - swarm_reset
+    - swarm_reset_leave
+
+- name: Prune system
+  command: |
+        docker system prune -a -f
+  tags:
+    - swarm_reset
+    - swarm_reset_prune
+
+- name: Restart docker
+  systemd:
+    name: docker
+    state: restarted
+    daemon_reload: yes
+  tags:
+    - swarm_reset
+    - swarm_reset_docker
