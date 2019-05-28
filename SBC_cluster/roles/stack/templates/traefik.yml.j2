@@ -38,7 +38,7 @@ services:
         - traefik.enable=true
         - traefik.frontend.rule=Host:traefik.{{domain}}
         - traefik.docker.network=traefik_public
-        - traefik.port=8080
+        - traefik.port=8081
       #mode: global
       replicas: 1
       placement:
