@@ -22,7 +22,7 @@ services:
       labels:
         - traefik.admbooks.frontend.rule=Host:admbooks.{{domain}}
         - traefik.admbooks.port=2203
-        - traefik.books.frontend.rule= Host:books.{{domain}}
+        - traefik.books.frontend.rule=Host:books.{{domain}}
         - traefik.books.port=2202
       resources:
         limits:
