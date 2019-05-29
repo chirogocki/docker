@@ -1,0 +1,43 @@
+version: "3.2"
+
+services:
+  heimdall:
+    image:  linuxserver/ubooquity:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+      - MAXMEM=512
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - {{docker_conf_path}}/Ubooquity:/config
+    - {{books_path}}:/books
+    - {{books_path}}/files:/files
+    - {{comics_path}}:/comics
+    - {{private_path}}:/private
+    networks:
+      - internal
+      - traefik_public
+    deploy:
+      labels:
+        - traefik.admbooks.frontend.rule=Host:admbooks.{{domain}}
+        - traefik.admbooks.port=2203
+        - traefik.books.frontend.rule= Host:books.{{domain}}
+        - traefik.books.port=2202
+      resources:
+        limits:
+          memory: 600M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_public:
+    external: true
+  internal:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.11.0/24

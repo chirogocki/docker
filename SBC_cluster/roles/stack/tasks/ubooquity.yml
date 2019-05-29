@@ -1,0 +1,14 @@
+---
+- name: Template 'Ubooquity' compose file
+  template:
+    src: ubooquity.yml.j2
+    dest: "{{docker_conf_path}}/Ubooquity/ubooquity.yml"
+
+- name: Deploy 'Ubooquity' stack from file
+  docker_stack:
+    state: present
+    name: ubooquity
+    compose:
+     - "{{docker_conf_path}}/Ubooquity/ubooquity.yml"
+
+

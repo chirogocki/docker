@@ -10,17 +10,7 @@
     - stack
     - stack_heimdall
 
-- import_tasks: swarm-dashboard.yml
+- import_tasks: ubooquity.yml
   tags:
     - stack
-    - stack_swarm-dashboard
-
-- import_tasks: docker-auth.yml
-  tags:
-    - stack
-    - stack_docker-auth
-
-- import_tasks: docker-registry.yml
-  tags:
-    - stack
-    - stack_docker-registry
+    - stack_ubooquity
