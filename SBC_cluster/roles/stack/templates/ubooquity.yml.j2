@@ -16,8 +16,8 @@ services:
     - {{comics_path}}:/comics
     - {{private_path}}:/private
     networks:
-      - internal
-      #- traefik_public
+      #- internal
+      - traefik_public
     deploy:
       replicas: 1
       placement:
@@ -41,10 +41,10 @@ services:
         window: 120s
 
 networks:
-  #traefik_public:
-  #  external: true
-  internal:
-    driver: overlay
-    ipam:
-      config:
-        - subnet: 172.16.12.0/24
+  traefik_public:
+    external: true
+  #internal:
+  #  driver: overlay
+  #  ipam:
+  #    config:
+  #      - subnet: 172.16.12.0/24
