@@ -1,7 +1,7 @@
 version: "3.2"
 
 services:
-  heimdall:
+  ubooquity:
     image:  linuxserver/ubooquity:latest
     environment:
       - PGID=100
@@ -19,6 +19,9 @@ services:
       - internal
       - traefik_public
     deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == worker]
       labels:
         - traefik.admbooks.frontend.rule=Host:admbooks.{{domain}}
         - traefik.admbooks.port=2203
@@ -26,10 +29,12 @@ services:
         - traefik.books.port=2202
       resources:
         limits:
-          memory: 600M
+          memory: 1024M
+        reservations:
+          memory: 512M
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 15s
         max_attempts: 3
         window: 120s
 
