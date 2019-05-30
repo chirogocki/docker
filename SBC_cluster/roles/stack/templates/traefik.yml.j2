@@ -58,7 +58,7 @@ services:
         - traefik.frontend.auth.forward.trustForwardHeader=true
   # This simply validates that traefik forward authentication is working
   whoami:
-    image: containous/whoami
+    image: stefanscherer/whoami
     networks:
       - traefik_public
     deploy:
