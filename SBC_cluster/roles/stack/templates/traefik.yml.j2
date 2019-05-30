@@ -45,7 +45,7 @@ services:
       restart_policy:
         condition: on-failure
   traefik-forward-auth:
-    image: chirogocki/traefik-forward-auth
+    image: chirogocki/traefik-forward-auth:armv7l
     env_file: {{docker_conf_path}}/Traefik-swarm/traefik-forward-auth.env
     networks:
       - traefik_public
