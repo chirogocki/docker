@@ -12,33 +12,14 @@ services:
     volumes:
     - /etc/localtime:/etc/localtime:ro
     - {{docker_conf_path}}/Heimdall:/config
-  heimdall_proxy:
-    #image: quay.io/pusher/oauth2_proxy:latest-armv6
-    image: 
-    networks:
-      - internal
-      - traefik_public
     deploy:
       labels:
-        - traefik.frontend.rule=Host:start.{{domain}}
         - traefik.docker.network=traefik_public
-        - traefik.port=4180
-    volumes:
-      - /etc/localtime:/etc/localtime:ro  
-      - {{docker_conf_path}}/Oauth/authenticated-emails.txt:/authenticated-emails.txt
-    command: |
-      -client-id={{oauth2_client_id}}
-      -client-secret={{oauth2_client_secret}}
-      -oidc-issuer-url=https://accounts.google.com
-      -cookie-secret={{oauth2_cookie_secret}}
-      -cookie-domain={{domain}}
-      -cookie-secure=false
-      -upstream=http://heimdall:80
-      -redirect-url=https://{{url_heimdall}}.{{domain}}
-      -http-address=http://0.0.0.0:4180
-      -email-domain=*
-      -provider=google
-      -authenticated-emails-file="/authenticated-emails.txt"
+        - traefik.frontend.rule=Host:start.{{domain}}
+        - traefik.port=80
+        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+        - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
+        - traefik.frontend.auth.forward.trustForwardHeader=true
 
 networks:
   traefik_public:
