@@ -18,7 +18,7 @@ services:
         - traefik.docker.network=traefik_public
         - traefik.frontend.rule=Host:start.{{domain}}
         - traefik.port=443
-        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+        - traefik.frontend.auth.forward.address=https://auth.{{domain}}
         - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
         - traefik.frontend.auth.forward.trustForwardHeader=true
 
