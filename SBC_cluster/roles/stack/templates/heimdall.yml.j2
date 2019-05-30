@@ -5,6 +5,7 @@ services:
     image: linuxserver/heimdall
     networks:
       - internal
+      - traefik_public
     environment:
       - PGID=100
       - PUID=1024
