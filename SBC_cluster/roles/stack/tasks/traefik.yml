@@ -3,11 +3,11 @@
 - name: Template 'Traefik' compose file
   template:
     src: traefik.yml.j2
-    dest: "{{docker_conf_path}}/Traefik/traefik-app.yml"
+    dest: "{{docker_conf_path}}/Traefik-swarm/traefik-app.yml"
 
 - name: Ensure acme.json
   file:
-    path: "{{docker_conf_path}}/Traefik/acme.json"
+    path: "{{docker_conf_path}}/Traefik-swarm/acme.json"
     state: touch
     mode : 0600
     modification_time: preserve
@@ -18,4 +18,4 @@
     state: present
     name: traefik
     compose:
-     - "{{docker_conf_path}}/Traefik/traefik-app.yml"
+     - "{{docker_conf_path}}/Traefik-swarm/traefik-app.yml"
