@@ -22,12 +22,12 @@ services:
         protocol: tcp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - {{docker_conf_path}}/Traefik:/etc/traefik
-      - {{docker_conf_path}}/Traefik/traefik.log:/traefik.log
-      - {{docker_conf_path}}/Traefik/acme.json:/acme.json
-      - {{docker_conf_path}}/Traefik/traefik.toml:/traefik.toml:ro
-      - {{docker_conf_path}}/Traefik/servers.toml:/servers.toml:ro
-      - {{docker_conf_path}}/Traefik/tmp:/tmp
+      - {{docker_conf_path}}/Traefik-swarm:/etc/traefik
+      - {{docker_conf_path}}/Traefik-swarm/traefik.log:/traefik.log
+      - {{docker_conf_path}}/Traefik-swarm/acme.json:/acme.json
+      - {{docker_conf_path}}/Traefik-swarm/traefik-swarm.toml:/traefik.toml:ro
+      - {{docker_conf_path}}/Traefik-swarm/servers.toml:/servers.toml:ro
+      - {{docker_conf_path}}/Traefik-swarm/tmp:/tmp
       - {{docker_conf_path}}/SSL:/etc/traefik/certs
     networks:
       - traefik_public
@@ -44,6 +44,30 @@ services:
         constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
+  traefik-forward-auth:
+    image: chirogocki/traefik-forward-auth
+    env_file: {{docker_conf_path}}/Traefik/traefik-forward-auth.env
+    networks:
+      - traefik_public
+    # Uncomment these lines if you're using auth host mode
+    deploy:
+      labels:
+        - traefik.port=4181
+        - traefik.frontend.rule=Host:auth.{{domain}}
+        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+        - traefik.frontend.auth.forward.trustForwardHeader=true
+  # This simply validates that traefik forward authentication is working
+  whoami:
+    image: containous/whoami
+    networks:
+      - traefik_public
+    deploy:
+      labels:
+        - traefik.frontend.rule=Host:whoami.{{domain}}
+        - traefik.port=80
+        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+        - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
+        - traefik.frontend.auth.forward.trustForwardHeader=true
 
 networks:
   traefik_public:

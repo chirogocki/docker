@@ -13,7 +13,8 @@ services:
     - /etc/localtime:/etc/localtime:ro
     - {{docker_conf_path}}/Heimdall:/config
   heimdall_proxy:
-    image: quay.io/pusher/oauth2_proxy:latest-armv6
+    #image: quay.io/pusher/oauth2_proxy:latest-armv6
+    image: 
     networks:
       - internal
       - traefik_public
