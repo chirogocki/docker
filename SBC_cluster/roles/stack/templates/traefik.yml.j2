@@ -23,12 +23,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - {{docker_conf_path}}/Traefik-swarm:/etc/traefik
-      - {{docker_conf_path}}/Traefik-swarm/traefik.log:/traefik.log
       - {{docker_conf_path}}/Traefik-swarm/acme.json:/acme.json
       - {{docker_conf_path}}/Traefik-swarm/traefik-swarm.toml:/traefik.toml:ro
       - {{docker_conf_path}}/Traefik-swarm/servers.toml:/servers.toml:ro
-      - {{docker_conf_path}}/Traefik-swarm/tmp:/tmp
-      - {{docker_conf_path}}/SSL:/etc/traefik/certs
+      - {{docker_conf_path}}/SSL:/etc/traefik/certs:ro
     networks:
       - traefik_public
     # Global mode makes an instance of traefik listen on _every_ node, so that regardless of which
