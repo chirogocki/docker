@@ -7,7 +7,7 @@ services:
       - PGID=100
       - PUID=1024
       - TZ=Europe/Paris
-      - MAXMEM=1024
+      - MAXMEM=768
     volumes:
     - /etc/localtime:/etc/localtime:ro
     - {{docker_conf_path}}/Ubooquity:/config
