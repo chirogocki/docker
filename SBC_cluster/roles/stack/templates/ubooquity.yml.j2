@@ -11,14 +11,9 @@ services:
     volumes:
     - /etc/localtime:/etc/localtime:ro
     - ubooquity_config:/config
-    #- {{docker_conf_path}}/Ubooquity:/config
-    #- {{books_path}}:/books
     - ubooquity_books:/books
     - ubooquity_files:/files
-    #- {{books_path}}/files:/files
-    #- {{comics_path}}:/comics
     - ubooquity_comics:/comics
-    #- {{private_path}}:/private
     - ubooquity_private:/private
     networks:
       - internal
