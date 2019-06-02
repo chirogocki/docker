@@ -10,11 +10,16 @@ services:
       - MAXMEM=768
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{docker_conf_path}}/Ubooquity:/config
-    - {{books_path}}:/books
-    - {{books_path}}/files:/files
-    - {{comics_path}}:/comics
-    - {{private_path}}:/private
+    - ubooquity_config:/config
+    #- {{docker_conf_path}}/Ubooquity:/config
+    #- {{books_path}}:/books
+    - ubooquity_books:/books
+    - ubooquity_files:files
+    #- {{books_path}}/files:/files
+    #- {{comics_path}}:/comics
+    - ubooquity_comics:/comics
+    #- {{private_path}}:/private
+    - ubooquity_private:/private
     networks:
       - internal
       - traefik_public
@@ -37,6 +42,28 @@ services:
         delay: 15s
         max_attempts: 3
         window: 120s
+
+volumes:
+  ubooquity_config:
+    driver: nfs
+    driver_opts:
+      share: {{NAS1}}:/volume1/docker/Ubooquity
+  ubooquity_books:
+    driver: nfs
+    driver_opts:
+      share: {{NAS1}}:/volume1/Books/Books
+  ubooquity_files:
+    driver: nfs
+    driver_opts:
+      share: {{NAS1}}:/volume1/Books/files
+  ubooquity_comics:
+    driver: nfs
+    driver_opts:
+      share: {{NAS1}}:/volume1/Books/Comics
+  ubooquity_private:
+    driver: nfs
+    driver_opts:
+      share: {{NAS2}}:/volume1/private
 
 networks:
   traefik_public:
