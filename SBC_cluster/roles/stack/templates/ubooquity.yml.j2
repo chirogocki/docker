@@ -14,7 +14,7 @@ services:
     #- {{docker_conf_path}}/Ubooquity:/config
     #- {{books_path}}:/books
     - ubooquity_books:/books
-    - ubooquity_files:files
+    - ubooquity_files:/files
     #- {{books_path}}/files:/files
     #- {{comics_path}}:/comics
     - ubooquity_comics:/comics
@@ -51,7 +51,7 @@ volumes:
   ubooquity_books:
     driver: nfs
     driver_opts:
-      share: {{NAS1}}:/volume1/Books/Books
+      share: {{NAS1}}:/volume1/Books
   ubooquity_files:
     driver: nfs
     driver_opts:
