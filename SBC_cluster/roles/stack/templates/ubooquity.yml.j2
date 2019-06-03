@@ -49,12 +49,12 @@ volumes:
     driver_opts:
       type: "nfs"
       o: "addr={{NAS1}},nolock,soft,rw"
-      device: ":/volume1/Books/"
+      device: ":/volume1/Books/Books/"
   files:
     driver_opts:
       type: "nfs"
       o: "addr={{NAS1}},nolock,soft,rw"
-      device: ":/volume1/Books/files"
+      device: ":/volume1/Books/Books/files"
   comics:
     driver_opts:
       type: "nfs"
