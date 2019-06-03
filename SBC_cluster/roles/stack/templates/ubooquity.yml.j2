@@ -10,11 +10,11 @@ services:
       - MAXMEM=768
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ubooquity_config:/config
-    - ubooquity_books:/books
-    - ubooquity_files:/files
-    - ubooquity_comics:/comics
-    - ubooquity_private:/private
+    - ubooquity_ubooquity_config:/config
+    - ubooquity_ubooquity_books:/books
+    - ubooquity_ubooquity_files:/files
+    - ubooquity_ubooquity_comics:/comics
+    - ubooquity_ubooquity_private:/private
     networks:
       - internal
       - traefik_public
