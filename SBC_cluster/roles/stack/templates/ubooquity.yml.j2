@@ -42,23 +42,23 @@ volumes:
   config:
     driver: nfs
     driver_opts:
-      share: {{NAS1}}:/volume1/docker/Ubooquity
+      share: {{NAS1}}:/volume1/docker/Ubooquity/
   books:
     driver: nfs
     driver_opts:
-      share: {{NAS1}}:/volume1/Books
+      share: {{NAS1}}:/volume1/Books/
   files:
     driver: nfs
     driver_opts:
-      share: {{NAS1}}:/volume1/Books/files
+      share: {{NAS1}}:/volume1/Books/files/
   comics:
     driver: nfs
     driver_opts:
-      share: {{NAS1}}:/volume1/Books/Comics
+      share: {{NAS1}}:/volume1/Books/Comics/
   private:
     driver: nfs
     driver_opts:
-      share: {{NAS2}}:/volume1/private
+      share: {{NAS2}}:/volume1/private/
 
 networks:
   traefik_public:
