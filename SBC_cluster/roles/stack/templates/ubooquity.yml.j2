@@ -15,6 +15,7 @@ services:
     - files:/files
     - comics:/comics
     - private:/private
+      
     networks:
       - internal
       - traefik_public
@@ -40,25 +41,30 @@ services:
 
 volumes:
   config:
-    driver: nfs
     driver_opts:
-      share: {{NAS1}}:/volume1/docker/Ubooquity/
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/volume1/docker/Ubooquity/"
   books:
-    driver: nfs
     driver_opts:
-      share: {{NAS1}}:/volume1/Books/
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/volume1/Books/"
   files:
-    driver: nfs
     driver_opts:
-      share: {{NAS1}}:/volume1/Books/files/
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/volume1/Books/files"
   comics:
-    driver: nfs
     driver_opts:
-      share: {{NAS1}}:/volume1/Books/Comics/
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/volume1/Books/Comics/"
   private:
-    driver: nfs
     driver_opts:
-      share: {{NAS2}}:/volume1/private/
+      type: "nfs"
+      o: "addr={{NAS2}},nolock,soft,rw"
+      device: ":/volume1/private/"
 
 networks:
   traefik_public:
