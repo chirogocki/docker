@@ -12,6 +12,10 @@ eval "`dircolors`"
 alias ll='ls $LS_OPTIONS -l'
 alias l='ls $LS_OPTIONS -lA'
 alias python='python3'
+alias ds='systemctl status docker'
+alias dr='systemctl restart docker'
+alias cda='cat /etc/docker/daemon.json'
+alias nda='nano /etc/docker/daemon.json'
 #
 # Some more alias to avoid making mistakes:
 # alias rm='rm -i'
