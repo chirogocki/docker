@@ -1,0 +1,13 @@
+---
+
+- name: Template 'Docker-Cleanup' compose file
+  template:
+    src: docker-cleanup.yml.j2
+    dest: "{{docker_conf_path}}/Docker-cleanup/docker-cleanup.yml"
+
+- name: Deploy 'Docker-Cleanup' stack from file
+  docker_stack:
+    state: present
+    name: docker-cleanup
+    compose:
+     - "{{docker_conf_path}}/Docker-cleanup/docker-cleanup.yml"

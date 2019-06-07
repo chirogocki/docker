@@ -5,6 +5,11 @@
     - stack
     - stack_traefik
 
+- import_tasks: docker-cleanup.yml
+  tags:
+    - stack
+    - stack_docker-cleanup
+
 - import_tasks: heimdall.yml
   tags:
     - stack

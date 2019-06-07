@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  docker-cleanup:
+    image: chirogocki/docker-cleanup:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker:/var/lib/docker
+    networks:
+      - internal
+    deploy:
+      mode: global
+    env_file: {{docker_conf_path}}/Docker-cleanup/docker-cleanup.env
+
+networks:
+  internal:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.0.0/24
