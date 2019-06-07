@@ -7,7 +7,6 @@
   when: ansible_os_family == "Debian"
   tags:
     - keepalived-install
-  notify: Restart enabled Keepalived
 
 - name: Check service
   template: 
@@ -27,3 +26,11 @@
   tags:
     - keepalived-config
   notify: Restart enabled Keepalived
+
+- name: Check service
+  systemd:
+    name: keepalived
+    enabled: yes
+    state: restarted
+  tags:
+    - keepalived-start
