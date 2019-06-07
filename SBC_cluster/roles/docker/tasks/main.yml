@@ -1,5 +1,10 @@
 ---
 
+- import_tasks: docker-daemon.yml
+  tags:
+    - docker
+    - docker-daemon-config
+
 - import_tasks: docker-tune-limits.yml
   tags:
     - docker
