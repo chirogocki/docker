@@ -1,7 +1,7 @@
 ---
 
 - name: Copy root bash profile
-  copy:
+  template:
     src: ".bashrc"
     dest: /root/.bashrc
     mode: 0600

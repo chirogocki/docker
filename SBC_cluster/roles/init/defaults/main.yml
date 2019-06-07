@@ -1,5 +1,6 @@
 ---
 
+ansible_tag: "File managed by Ansible"
 
 dietpi_home_path: "/mnt/user_data"
 docker_conf_path: "/mnt/docker"
