@@ -28,6 +28,7 @@ services:
       - portainer_data:/data
     networks:
       - agent_network
+      - traefik_public
     deploy:
       mode: replicated
       replicas: 1
