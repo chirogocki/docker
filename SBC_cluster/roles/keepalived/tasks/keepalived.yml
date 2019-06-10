@@ -27,7 +27,7 @@
     - keepalived-config
   notify: Restart enabled Keepalived
 
-- name: Check service
+- name: Start keepalived service
   systemd:
     name: keepalived
     enabled: yes

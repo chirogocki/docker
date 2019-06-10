@@ -36,7 +36,9 @@ services:
         - traefik.enable=true
         - traefik.frontend.rule=Host:traefik-swarm.{{domain}}
         - traefik.docker.network=traefik_public
-        - traefik.port=8080
+        - traefik.port=8081
+        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+        - traefik.frontend.auth.forward.trustForwardHeader=true
       mode: global
       placement:
         constraints: [node.role == manager]
