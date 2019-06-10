@@ -1,5 +1,7 @@
 ---
 
 - import_tasks: keepalived.yml
+  when: inventory_hostname in groups['managers'] or
+        inventory_hostname in groups['manager1']
   tags:
     - keepalived
