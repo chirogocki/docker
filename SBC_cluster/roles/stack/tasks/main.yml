@@ -10,6 +10,11 @@
     - stack
     - stack_docker-cleanup
 
+- import_tasks: portainer.yml
+  tags:
+    - stack
+    - stack_portainer
+
 - import_tasks: heimdall.yml
   tags:
     - stack
