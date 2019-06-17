@@ -70,6 +70,34 @@ services:
         - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
         - traefik.frontend.auth.forward.trustForwardHeader=true
       replicas: 1
+  registry:
+    restart: always
+    image: registry:2
+    volumes:
+      - registry:/var/lib/registry
+    environment:
+      - REGISTRY_HTTP_ADDR=0.0.0.0:5000
+    networks:
+      - traefik_public
+      - default
+    deploy:
+      mode: 'global'
+      #placement:
+      #  constraints:
+      #    - 'node.hostname == docker-registry'
+      labels:
+        - "traefik.port=5000"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.frontend.entryPoints=http,https"
+        - "traefik.frontend.redirect.entryPoint=https"
+        - "traefik.frontend.rule=Host:registry.{{domain}}"
+
+volumes:
+  registry:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/volume1/docker/Registry"
 
 networks:
   traefik_public:
