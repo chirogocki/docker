@@ -15,11 +15,9 @@ services:
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
       REGISTRY_AUTH_HTPASSWD_PATH: "/auth/{{ registry_auth_file }}"
+      REGISTRY_LOG_LEVEL: debug
     networks:
       - traefik_public
-    log:
-      level: debug
-      formatter: text
     deploy:
       mode: 'global'
       #placement:
