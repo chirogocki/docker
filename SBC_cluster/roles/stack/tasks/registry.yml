@@ -2,7 +2,10 @@
 
 - name: Ensure mandatory directories
   file:
-    path: "{{docker_conf_path}}/Registry"
+    path:
+      - "{{docker_conf_path}}/Registry"
+      - "{{registry_auth_path}}"
+      - "{{registry_cert_path}}"
     state: directory
   tags:
   - docker_registry_dir
