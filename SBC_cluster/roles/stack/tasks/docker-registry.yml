@@ -26,7 +26,7 @@
 - name: Create secret registry_htpasswd
   docker_secret:
     name: registry_htpasswd
-    data: "{{ generated_secret.stdout }}"
+    data: "generated_secret.stdout"
     state: present
   tags:
   - docker_registry_secret_create
