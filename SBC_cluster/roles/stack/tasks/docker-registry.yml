@@ -14,14 +14,21 @@
 
 - name: Creating Secret
   docker_container:
-    name: mycontainer
+    name: secretbuilderregistry
     state: present
     image: registry:2.6
     entrypoint: htpasswd
     command: -Bbn {{registry_user}} {{registry_password}} | docker secret create registry_htpasswd -
-    cleanup: yes
   tags:
   - docker_registry_secret
+
+- name: Stopping container
+  docker_container:
+    name: secretbuilderregistry
+    state: absent
+    cleanup: yes
+  tags:
+  - docker_registry_secret_clean
 
 - name: Template 'Docker-Registry' compose file
   template:
