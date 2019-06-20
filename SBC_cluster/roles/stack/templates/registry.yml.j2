@@ -13,8 +13,8 @@ services:
       REGISTRY_HTTP_ADDR: 0.0.0.0:5000
       #REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/{{ registry_cert_file }}"
       #REGISTRY_HTTP_TLS_KEY: "/certs/{{ registry_key_file }}"
-      REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/cert.crt"
-      REGISTRY_HTTP_TLS_KEY: "/certs/privkey.key"
+      #REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/cert.crt"
+      #REGISTRY_HTTP_TLS_KEY: "/certs/privkey.key"
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
       REGISTRY_AUTH_HTPASSWD_PATH: "/auth/{{ registry_auth_file }}"
