@@ -63,7 +63,7 @@
   with_items:  "{{ registry_users }}" 
   register: encrypt_htpasswd
 
-- debug: var="encrypt_htpasswd"
+- debug: var="encrypt_htpasswd.output"
 
 - name: Create file, if it does not exist
   file:
