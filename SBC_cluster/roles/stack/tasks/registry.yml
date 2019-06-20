@@ -63,7 +63,7 @@
   with_items:  "{{ registry_users }}" 
   register: encrypt_htpasswd
 
-- debug: var="encrypt_htpasswd.output"
+- debug: var="encrypt_htpasswd.docker_container.output"
 
 - name: Create file, if it does not exist
   file:
