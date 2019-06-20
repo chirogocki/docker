@@ -63,6 +63,8 @@
   with_items:  "{{ registry_users }}" 
   register: encrypt_htpasswd
 
+- debug: msg="Contenu de la generation {{ encrypt_htpasswd.stdout }}"
+
 - name: Create file, if it does not exist
   file:
     name: "{{ registry_auth_path }}/{{ registry_auth_file }}"
