@@ -7,6 +7,12 @@
   tags:
   - docker_registry_dir
 
+- name: Creating Secret
+  command: docker run --entrypoint htpasswd registry:2.6 -Bbn {{registry_user}} {{registry_password}} |
+           docker secret create registry_htpasswd -
+  tags:
+  - docker_registry_secret
+
 - name: Template 'Docker-Registry' compose file
   template:
     src: docker-registry/docker-registry.yml.j2

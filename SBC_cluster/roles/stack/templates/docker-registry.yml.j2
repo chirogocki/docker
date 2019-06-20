@@ -7,9 +7,14 @@ services:
     volumes:
       - registry:/var/lib/registry
     environment:
-      - REGISTRY_HTTP_ADDR=0.0.0.0:5000
+      REGISTRY_HTTP_ADDR: 0.0.0.0:5000
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+      REGISTRY_AUTH_HTPASSWD_PATH: /run/secrets/registry_htpasswd
     networks:
       - traefik_public
+    secrets:
+      - registry_htpasswd
     deploy:
       mode: 'global'
       #placement:
@@ -31,4 +36,8 @@ volumes:
 
 networks:
   traefik_public:
+    external: true
+
+secrets:
+  registry_htpasswd:
     external: true

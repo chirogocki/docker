@@ -10,6 +10,11 @@
     - stack
     - stack_docker-cleanup
 
+- import_tasks: docker-registry.yml
+  tags:
+    - stack
+    - stack_docker-registry
+
 - import_tasks: portainer.yml
   tags:
     - stack
@@ -19,6 +24,11 @@
   tags:
     - stack
     - stack_heimdall
+
+- import_tasks: whoami.yml
+  tags:
+    - stack
+    - stack_whoami
 
 - import_tasks: ubooquity.yml
   tags:

@@ -1,0 +1,13 @@
+---
+
+- name: Template 'Whoami' compose file
+  template:
+    src: whoami.yml.j2
+    dest: "{{docker_conf_path}}/Whoami/whoami.yml"
+
+- name: Deploy 'Whoami' stack from file
+  docker_stack:
+    state: present
+    name: whoami
+    compose:
+     - "{{docker_conf_path}}/Whoami/whoami.yml"
