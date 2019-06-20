@@ -6,10 +6,11 @@ services:
     image: registry:2.6
     volumes:
       - registry:/var/lib/registry
+      - ssl:/certs
     environment:
       REGISTRY_HTTP_ADDR: 0.0.0.0:5000
-      REGISTRY_HTTP_TLS_CERTIFICATE: "{{docker_conf_path}}/SSL/cert.crt"
-      REGISTRY_HTTP_TLS_KEY: "{{docker_conf_path}}/SSL/privkey.key"
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/cert.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/privkey.key
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
       REGISTRY_AUTH_HTPASSWD_PATH: /run/secrets/registry_htpasswd
@@ -35,6 +36,11 @@ volumes:
       type: "nfs"
       o: "addr={{NAS1}},nolock,soft,rw"
       device: ":/{{docker_remote_path}}Registry"
+  ssl:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/{{docker_remote_path}}SSL"
 
 networks:
   traefik_public:
