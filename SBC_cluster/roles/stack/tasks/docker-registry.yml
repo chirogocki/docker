@@ -25,7 +25,7 @@
 
 - name: Template 'Docker-Registry' compose file
   template:
-    src: docker-registry/docker-registry.yml.j2
+    src: docker-registry.yml.j2
     dest: "{{docker_conf_path}}/Docker-registry/docker-registry.yml"
 
 - name: Deploy 'Docker-Registry' stack from file
