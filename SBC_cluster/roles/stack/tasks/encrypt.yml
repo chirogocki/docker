@@ -22,5 +22,5 @@
 #    dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
 #    line: "{{ output.stdout | replace('\n', '') }}"
   copy:
-    content: "output.stdout"
+    content: "{{output.stdout}}"
     dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
