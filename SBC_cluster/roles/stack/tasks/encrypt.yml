@@ -4,7 +4,7 @@
     image: registry:2
     entrypoint: htpasswd -Bbn {{ item.username }} {{ item.password }}
     detach: false
-  register: output
+  register: encrypt_htpasswd
 
 - name: Create file, if it does not exist
   file:
@@ -22,5 +22,5 @@
 #    dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
 #    line: "{{ output.stdout | replace('\n', '') }}"
   copy:
-    content: "{{output.stdout}}"
+    content: "{{encrypt_htpasswd.stdout}}"
     dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
