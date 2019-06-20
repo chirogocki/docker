@@ -62,8 +62,10 @@
     detach: false
   with_items:  "{{ registry_users }}" 
   register: encrypt_htpasswd
+  tags : toto
 
 - debug: var="encrypt_htpasswd.docker_container.output"
+  tags : toto
 
 - name: Create file, if it does not exist
   file:
