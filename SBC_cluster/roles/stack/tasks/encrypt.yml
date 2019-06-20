@@ -1,7 +1,7 @@
 - name: Encrypt username/password
   docker_container:
     name: htpasswd
-    image: registry:2
+    image: registry:2.6
     entrypoint: htpasswd -Bbn {{ item.username }} {{ item.password }}
     detach: false
   register: encrypt_htpasswd

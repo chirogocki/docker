@@ -54,8 +54,37 @@
       chdir: "{{ registry_cert_path }}" 
     when: registry_create_certs
 
-- include: encrypt.yml
+- name: Encrypt username/password
+  docker_container:
+    name: htpasswd
+    image: registry:2.6
+    entrypoint: htpasswd -Bbn {{ item.username }} {{ item.password }}
+    detach: false
+  with_items:  "{{ registry_users }}" 
+  register: encrypt_htpasswd
+
+- name: Create file, if it does not exist
+  file:
+    name: "{{ registry_auth_path }}/{{ registry_auth_file }}"
+    state: touch
+
+- name: Remove user from password file, if exists
+  lineinfile:
+    dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
+    regexp: '^{{ item.username }}'
+    state: absent 
   with_items: "{{ registry_users }}" 
+
+- name: Add user to password file
+#  lineinfile:
+#    dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
+#    line: "{{ output.stdout | replace('\n', '') }}"
+  copy:
+    content: "{{encrypt_htpasswd.stdout}}"
+    dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
+
+# - include: encrypt.yml
+#   with_items: "{{ registry_users }}" 
   
 # - name: Recreate secure docker registry
 #   docker_container:
