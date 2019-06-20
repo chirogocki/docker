@@ -62,11 +62,11 @@
     detach: false
   with_items:  "{{ registry_users }}" 
   register: encrypt_htpasswd
-  tags : toto
+  tags : output
 
-- debug: 
-    var: docker_container.Output
-  tags : toto
+# - debug: 
+#     var: docker_container.Output
+#   tags : toto
 
 - name: Create file, if it does not exist
   file:
@@ -81,13 +81,21 @@
   with_items: "{{ registry_users }}" 
 
 - name: Add user to password file
-#  lineinfile:
-#    dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
-#    line: "{{ output.stdout | replace('\n', '') }}"
-  copy:
-    content: "{{item}}"
+  lineinfile:
     dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
-  with_items: encrypt_htpasswd.stdout
+    line: "{{ docker_container.Output | replace('\n', '') }}"
+  # copy:
+  #   content: "{{item}}"
+  #   dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
+  # with_items: encrypt_htpasswd.stdout
+
+- name: Stopping container
+  docker_container:
+    name: htpasswd
+    state: absent
+    cleanup: yes
+  tags:
+  - docker_registry_secret_clean
 
 # - include: encrypt.yml
 #   with_items: "{{ registry_users }}" 
