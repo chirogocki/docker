@@ -80,8 +80,9 @@
 #    dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
 #    line: "{{ output.stdout | replace('\n', '') }}"
   copy:
-    content: "encrypt_htpasswd.stdout"
+    content: "{{item}}"
     dest: "{{ registry_auth_path }}/{{ registry_auth_file }}"
+  with_items: encrypt_htpasswd.stdout
 
 # - include: encrypt.yml
 #   with_items: "{{ registry_users }}" 
