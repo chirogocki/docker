@@ -22,7 +22,9 @@
       name: "{{ registry_name }}"
       state: absent
   - name: Copy template
-    template: src=registry/request.conf.j2 dest="{{ registry_cert_path }}/request.conf"
+    template:
+      src: registry/request.conf.j2
+      dest: "{{ registry_cert_path }}/request.conf"
     when: registry_create_certs
   - name: Create key
     command: openssl genrsa -out "{{ registry_cert_path }}/{{ registry_key_file }}" 4096 
