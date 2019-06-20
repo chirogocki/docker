@@ -65,7 +65,7 @@
   tags : toto
 
 - debug: 
-    var: encrypt_htpasswd.results.docker_container.Output
+    var: encrypt_htpasswd.results.Output
   tags : toto
 
 - name: Create file, if it does not exist
