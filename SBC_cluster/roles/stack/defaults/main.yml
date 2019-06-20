@@ -14,8 +14,8 @@ registry_host_port: 5000
 registry_container_port: 5000
 
 registry_users:
-  - username: {{registry_user}} 
-    password: {{registry_password}}
+  - username: "{{registry_user}}"
+    password: "{{registry_password}}"
 #  - username: testuser2
 #    password: testpassword2
 
