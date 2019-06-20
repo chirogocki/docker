@@ -17,6 +17,9 @@ services:
       REGISTRY_AUTH_HTPASSWD_PATH: "/auth/{{ registry_auth_file }}"
     networks:
       - traefik_public
+    log:
+      level: debug
+      formatter: text
     deploy:
       mode: 'global'
       #placement:
