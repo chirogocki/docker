@@ -3,9 +3,9 @@
 
 ### Registry Section
 registry_name: registry
-registry_auth_path: "{{docker_conf_path}}/Docker-registry/auth"
+registry_auth_path: "{{docker_conf_path}}/Certs-registry/auth"
 registry_auth_file: htpasswd 
-registry_cert_path: "{{docker_conf_path}}/Docker-registry/certs"
+registry_cert_path: "{{docker_conf_path}}/Certs-registry/certs"
 registry_cert_file: domain.crt
 registry_key_file: domain.key
 registry_host_cert_path: "{{ registry_cert_path }}"
