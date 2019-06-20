@@ -65,7 +65,7 @@
   tags : toto
 
 - debug: 
-    var: encrypt_htpasswd.stdout_lines
+    var: encrypt_htpasswd
   tags : toto
 
 - name: Create file, if it does not exist
