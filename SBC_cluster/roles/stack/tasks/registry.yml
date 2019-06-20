@@ -2,12 +2,13 @@
 
 - name: Ensure mandatory directories
   file:
-    path:
-      - "{{docker_conf_path}}/Registry"
-      - "{{registry_auth_path}}"
-      - "{{registry_cert_path}}"
+    path: "{{item}}"
     state: directory
     recurse: yes
+  with_items :
+   - "{{docker_conf_path}}/Registry"
+   - "{{registry_auth_path}}"
+   - "{{registry_cert_path}}"
   tags:
   - docker_registry_dir
 
