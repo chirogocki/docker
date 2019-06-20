@@ -65,7 +65,7 @@
   tags : toto
 
 - debug: 
-    var: encrypt_htpasswd.msg
+    var: encrypt_htpasswd.results.ansible_facts.docker_container.Output
   tags : toto
 
 - name: Create file, if it does not exist
