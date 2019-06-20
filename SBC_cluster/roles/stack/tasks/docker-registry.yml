@@ -7,8 +7,19 @@
   tags:
   - docker_registry_dir
 
+#- name: Creating Secret
+#  command: docker run --entrypoint htpasswd registry:2.6 -Bbn {{registry_user}} {{registry_password}} | docker secret create registry_htpasswd -
+#  tags:
+#  - docker_registry_secret
+
 - name: Creating Secret
-  command: docker run --entrypoint htpasswd registry:2.6 -Bbn {{registry_user}} {{registry_password}} | docker secret create registry_htpasswd -
+  docker_container:
+    name: mycontainer
+    state: present
+    image: registry:2.6
+    entrypoint: htpasswd
+    command: -Bbn {{registry_user}} {{registry_password}} | docker secret create registry_htpasswd -
+    cleanup: yes
   tags:
   - docker_registry_secret
 
