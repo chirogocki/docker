@@ -64,6 +64,7 @@
   copy:
     src: "{{ registry_cert_path }}/{{ registry_cert_file }}"
     dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}:{{registry_container_port}}/ca.crt"
+    remote_src: yes
 
 - name: Encrypt username/password
   docker_container:
