@@ -54,6 +54,17 @@
       chdir: "{{ registry_cert_path }}" 
     when: registry_create_certs
 
+- name: Touch dir
+  file:
+    path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}:{{registry_container_port}}"
+    state: directory
+    recurse: yes
+
+- name: Trust CA
+  copy:
+    src: "{{ registry_cert_path }}/{{ registry_cert_file }}"
+    dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}:{{registry_container_port}}/ca.crt"
+
 - name: Encrypt username/password
   docker_container:
     name: htpasswd
