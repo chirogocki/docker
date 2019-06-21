@@ -1,1 +1,7 @@
 # Ansible inventory
+
+| Variable | Usage |
+|----------|:---------:|
+|  |  |
+|  |  |
+|  |  |
