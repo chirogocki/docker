@@ -10,7 +10,7 @@ services:
       #- "{{ registry_host_auth_path }}:/auth"
       - "ssl:/certs"
     environment:
-      REGISTRY_HTTP_ADDR: 0.0.0.0:5000
+      REGISTRY_HTTP_ADDR: 0.0.0.0:443
       REGISTRY_HTTP_HOST: "https://{{ registry_name }}.{{domain}}"
       #REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/{{ registry_cert_file }}"
       #REGISTRY_HTTP_TLS_KEY: "/certs/{{ registry_key_file }}"
@@ -35,6 +35,7 @@ services:
         - "traefik.frontend.entryPoints=http,https"
         - "traefik.frontend.redirect.entryPoint=https"
         - "traefik.frontend.rule=Host:registry.{{domain}}"
+        - traefik.enable=false
 
 volumes:
   registry:
