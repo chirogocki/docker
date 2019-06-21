@@ -5,7 +5,7 @@
     - build
     - build_traefik-forward-auth
 
-- import_tasks: swarprom.yml
+- import_tasks: swarmprom.yml
   tags:
     - build
-    - build_swarprom
+    - build_swarmprom
