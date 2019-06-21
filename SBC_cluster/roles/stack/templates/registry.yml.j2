@@ -8,20 +8,20 @@ services:
       - registry:/var/lib/registry
       #- "{{ registry_host_cert_path }}:/certs"
       #- "{{ registry_host_auth_path }}:/auth"
-      - ssl:/certs
+      # - ssl:/certs
     environment:
-      REGISTRY_HTTP_ADDR: 0.0.0.0:443
-      REGISTRY_HTTP_HOST: "https://{{ registry_name }}.{{domain}}"
+      # REGISTRY_HTTP_ADDR: 0.0.0.0:443
+      # REGISTRY_HTTP_HOST: "https://{{ registry_name }}.{{domain}}"
       #REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/{{ registry_cert_file }}"
       #REGISTRY_HTTP_TLS_KEY: "/certs/{{ registry_key_file }}"
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/cert.crt
-      REGISTRY_HTTP_TLS_KEY: /certs/privkey.key
-      REGISTRY_HTTP_TLS_CLIENTCAS: ' - /certs/chain.pem'
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
-      REGISTRY_AUTH_HTPASSWD_PATH: "/auth/{{ registry_auth_file }}"
-      REGISTRY_LOG_LEVEL: debug
-      REGISTRY_LOG_ACCESSLOG_DISABLED: "false"
+      # REGISTRY_HTTP_TLS_CERTIFICATE: /certs/cert.crt
+      # REGISTRY_HTTP_TLS_KEY: /certs/privkey.key
+      # REGISTRY_HTTP_TLS_CLIENTCAS: ' - /certs/chain.pem'
+      # REGISTRY_AUTH: htpasswd
+      # REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
+      # REGISTRY_AUTH_HTPASSWD_PATH: "/auth/{{ registry_auth_file }}"
+      # REGISTRY_LOG_LEVEL: debug
+      # REGISTRY_LOG_ACCESSLOG_DISABLED: "false"
     networks:
       - traefik_public
     deploy:
@@ -32,10 +32,10 @@ services:
       labels:
         - "traefik.port=5000"
         - "traefik.docker.network=traefik_public"
-        - "traefik.frontend.entryPoints=http,https"
-        - "traefik.frontend.redirect.entryPoint=https"
+        # - "traefik.frontend.entryPoints=http,https"
+        # - "traefik.frontend.redirect.entryPoint=https"
         - "traefik.frontend.rule=Host:registry.{{domain}}"
-        - traefik.enable=false
+        - traefik.enable=true
 
 volumes:
   registry:
@@ -43,11 +43,11 @@ volumes:
       type: "nfs"
       o: "addr={{NAS1}},nolock,soft,rw"
       device: ":/{{docker_remote_path}}Registry"
-  ssl:
-    driver_opts:
-      type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw"
-      device: ":/{{docker_remote_path}}SSL"
+  # ssl:
+  #   driver_opts:
+  #     type: "nfs"
+  #     o: "addr={{NAS1}},nolock,soft,rw"
+  #     device: ":/{{docker_remote_path}}SSL"
 
 networks:
   traefik_public:
