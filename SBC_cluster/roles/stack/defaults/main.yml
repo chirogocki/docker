@@ -18,15 +18,3 @@ registry_users:
     password: "{{registry_password}}"
 #  - username: testuser2
 #    password: testpassword2
-
-registry_create_certs: yes
-registry_country: FR  
-registry_province: NC
-registry_locality: Chens
-registry_organization: Acme, Inc.
-registry_organizational_unit: Widgets
-registry_common_name: localhost 
-
-registry_altnames:
-  - type: IP.1
-    name: 127.0.0.1 

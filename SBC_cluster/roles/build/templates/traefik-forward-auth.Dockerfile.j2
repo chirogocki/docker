@@ -1,0 +1,16 @@
+FROM golang:1.12-alpine as builder
+
+# Setup
+RUN apk add --no-cache git
+RUN git clone https://github.com/thomseddon/traefik-forward-auth.git /go/src/github.com/thomseddon/traefik-forward-auth
+WORKDIR /go/src/github.com/thomseddon/traefik-forward-auth
+
+# Copy & build
+#ADD . /go/src/github.com/thomseddon/traefik-forward-auth/
+RUN CGO_ENABLED=0 GOOS=linux GO111MODULE=on go build -a -installsuffix nocgo -o /traefik-forward-auth github.com/thomseddon/traefik-forward-auth/cmd
+
+# Copy into scratch container
+FROM scratch
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /traefik-forward-auth ./
+ENTRYPOINT ["./traefik-forward-auth"]

@@ -1,0 +1,11 @@
+---
+
+- import_tasks: traefik-forward-auth.yml
+  tags:
+    - build
+    - build_traefik-forward-auth
+
+- import_tasks: swarprom.yml
+  tags:
+    - build
+    - build_swarprom

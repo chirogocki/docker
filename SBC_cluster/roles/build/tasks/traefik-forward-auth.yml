@@ -1,0 +1,23 @@
+---
+
+#gather facts to var tag
+
+- name: Ensure build dir
+  file:
+    path: "{{docker_conf_path}}/Build/traefik-forward-auth"
+    state: directory
+    recurse: yes
+
+- name: Template Dockerfile
+  template:
+    src: traefik-forward-auth.Dockerfile.j2
+    dest: "{{docker_conf_path}}/Build/traefik-forward-auth/Dockerfile"
+
+- name: Build an image and push it to a private repo
+  docker_image:
+    build:
+      path: "{{docker_conf_path}}/Build/traefik-forward-auth"
+    name: registry.{{domain}}/traefik-forward-auth
+    tag: armv7l-v1
+    push: yes
+    source: build
