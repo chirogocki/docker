@@ -62,7 +62,9 @@
   delegate_to: localhost
 
 - name: Create manifest to registry
-  command: "docker manifest create registry.{{domain}}/traefik-forward-auth:latest registry.{{domain}}/traefik-forward-auth:armv7l registry.{{domain}}/traefik-forward-auth:x86_64-v1"
+  command:
+    - "docker manifest create registry.{{domain}}/traefik-forward-auth:latest registry.{{domain}}/traefik-forward-auth:armv7l-v1 registry.{{domain}}/traefik-forward-auth:x86_64-v1"
+    - "docker manifest push registry.{{domain}}/traefik-forward-auth:latest"
 
 - name: Log out of private registry
   docker_login:
