@@ -32,8 +32,10 @@
 - block:
   - name: Log into private registry
     docker_login:
+      registry: registry.{{domain}}
       username: "{{registry_user}}"
       password: "{{registry_password}}"
+      reauthorize: yes
   - name: Build an x86_64 image and push it to a private repo
     docker_image:
       build:
