@@ -1,6 +1,11 @@
 ---
 
-#gather facts to var tag
+- name: Log into private registry and force re-authorization
+  docker_login:
+    registry: registry.{{domain}}
+    username: "{{registry_user}}"
+    password: "{{registry_password}}"
+    reauthorize: yes
 
 - name: Ensure build dir
   file:
@@ -13,11 +18,40 @@
     src: traefik-forward-auth.Dockerfile.j2
     dest: "{{docker_conf_path}}/Build/traefik-forward-auth/Dockerfile"
 
-- name: Build an image and push it to a private repo
+- name: Build an ARM image and push it to a private repo
   docker_image:
     build:
       path: "{{docker_conf_path}}/Build/traefik-forward-auth"
     name: registry.{{domain}}/traefik-forward-auth
     tag: armv7l-v1
     push: yes
+    pull: no
     source: build
+  when: ansible_architecture == "armv7l"
+
+- block:
+  - name: Log into DockerHub
+    docker_login:
+      username: "{{dockerhub_user}}"
+      password: "{{dockerhub_password}}"
+  - name: Build an x86_64 image and push it to a private repo
+    docker_image:
+      build:
+        path: "/mount/docker/Build/traefik-forward-auth"
+      name: registry.{{domain}}/traefik-forward-auth
+      tag: x86_64-v1
+      push: yes
+      pull: no
+      source: build
+  - name: Log out of DockerHub
+    docker_login:
+      state: absent
+    when: ansible_architecture == "x86_64"
+  delegate_to: localhost
+
+- name: Create manifest to registry
+  command: "docker manifest create registry.{{domain}}/traefik-forward-auth:latest registry.{{domain}}/traefik-forward-auth:armv7l registry.{{domain}}/traefik-forward-auth:x86_64-v1"
+
+- name: Log out of private registry
+  docker_login:
+    state: absent
