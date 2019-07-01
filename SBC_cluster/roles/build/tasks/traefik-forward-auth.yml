@@ -57,6 +57,7 @@
       source: build
   - name: Log out of private registry
     docker_login:
+      registry: registry.{{domain}}
       state: absent
     when: ansible_architecture == "x86_64"
   delegate_to: localhost
@@ -69,4 +70,5 @@
 
 - name: Log out of private registry
   docker_login:
+    registry: registry.{{domain}}
     state: absent
