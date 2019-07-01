@@ -30,10 +30,10 @@
   when: ansible_architecture == "armv7l"
 
 - block:
-  - name: Log into DockerHub
+  - name: Log into private registry
     docker_login:
-      username: "{{dockerhub_user}}"
-      password: "{{dockerhub_password}}"
+      username: "{{registry_user}}"
+      password: "{{registry_password}}"
   - name: Build an x86_64 image and push it to a private repo
     docker_image:
       build:
@@ -43,7 +43,7 @@
       push: yes
       pull: no
       source: build
-  - name: Log out of DockerHub
+  - name: Log out of private registry
     docker_login:
       state: absent
     when: ansible_architecture == "x86_64"
