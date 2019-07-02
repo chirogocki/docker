@@ -11,9 +11,13 @@
     - sp_caddy-dir
 
 - name: Download Armv7l Caddy binary
-  unarchive:
-    src: https://caddyserver.com/download/linux/arm7?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
+  get_url:
+    url: https://caddyserver.com/download/linux/arm7?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
     dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
   tags:
     - sp_caddy-dl
 
+# - name: Unarchive Armv7l source
+#   unarchive:
+#     src:
+#     dest:
