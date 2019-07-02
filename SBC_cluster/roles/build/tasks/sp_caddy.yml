@@ -2,6 +2,13 @@
 
 # Armv7l
 
+- name: Log into private registry and force re-authorization
+  docker_login:
+    registry: registry.{{domain}}
+    username: "{{registry_user}}"
+    password: "{{registry_password}}"
+    reauthorize: yes
+
 - name: Ensure build dir
   file:
     path: "{{docker_conf_path}}/Build/swarmprom/caddy"
@@ -9,13 +16,6 @@
     recurse: yes
   tags:
     - sp_caddy-dir
-
-# - name: Download Armv7l Caddy binary
-#   get_url:
-#     url: https://caddyserver.com/download/linux/arm7?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
-#     dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
-#   tags:
-#     - sp_caddy-dl
 
 - name: Get the latest Armv7l Caddy release information from Github
   uri:
@@ -29,19 +29,82 @@
   tags:
     - sp_caddy-dl
 
-- name: Get the latest amd64 Caddy release information from Github
-  uri:
-    url: https://caddyserver.com/download/linux/amd64?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
-    method: GET
-    dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
-  register: _caddy_github_release
-  until: _caddy_github_release.status == 200
-  retries: 5
-  delay: 15
-  tags:
-    - sp_caddy-dl
+- name: Template Dockerfile
+  template:
+    src: sp_caddy.Dockerfile.j2
+    dest: "{{docker_conf_path}}/Build/caddy/Dockerfile_arm7"
 
-# - name: Unarchive Armv7l source
-#   unarchive:
-#     src:
-#     dest:
+- name: Build an ARM image and push it to a private repo
+  docker_image:
+    build:
+      path: "{{docker_conf_path}}/Build/caddy/Dockerfile_arm7"
+    name: registry.{{domain}}/sp_caddy
+    tag: armv7l-v1
+    push: yes
+    pull: no
+    source: build
+  when: ansible_architecture == "armv7l"
+
+  # Amd64
+
+- block:
+  - name: Touch dir
+    file:
+      path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
+      state: directory
+      recurse: yes
+  - name: Trust CA
+    copy:
+      src: "/mount/docker/SSL/cert.crt"
+      dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
+      remote_src: yes
+  - name: Log into private registry
+    docker_login:
+      registry: registry.{{domain}}
+      username: "{{registry_user}}"
+      password: "{{registry_password}}"
+      reauthorize: yes
+  - name: Get the latest amd64 Caddy release information from Github
+    uri:
+      url: https://caddyserver.com/download/linux/amd64?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
+      method: GET
+      dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
+    register: _caddy_github_release
+    until: _caddy_github_release.status == 200
+    retries: 5
+    delay: 15
+    tags:
+      - sp_caddy-dl
+  - name: Template Dockerfile
+    template:
+      src: sp_caddy.Dockerfile.j2
+      dest: "{{docker_conf_path}}/Build/caddy/Dockerfile_amd64"
+  - name: Build an x86_64 image and push it to a private repo
+    docker_image:
+      build:
+        path: "/mount/docker/Build/caddy/Dockerfile_amd64"
+      name: registry.{{domain}}/sp_caddy
+      tag: x86_64-v1
+      push: yes
+      pull: no
+      source: build
+  - name: Log out of private registry
+    docker_login:
+      registry: registry.{{domain}}
+      state: absent
+    when: ansible_architecture == "x86_64"
+  delegate_to: localhost
+
+- name: Create manifest to registry
+  command: "docker manifest create --amend registry.{{domain}}/sp_caddy:latest registry.{{domain}}/sp_caddy:armv7l-v1 registry.{{domain}}/sp_caddy:x86_64-v1"
+
+- name: Push manifest to registry
+  command: "docker manifest push --purge registry.{{domain}}/sp_caddy:latest"
+
+- name: Log out of private registry
+  docker_login:
+    registry: registry.{{domain}}
+    state: absent
+
+
+

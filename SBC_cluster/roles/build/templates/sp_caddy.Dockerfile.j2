@@ -1,0 +1,21 @@
+# Dist image
+FROM alpine:3.9
+
+# install deps
+RUN apk add --no-cache --no-progress curl tini ca-certificates
+
+# copy caddy binary
+COPY {% if ansible_architecture == "armv7l" %}"arm7"{% elif ansible_architecture == "x86_64" %}"amd64"{% endif %} /usr/bin/caddy
+
+# list plugins
+RUN /usr/bin/caddy -plugins
+
+# static files volume
+VOLUME ["/www"]
+WORKDIR /www
+
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY index.md /www/index.md
+
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["caddy", "-agree", "--conf", "/etc/caddy/Caddyfile"]
