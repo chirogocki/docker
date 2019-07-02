@@ -32,12 +32,12 @@
 - name: Template Dockerfile
   template:
     src: sp_caddy.Dockerfile.j2
-    dest: "{{docker_conf_path}}/Build/caddy/Dockerfile_arm7"
+    dest: "{{docker_conf_path}}/Build/swarmprom/caddy/Dockerfile_arm7"
 
 - name: Build an ARM image and push it to a private repo
   docker_image:
     build:
-      path: "{{docker_conf_path}}/Build/caddy/Dockerfile_arm7"
+      path: "{{docker_conf_path}}/Build/swarmprom/caddy/Dockerfile_arm7"
     name: registry.{{domain}}/sp_caddy
     tag: armv7l-v1
     push: yes
@@ -78,11 +78,11 @@
   - name: Template Dockerfile
     template:
       src: sp_caddy.Dockerfile.j2
-      dest: "{{docker_conf_path}}/Build/caddy/Dockerfile_amd64"
+      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/Dockerfile_amd64"
   - name: Build an x86_64 image and push it to a private repo
     docker_image:
       build:
-        path: "/mount/docker/Build/caddy/Dockerfile_amd64"
+        path: "/mount/docker/Build/swarmprom/caddy/Dockerfile_amd64"
       name: registry.{{domain}}/sp_caddy
       tag: x86_64-v1
       push: yes
