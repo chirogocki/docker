@@ -17,9 +17,21 @@
 #   tags:
 #     - sp_caddy-dl
 
-- name: Get the latest Caddy release information from Github
+- name: Get the latest Armv7l Caddy release information from Github
   uri:
     url: https://caddyserver.com/download/linux/arm7?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
+    method: GET
+    dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
+  register: _caddy_github_release
+  until: _caddy_github_release.status == 200
+  retries: 5
+  delay: 15
+  tags:
+    - sp_caddy-dl
+
+- name: Get the latest amd64 Caddy release information from Github
+  uri:
+    url: https://caddyserver.com/download/linux/amd64?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
     method: GET
     dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
   register: _caddy_github_release
