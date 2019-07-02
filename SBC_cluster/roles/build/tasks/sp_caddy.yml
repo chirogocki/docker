@@ -1,4 +1,23 @@
 ---
+# Prerequisite
+
+- name: Ensure build dir
+  file:
+    path: "{{docker_conf_path}}/Build/swarmprom/caddy"
+    state: directory
+    recurse: yes
+  tags:
+    - sp_caddy-dir
+
+- name: Copy necessary file
+  copy:
+    src: "{{item}}"
+    dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
+  with_items:
+    - "sp_caddy/Caddyfile"
+    - "sp_caddy/index.md"
+  tags:
+    - sp_caddy_copy
 
 # Armv7l
 
@@ -8,14 +27,6 @@
     username: "{{registry_user}}"
     password: "{{registry_password}}"
     reauthorize: yes
-
-- name: Ensure build dir
-  file:
-    path: "{{docker_conf_path}}/Build/swarmprom/caddy"
-    state: directory
-    recurse: yes
-  tags:
-    - sp_caddy-dir
 
 - name: Get the latest Armv7l Caddy release information from Github
   uri:
