@@ -3,9 +3,12 @@
 
 - name: Ensure build dir
   file:
-    path: "{{docker_conf_path}}/Build/swarmprom/caddy"
+    path: "{{item}}"
     state: directory
     recurse: yes
+  with_items:
+    - "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
+    - "{{docker_conf_path}}/Build/swarmprom/caddy/amd64"
   tags:
     - sp_caddy-dir
 
@@ -40,16 +43,20 @@
   tags:
     - sp_caddy-dl
 
+- name: Unarchive relaese
+  unarchive:
+    src: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
+    dest: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7/"
+
 - name: Template Dockerfile
   template:
     src: sp_caddy.Dockerfile.j2
-    dest: "{{docker_conf_path}}/Build/swarmprom/caddy/Dockerfile_arm7"
+    dest: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7/Dockerfile"
 
 - name: Build an ARM image and push it to a private repo
   docker_image:
     build:
-      path: "{{docker_conf_path}}/Build/swarmprom/caddy/"
-      dockerfile: "Dockerfile_arm7"
+      path: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
     name: registry.{{domain}}/sp_caddy
     tag: armv7l-v1
     push: yes
@@ -87,15 +94,18 @@
     delay: 15
     tags:
       - sp_caddy-dl
+  - name: Unarchive relaese
+    unarchive:
+      src: "{{docker_conf_path}}/Build/swarmprom/caddy/amd64"
+      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/amd64/"
   - name: Template Dockerfile
     template:
       src: sp_caddy.Dockerfile.j2
-      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/Dockerfile_amd64"
+      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/amd64/Dockerfile"
   - name: Build an x86_64 image and push it to a private repo
     docker_image:
       build:
-        path: "/mount/docker/Build/swarmprom/caddy/"
-        dockerfile: "Dockerfile_amd64"
+        path: "/mount/docker/Build/swarmprom/caddy/amd64/"
       name: registry.{{domain}}/sp_caddy
       tag: x86_64-v1
       push: yes
