@@ -5,13 +5,19 @@
     src: traefik.yml.j2
     dest: "{{docker_conf_path}}/Traefik-swarm/traefik-app.yml"
 
-- name: Ensure acme.json
-  file:
-    path: "{{docker_conf_path}}/Traefik-swarm/acme.json"
-    state: touch
-    mode : 0600
-    modification_time: preserve
-    access_time: preserve
+# - name: Ensure acme.json
+#   file:
+#     path: "{{docker_conf_path}}/Traefik-swarm/acme.json"
+#     state: touch
+#     mode : 0600
+#     modification_time: preserve
+#     access_time: preserve
+
+- name: Login to private registry
+  docker_login:
+    registry: registry.{{domain}}
+    username: "{{registry_user}}"
+    password: "{{registry_password}}"
 
 - name: Deploy 'Traefik' stack from file
   docker_stack:
