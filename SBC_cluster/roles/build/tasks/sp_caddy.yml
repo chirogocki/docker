@@ -1,0 +1,19 @@
+---
+
+# Armv7l
+
+- name: Ensure build dir
+  file:
+    path: "{{docker_conf_path}}/Build/swarmprom/caddy"
+    state: directory
+    recurse: yes
+  tags:
+    - sp_caddy-dir
+
+- name: Download Armv7l Caddy binary
+  unarchive:
+    src: https://caddyserver.com/download/linux/arm7?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
+    dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
+  tags:
+    - sp_caddy-dl
+

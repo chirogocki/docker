@@ -1,2 +1,6 @@
 ---
 
+- import_tasks: sp_caddy.yml
+  tags:
+    - build
+    - build_sp_caddy
