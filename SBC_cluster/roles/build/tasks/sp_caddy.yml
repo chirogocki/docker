@@ -34,7 +34,7 @@
     - sp_caddy-dl
 
 - name: Unarchive release
-  command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+  command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
   tags:
     - sp_caddy-unarchive
 
@@ -95,7 +95,7 @@
     tags:
       - sp_caddy-dl
   - name: Unarchive release
-    command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/amd64 --owner=1024 --group=100 --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/x86_64/"
+    command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/amd64 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/x86_64/"
     tags:
       - sp_caddy-unarchive
   - name: Copy necessary file
