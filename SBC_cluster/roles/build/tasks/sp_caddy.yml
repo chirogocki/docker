@@ -6,6 +6,8 @@
     path: "{{item}}"
     state: directory
     recurse: yes
+    owner: '1024'
+    group: '100'
   with_items:
     - "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
     - "{{docker_conf_path}}/Build/swarmprom/caddy/x86_64"
@@ -33,8 +35,15 @@
   tags:
     - sp_caddy-dl
 
+
+
 - name: Unarchive release
-  command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+  # command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+  unarchive:
+    src: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
+    dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+    owner: '1024'
+    group: '100'
   tags:
     - sp_caddy-unarchive
 
