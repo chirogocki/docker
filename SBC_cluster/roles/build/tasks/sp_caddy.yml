@@ -52,6 +52,8 @@
   copy:
     src: "{{item}}"
     dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
+    owner: '1024'
+    group: '100'
   with_items:
     - "sp_caddy/Caddyfile"
     - "sp_caddy/index.md"
@@ -62,6 +64,8 @@
   template:
     src: sp_caddy.Dockerfile.j2
     dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l/Dockerfile"
+    owner: '1024'
+    group: '100'
 
 - name: Build an ARM image and push it to a private repo
   docker_image:
@@ -105,13 +109,21 @@
     tags:
       - sp_caddy-dl
   - name: Unarchive release
-    command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/amd64 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/x86_64/"
+    # command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+    unarchive:
+      src: "{{docker_conf_path}}/Build/swarmprom/caddy/amd64"
+      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/x86_64/"
+      remote_src: yes
+      owner: '1024'
+      group: '100'
     tags:
       - sp_caddy-unarchive
   - name: Copy necessary file
     copy:
       src: "{{item}}"
       dest: "/mount/docker/Build/swarmprom/caddy/x86_64"
+      owner: '1024'
+      group: '100'
     with_items:
       - "sp_caddy/Caddyfile"
       - "sp_caddy/index.md"
@@ -121,6 +133,8 @@
     template:
       src: sp_caddy.Dockerfile.j2
       dest: "/mount/docker/Build/swarmprom/caddy/x86_64/Dockerfile"
+      owner: '1024'
+      group: '100'
   - name: Build an x86_64 image and push it to a private repo
     docker_image:
       build:
