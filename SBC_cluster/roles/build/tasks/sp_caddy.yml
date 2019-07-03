@@ -46,6 +46,7 @@
   unarchive:
     src: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
     dest: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7/"
+    remote_src: yes
 
 - name: Template Dockerfile
   template:
@@ -101,6 +102,7 @@
     template:
       src: sp_caddy.Dockerfile.j2
       dest: "{{docker_conf_path}}/Build/swarmprom/caddy/amd64/Dockerfile"
+      remote_src: yes
   - name: Build an x86_64 image and push it to a private repo
     docker_image:
       build:
