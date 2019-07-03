@@ -63,7 +63,7 @@
     name: registry.{{domain}}/sp_caddy
     tag: armv7l-v1
     push: yes
-    pull: no
+    build.pull: yes
     source: build
   when: ansible_architecture == "armv7l"
 
@@ -115,7 +115,7 @@
       name: registry.{{domain}}/sp_caddy
       tag: x86_64-v1
       push: yes
-      pull: no
+      build.pull: yes
       source: build
   - name: Log out of private registry
     docker_login:
