@@ -92,7 +92,7 @@
     uri:
       url: https://caddyserver.com/download/linux/amd64?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
       method: GET
-      dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
+      dest: "/mount/docker/Build/swarmprom/caddy"
     register: _caddy_github_release
     until: _caddy_github_release.status == 200
     retries: 5
@@ -101,15 +101,15 @@
       - sp_caddy-dl
   - name: Unarchive relaese
     unarchive:
-      src: "{{docker_conf_path}}/Build/swarmprom/caddy/amd64"
-      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/x86_64/"
+      src: "/mount/docker/Build/swarmprom/caddy/amd64"
+      dest: "/mount/docker/Build/swarmprom/caddy/x86_64/"
       remote_src: yes
       owner: 1024
       group: 100
   - name: Copy necessary file
     copy:
       src: "{{item}}"
-      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/x86_64"
+      dest: "/mount/docker/Build/swarmprom/caddy/x86_64"
       owner: 1024
       group: 100
     with_items:
@@ -120,7 +120,7 @@
   - name: Template Dockerfile
     template:
       src: sp_caddy.Dockerfile.j2
-      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/x86_64/Dockerfile"
+      dest: "/mount/docker/Build/swarmprom/caddy/x86_64/Dockerfile"
   - name: Build an x86_64 image and push it to a private repo
     docker_image:
       build:
