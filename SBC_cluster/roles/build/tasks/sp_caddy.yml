@@ -109,7 +109,7 @@
   - name: Copy necessary file
     copy:
       src: "{{item}}"
-      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
+      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/x86_64"
       owner: 1024
       group: 100
     with_items:
