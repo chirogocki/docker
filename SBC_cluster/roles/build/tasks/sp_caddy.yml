@@ -7,8 +7,7 @@
     state: directory
     recurse: yes
   with_items:
-    - "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
-    - "{{docker_conf_path}}/Build/swarmprom/caddy/amd64"
+    - "{{docker_conf_path}}/Build/swarmprom/caddy"
   tags:
     - sp_caddy-dir
 
