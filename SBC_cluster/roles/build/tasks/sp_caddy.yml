@@ -36,7 +36,7 @@
 - name: Unarchive relaese
   unarchive:
     src: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
-    dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+    dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
     remote_src: yes
     extra_opts: "--owner=1024 --group=100 --no-same-owner"
   tags: test
