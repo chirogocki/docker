@@ -12,16 +12,6 @@
   tags:
     - sp_caddy-dir
 
-- name: Copy necessary file
-  copy:
-    src: "{{item}}"
-    dest: "{{docker_conf_path}}/Build/swarmprom/caddy"
-  with_items:
-    - "sp_caddy/Caddyfile"
-    - "sp_caddy/index.md"
-  tags:
-    - sp_caddy_copy
-
 # Armv7l
 
 - name: Log into private registry and force re-authorization
@@ -50,6 +40,18 @@
     remote_src: yes
     owner: 1024
     group: 100
+
+- name: Copy necessary file
+  copy:
+    src: "{{item}}"
+    dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
+    owner: 1024
+    group: 100
+  with_items:
+    - "sp_caddy/Caddyfile"
+    - "sp_caddy/index.md"
+  tags:
+    - sp_caddy_copy
 
 - name: Template Dockerfile
   template:
@@ -104,6 +106,17 @@
       remote_src: yes
       owner: 1024
       group: 100
+  - name: Copy necessary file
+    copy:
+      src: "{{item}}"
+      dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
+      owner: 1024
+      group: 100
+    with_items:
+      - "sp_caddy/Caddyfile"
+      - "sp_caddy/index.md"
+    tags:
+      - sp_caddy_copy
   - name: Template Dockerfile
     template:
       src: sp_caddy.Dockerfile.j2
