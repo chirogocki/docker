@@ -33,18 +33,11 @@
   tags:
     - sp_caddy-dl
 
-# - name: Unarchive relaese
-#   unarchive:
-#     src: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
-#     dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
-#     remote_src: yes
-#     extra_opts: "--owner=1024 --group=100 --no-same-owner"
-#   tags: test
-
-
 - name: Unarchive release
   command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
-  tags: test
+  warn: false
+  tags:
+    - sp_caddy-unarchive
 
 - name: Copy necessary file
   copy:
@@ -102,11 +95,11 @@
     delay: 15
     tags:
       - sp_caddy-dl
-  - name: Unarchive relaese
-    unarchive:
-      src: "/mount/docker/Build/swarmprom/caddy/amd64"
-      dest: "/mount/docker/Build/swarmprom/caddy/x86_64/"
-      remote_src: yes
+  - name: Unarchive release
+    command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/amd64 --owner=1024 --group=100 --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/x86_64/"
+    warn: false
+    tags:
+      - sp_caddy-unarchive
   - name: Copy necessary file
     copy:
       src: "{{item}}"
