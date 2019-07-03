@@ -6,8 +6,8 @@
     path: "{{item}}"
     state: directory
     recurse: yes
-    owner: 1024
-    group: 100
+    owner: '1024'
+    group: '100'
   with_items:
     - "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
     - "{{docker_conf_path}}/Build/swarmprom/caddy/x86_64"
@@ -40,15 +40,15 @@
     src: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
     dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
     remote_src: yes
-    owner: 1024
-    group: 100
+    owner: '1024'
+    group: '100'
 
 - name: Copy necessary file
   copy:
     src: "{{item}}"
     dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
-    owner: 1024
-    group: 100
+    owner: '1024'
+    group: '100'
   with_items:
     - "sp_caddy/Caddyfile"
     - "sp_caddy/index.md"
@@ -106,14 +106,14 @@
       src: "/mount/docker/Build/swarmprom/caddy/amd64"
       dest: "/mount/docker/Build/swarmprom/caddy/x86_64/"
       remote_src: yes
-      owner: 1024
-      group: 100
+      owner: '1024'
+      group: '100'
   - name: Copy necessary file
     copy:
       src: "{{item}}"
       dest: "/mount/docker/Build/swarmprom/caddy/x86_64"
-      owner: 1024
-      group: 100
+      owner: '1024'
+      group: '100'
     with_items:
       - "sp_caddy/Caddyfile"
       - "sp_caddy/index.md"
