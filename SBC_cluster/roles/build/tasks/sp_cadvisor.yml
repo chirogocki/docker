@@ -47,9 +47,8 @@
   docker_image:
     name: google/cadvisor:v0.32.0
     repository: registry.{{domain}}/sp_cadvisor:x86_64-v1
-    source: local
+    source: pull
     push: yes
-    pull: yes
 
 - name: Create manifest to registry
   command: "docker manifest create --amend registry.{{domain}}/sp_cadvisor:latest registry.{{domain}}/sp_cadvisor:armv7l-v1 registry.{{domain}}/sp_cadvisor:x86_64-v1"
