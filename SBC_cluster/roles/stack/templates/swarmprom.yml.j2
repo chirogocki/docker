@@ -41,7 +41,7 @@ services:
           memory: 64M
 
   cadvisor:
-    image: chirogocki/cadvisor:arm32v6
+    image: registry.{{domain}}/sp_cadvisor:latest
     networks:
       - net
     command: -logtostderr -docker_only
