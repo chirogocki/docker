@@ -4,3 +4,8 @@
   tags:
     - build
     - build_sp_caddy
+
+- import_tasks: sp_cadvisor.yml
+  tags:
+    - build
+    - build_sp_cadvisor

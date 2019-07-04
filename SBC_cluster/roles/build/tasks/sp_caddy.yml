@@ -78,7 +78,7 @@
     source: build
   when: ansible_architecture == "armv7l"
 
-  # Amd64
+# Amd64
 
 - block:
   - name: Touch dir

@@ -24,7 +24,7 @@ configs:
 
 services:
   dockerd-exporter:
-    image: chirogocki/caddy:arm32v6
+    image: registry.{{domain}}/sp_caddy:latest
     networks:
       - net
     environment:
