@@ -1,0 +1,121 @@
+---
+
+# Prerequisite
+
+- name: Ensure build dir
+  file:
+    path: "{{item}}"
+    state: directory
+    recurse: yes
+    owner: '1024'
+    group: '100'
+  with_items:
+    - "{{docker_conf_path}}/Build/swarmprom/grafana/dashboards"
+    - "{{docker_conf_path}}/Build/swarmprom/grafana/datasources"
+  tags:
+    - sp_grafana-dir
+
+- name: Copy dashboards files
+  copy:
+    src: "{{item}}"
+    dest: "{{docker_conf_path}}/Build/swarmprom/grafana/dashboards/"
+    owner: '1024'
+    group: '100'
+  with_items:
+    - "sp_grafana/dashboards/swarmprom-nodes-dash.json"
+    - "sp_grafana/dashboards/swarmprom-prometheus-dash.json"
+    - "sp_grafana/dashboards/swarmprom-services-dash.json"
+  tags:
+    - sp_grafana_copy_dashboards
+
+- name: Copy datasources files
+  copy:
+    src: "sp_grafana/datasources/prometheus.yaml"
+    dest: "{{docker_conf_path}}/Build/swarmprom/grafana/datasources/prometheus.yaml"
+    owner: '1024'
+    group: '100'
+  tags:
+    - sp_grafana_copy_datasources
+
+- name: Copy provider file
+  copy:
+    src: "sp_grafana/swarmprom_dashboards.yml"
+    dest: "{{docker_conf_path}}/Build/swarmprom/grafana/swarmprom_dashboards.yml"
+    owner: '1024'
+    group: '100'
+  tags:
+    - sp_grafana_copy_provider
+
+# Armv7l
+
+- name: Log into private registry and force re-authorization
+  docker_login:
+    registry: registry.{{domain}}
+    username: "{{registry_user}}"
+    password: "{{registry_password}}"
+    reauthorize: yes
+
+- name: Template Dockerfile
+  template:
+    src: sp_grafana.Dockerfile.j2
+    dest: "{{docker_conf_path}}/Build/swarmprom/grafana/Dockerfile"
+    owner: '1024'
+    group: '100'
+
+- name: Build an ARM image and push it to a private repo
+  docker_image:
+    build:
+      path: "{{docker_conf_path}}/Build/swarmprom/grafana"
+      pull: yes
+    name: registry.{{domain}}/sp_grafana
+    tag: armv7l-v1
+    push: yes
+    source: build
+  when: ansible_architecture == "armv7l"
+
+# Amd64
+
+- block:
+  - name: Touch dir
+    file:
+      path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
+      state: directory
+      recurse: yes
+  - name: Trust CA
+    copy:
+      src: "/mount/docker/SSL/cert.crt"
+      dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
+      remote_src: yes
+  - name: Log into private registry
+    docker_login:
+      registry: registry.{{domain}}
+      username: "{{registry_user}}"
+      password: "{{registry_password}}"
+      reauthorize: yes
+  - name: Build an x86_64 image and push it to a private repo
+    docker_image:
+      build:
+        path: "/mount/docker/Build/swarmprom/grafana"
+      name: registry.{{domain}}/sp_grafana
+      tag: x86_64-v1
+      push: yes
+      pull: no
+      source: build
+  - name: Log out of private registry
+    docker_login:
+      registry: registry.{{domain}}
+      state: absent
+    when: ansible_architecture == "x86_64"
+  delegate_to: localhost
+
+
+- name: Create manifest to registry
+  command: "docker manifest create --amend registry.{{domain}}/sp_grafana:latest registry.{{domain}}/sp_grafana:armv7l-v1 registry.{{domain}}/sp_grafana:x86_64-v1"
+
+- name: Push manifest to registry
+  command: "docker manifest push --purge registry.{{domain}}/sp_grafana:latest"
+
+- name: Log out of private registry
+  docker_login:
+    registry: registry.{{domain}}
+    state: absent

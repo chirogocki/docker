@@ -1,0 +1,29 @@
+FROM        golang:alpine as builder
+LABEL maintainer="chirogocki@gmail.com"
+
+RUN apk add make git curl
+
+WORKDIR /go/src/github.com/prometheus/alertmanager
+
+RUN git clone https://github.com/prometheus/alertmanager.git /go/src/github.com/prometheus/alertmanager
+RUN git fetch
+RUN git fetch --tags
+RUN git checkout v0.15.3
+RUN make build
+
+FROM alpine
+LABEL maintainer="chirogocki@gmail.com"
+
+COPY --from=builder /go/src/github.com/prometheus/alertmanager/alertmanager /bin/
+COPY --from=builder /go/src/github.com/prometheus/alertmanager/doc/examples/simple.yml /etc/alertmanager/config.yml
+RUN mkdir -p /etc/alertmanager/template
+
+EXPOSE     9093
+VOLUME     [ "/alertmanager" ]
+WORKDIR    /alertmanager
+
+COPY conf /etc/alertmanager/
+
+ENTRYPOINT  [ "/etc/alertmanager/docker-entrypoint.sh" ]
+CMD        [ "--config.file=/etc/alertmanager/alertmanager.yml", \
+             "--storage.path=/alertmanager" ]

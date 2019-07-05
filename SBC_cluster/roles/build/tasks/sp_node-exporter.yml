@@ -1,9 +1,27 @@
 ---
+
+# Prerequisite
+
 - name: Ensure build dir
   file:
-    path: "{{docker_conf_path}}/Build/traefik-forward-auth"
+    path: "{{item}}"
     state: directory
     recurse: yes
+    owner: '1024'
+    group: '100'
+  with_items:
+    - "{{docker_conf_path}}/Build/swarmprom/node-exporter"
+  tags:
+    - sp_node-exporter-dir
+
+- name: Copy datasources files
+  copy:
+    src: "sp_node-exporter/docker-entrypoint.sh"
+    dest: "{{docker_conf_path}}/Build/swarmprom/node-exporter/docker-entrypoint.sh"
+    owner: '1024'
+    group: '100'
+  tags:
+    - sp_node-exporter_copy_datasources
 
 # Armv7l
 
@@ -16,17 +34,19 @@
 
 - name: Template Dockerfile
   template:
-    src: traefik-forward-auth.Dockerfile.j2
-    dest: "{{docker_conf_path}}/Build/traefik-forward-auth/Dockerfile"
+    src: sp_node-exporter.Dockerfile.j2
+    dest: "{{docker_conf_path}}/Build/swarmprom/node-exporter/Dockerfile"
+    owner: '1024'
+    group: '100'
 
 - name: Build an ARM image and push it to a private repo
   docker_image:
     build:
-      path: "{{docker_conf_path}}/Build/traefik-forward-auth"
-    name: registry.{{domain}}/traefik-forward-auth
+      path: "{{docker_conf_path}}/Build/swarmprom/node-exporter"
+      pull: yes
+    name: registry.{{domain}}/sp_node-exporter
     tag: armv7l-v1
     push: yes
-    pull: no
     source: build
   when: ansible_architecture == "armv7l"
 
@@ -52,8 +72,8 @@
   - name: Build an x86_64 image and push it to a private repo
     docker_image:
       build:
-        path: "/mount/docker/Build/traefik-forward-auth"
-      name: registry.{{domain}}/traefik-forward-auth
+        path: "/mount/docker/Build/swarmprom/node-exporter"
+      name: registry.{{domain}}/sp_node-exporter
       tag: x86_64-v1
       push: yes
       pull: no
@@ -65,11 +85,12 @@
     when: ansible_architecture == "x86_64"
   delegate_to: localhost
 
+
 - name: Create manifest to registry
-  command: "docker manifest create --amend registry.{{domain}}/traefik-forward-auth:latest registry.{{domain}}/traefik-forward-auth:armv7l-v1 registry.{{domain}}/traefik-forward-auth:x86_64-v1"
+  command: "docker manifest create --amend registry.{{domain}}/sp_node-exporter:latest registry.{{domain}}/sp_node-exporter:armv7l-v1 registry.{{domain}}/sp_node-exporter:x86_64-v1"
 
 - name: Push manifest to registry
-  command: "docker manifest push --purge registry.{{domain}}/traefik-forward-auth:latest"
+  command: "docker manifest push --purge registry.{{domain}}/sp_node-exporter:latest"
 
 - name: Log out of private registry
   docker_login:

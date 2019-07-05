@@ -13,8 +13,7 @@ volumes:
     alertmanager: {}
 
 configs:
-#  caddy_config:
-#    file: ./caddy/Caddyfile
+
   dockerd_config:
     file: ./dockerd-exporter/Caddyfile
   node_rules:
@@ -60,14 +59,14 @@ services:
           memory: 64M
 
   grafana:
-    image: chirogocki/grafana
+    image: registry.{{domain}}/sp_grafana:latest
     networks:
       - net
       - default
       - traefik_public
     environment:
-      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - GF_SECURITY_ADMIN_USER={{swarmprom_user}}
+      - GF_SECURITY_ADMIN_PASSWORD={{swarmprom_password}}
       - GF_USERS_ALLOW_SIGN_UP=false
       #- GF_SERVER_ROOT_URL=${GF_SERVER_ROOT_URL:-localhost}
       #- GF_SMTP_ENABLED=${GF_SMTP_ENABLED:-false}
@@ -90,21 +89,21 @@ services:
         reservations:
           memory: 64M
       labels:
-        - traefik.frontend.rule=Host:grafana.${DOMAIN}
+        - traefik.frontend.rule=Host:grafana.{{domain}}
         - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
         - traefik.docker.network=traefik_public
         - traefik.port=3000
 
   alertmanager:
-    image: chirogocki/alertmanager:arm32v6
+    image: registry.{{domain}}/sp_alertmanager:latest
     networks:
       - net
       - default
       - traefik_public
     environment:
-      - SLACK_URL=${SLACK_URL:-https://hooks.slack.com/services/TOKEN}
-      - SLACK_CHANNEL=${SLACK_CHANNEL:-swarm}
-      - SLACK_USER=${SLACK_USER:-alertmanager}
+      - SLACK_URL={{slack_url}}
+      - SLACK_CHANNEL={{slack_channel}}
+      - SLACK_USER={{slack_user}}
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
       - '--storage.path=/alertmanager'
@@ -122,14 +121,14 @@ services:
         reservations:
           memory: 64M
       labels:
-        - traefik.frontend.rule=Host:alertmanager.${DOMAIN}
+        - traefik.frontend.rule=Host:alertmanager.{{domain}}
         - traefik.port=9093
-        - traefik.frontend.auth.basic.users=${ADMIN_USER}:${HASHED_PASSWORD}
+        - traefik.frontend.auth.basic.users={{swarmprom_user}}:{{swarmprom_hashed_password}}
         - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
         - traefik.docker.network=traefik_public
 
   unsee:
-    image: chirogocki/unsee:arm32v6
+    image: registry.{{domain}}/sp_unsee:latest
     networks:
       - net
       - default
@@ -139,15 +138,18 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
       labels:
-        - traefik.frontend.rule=Host:unsee.${DOMAIN}
+        - traefik.frontend.rule=Host:unsee.{{domain}}
         - traefik.port=8080
-        - traefik.frontend.auth.basic.users=${ADMIN_USER}:${HASHED_PASSWORD}
+        - traefik.frontend.auth.basic.users={{swarmprom_user}}:{{swarmprom_hashed_password}}
         - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
         - traefik.docker.network=traefik_public
 
   node-exporter:
-    image: chirogocki/node-exporter
+    image: registry.{{domain}}/sp_node-exporter:latest
     networks:
       - net
     environment:
@@ -172,7 +174,7 @@ services:
           memory: 64M
 
   prometheus:
-    image: chirogocki/prometheus:arm32v6
+    image: registry.{{domain}}/sp_prometheus:latest
     networks:
       - net
       - default
@@ -200,40 +202,9 @@ services:
         reservations:
           memory: 128M
       labels:
-        - traefik.frontend.rule=Host:prometheus.${DOMAIN}
+        - traefik.frontend.rule=Host:prometheus.{{domain}}
         - traefik.port=9090
-        - traefik.frontend.auth.basic.users=${ADMIN_USER}:${HASHED_PASSWORD}
+        - traefik.frontend.auth.basic.users={{swarmprom_user}}:{{swarmprom_hashed_password}}
         - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
         - traefik.docker.network=traefik_public
 
-#  caddy:
-#    image: chirogocki/caddy
-#    ports:
-#      - "3000:3000"
-#      - "9090:9090"
-#      - "9093:9093"
-#      - "9094:9094"
-#    networks:
-#      - net
-#    environment:
-#      - ADMIN_USER=${ADMIN_USER:-admin}
-#      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-#    configs:
-#      - source: caddy_config
-#        target: /etc/caddy/Caddyfile
-#    deploy:
-#      mode: replicated
-#      replicas: 1
-#      placement:
-#        constraints:
-#          - node.role == manager
-#      resources:
-#        limits:
-#          memory: 128M
-#        reservations:
-#          memory: 64M
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-#      interval: 5s
-#      timeout: 1s
-#      retries: 5

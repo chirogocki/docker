@@ -9,3 +9,28 @@
   tags:
     - build
     - build_sp_cadvisor
+
+- import_tasks: sp_grafana.yml
+  tags:
+    - build
+    - build_sp_grafana
+
+- import_tasks: sp_alertmanager.yml
+  tags:
+    - build
+    - build_sp_alertmanager
+
+- import_tasks: sp_unsee.yml
+  tags:
+    - build
+    - build_sp_unsee
+
+- import_tasks: sp_node-exporter.yml
+  tags:
+    - build
+    - build_sp_node-exporter
+
+- import_tasks: sp_prometheus.yml
+  tags:
+    - build
+    - build_sp_prometheus
