@@ -3,6 +3,8 @@
   template:
     src: ubooquity.yml.j2
     dest: "{{docker_conf_path}}/Ubooquity/ubooquity.yml"
+    owner: '1024'
+    group: '100'
 
 - name: Deploy 'Ubooquity' stack from file
   docker_stack:

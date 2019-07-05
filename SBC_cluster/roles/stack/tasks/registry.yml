@@ -5,6 +5,8 @@
     path: "{{item}}"
     state: directory
     recurse: yes
+    owner: '1024'
+    group: '100'
   with_items :
    - "{{docker_conf_path}}/Registry"
    - "{{registry_auth_path}}"
@@ -38,6 +40,8 @@
   file:
     name: "{{ registry_auth_path }}/{{ registry_auth_file }}"
     state: touch
+    owner: '1024'
+    group: '100'
 
 - name: Remove user from password file, if exists
   lineinfile:
@@ -63,6 +67,8 @@
   template:
     src: registry.yml.j2
     dest: "{{docker_conf_path}}/Docker-registry/registry.yml"
+    owner: '1024'
+    group: '100'
 
 - name: Deploy 'Docker-Registry' stack from file
   docker_stack:

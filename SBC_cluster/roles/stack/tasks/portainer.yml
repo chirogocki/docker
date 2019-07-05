@@ -4,6 +4,8 @@
   template:
     src: portainer.yml.j2
     dest: "{{docker_conf_path}}/Portainer/portainer.yml"
+    owner: '1024'
+    group: '100'
 
 - name: Deploy 'Portainer' stack from file
   docker_stack:

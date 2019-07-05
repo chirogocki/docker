@@ -3,6 +3,8 @@
   template:
     src: heimdall.yml.j2
     dest: "{{docker_conf_path}}/Heimdall/heimdall.yml"
+    owner: '1024'
+    group: '100'
 
 - name: Deploy 'Heimdall' stack from file
   docker_stack:

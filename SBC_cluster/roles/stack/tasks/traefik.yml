@@ -4,6 +4,8 @@
   template:
     src: traefik.yml.j2
     dest: "{{docker_conf_path}}/Traefik-swarm/traefik-app.yml"
+    owner: '1024'
+    group: '100'
 
 # - name: Ensure acme.json
 #   file:

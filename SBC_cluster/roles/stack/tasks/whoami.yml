@@ -4,6 +4,8 @@
   template:
     src: whoami.yml.j2
     dest: "{{docker_conf_path}}/Whoami/whoami.yml"
+    owner: '1024'
+    group: '100'
 
 - name: Deploy 'Whoami' stack from file
   docker_stack:

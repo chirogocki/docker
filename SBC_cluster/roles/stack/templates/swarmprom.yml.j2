@@ -15,11 +15,11 @@ volumes:
 configs:
 
   dockerd_config:
-    file: ./dockerd-exporter/Caddyfile
+    file: {{docker_conf_path}}/Swarprom//Caddyfile
   node_rules:
-    file: ./prometheus/rules/swarm_node.rules.yml
+    file: {{docker_conf_path}}/Swarprom/swarm_node.rules.yml
   task_rules:
-    file: ./prometheus/rules/swarm_task.rules.yml
+    file: {{docker_conf_path}}/Swarprom/swarm_task.rules.yml
 
 services:
   dockerd-exporter:

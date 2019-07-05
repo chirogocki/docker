@@ -1,0 +1,46 @@
+---
+
+- name: Ensure mandatory directories
+  file:
+    path: "{{item}}"
+    state: directory
+    recurse: yes
+    owner: '1024'
+    group: '100'
+  with_items :
+   - "{{docker_conf_path}}/Swarprom"
+  tags:
+  - docker_swarmprom_dir
+
+- name: Copy necessary files
+  copy:
+    src: "{{item}}"
+    dest: "{{docker_conf_path}}/Swarprom/"
+    owner: '1024'
+    group: '100'
+  with_items:
+    - "swarprom/dockerd-exporter/Caddyfile"
+    - "swarprom/prometheus/swarm_node.rules.yml"
+    - "swarprom/prometheus/swarm_task.rules.yml"
+  tags:
+    - sp_node-exporter_copy_datasources
+
+- name: Template 'Swarprom' compose file
+  template:
+    src: swarmprom.yml.j2
+    dest: "{{docker_conf_path}}/Swarprom/swarmprom.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Login to private registry
+  docker_login:
+    registry: registry.{{domain}}
+    username: "{{registry_user}}"
+    password: "{{registry_password}}"
+
+- name: Deploy 'Swarmprom' stack from file
+  docker_stack:
+    state: present
+    name: swarmprom
+    compose:
+     - "{{docker_conf_path}}/Swarprom/swarmprom.yml"
