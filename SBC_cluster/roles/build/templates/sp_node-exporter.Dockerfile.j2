@@ -1,22 +1,10 @@
-FROM        golang:alpine as builder
-LABEL maintainer="chirogocki@gmail.com"
+FROM quay.io/prometheus/node-exporter
 
-RUN apk add make git curl
-
-WORKDIR /go/src/github.com/prometheus/node-exporter
-
-RUN git clone https://github.com/prometheus/node_exporter.git /go/src/github.com/prometheus/node-exporter
-RUN git fetch
-RUN git fetch --tags
-RUN git checkout v0.16.0
-RUN make
-
-FROM alpine
-LABEL maintainer="chirogocki@gmail.com"
-COPY --from=builder /go/src/github.com/prometheus/node-exporter /bin/node_exporter
-COPY conf /etc/node-exporter/
-EXPOSE      9100
 ENV NODE_ID=none
-USER        root
+
+USER root
+
+COPY conf /etc/node-exporter/
+
 ENTRYPOINT  [ "sh", "/etc/node-exporter/docker-entrypoint.sh" ]
 CMD [ "/bin/node_exporter" ]
