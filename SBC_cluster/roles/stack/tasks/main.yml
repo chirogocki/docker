@@ -15,6 +15,11 @@
     - stack
     - stack_registry
 
+- import_tasks: swarmprom.yml
+  tags:
+    - stack
+    - stack_swarmprom
+
 - import_tasks: portainer.yml
   tags:
     - stack
