@@ -28,6 +28,11 @@
   tags:
     - sp_prometheus_copy_conf
 
+- name: Ensure entrypoint x
+  file:
+    path: "{{docker_conf_path}}/Build/swarmprom/prometheus/conf/docker-entrypoint.sh"
+    mode: u+x
+
 - name: Copy rules files
   copy:
     src: "{{item}}"

@@ -26,6 +26,11 @@
   tags:
     - sp_alertmanager_copy_conf
 
+- name: Ensure entrypoint x
+  file:
+    path: "{{docker_conf_path}}/Build/swarmprom/alertmanager/conf/docker-entrypoint.sh"
+    mode: u+x
+
 # Armv7l
 
 - name: Log into private registry and force re-authorization

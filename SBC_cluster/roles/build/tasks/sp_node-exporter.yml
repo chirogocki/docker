@@ -20,8 +20,10 @@
     dest: "{{docker_conf_path}}/Build/swarmprom/node-exporter/conf/docker-entrypoint.sh"
     owner: '1024'
     group: '100'
+    mode: u+x
   tags:
     - sp_node-exporter_copy_datasources
+
 
 # Armv7l
 
