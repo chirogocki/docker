@@ -10,14 +10,14 @@
     owner: '1024'
     group: '100'
   with_items:
-    - "{{docker_conf_path}}/Build/swarmprom/node-exporter"
+    - "{{docker_conf_path}}/Build/swarmprom/node-exporter/conf"
   tags:
     - sp_node-exporter-dir
 
 - name: Copy datasources files
   copy:
     src: "sp_node-exporter/docker-entrypoint.sh"
-    dest: "{{docker_conf_path}}/Build/swarmprom/node-exporter/docker-entrypoint.sh"
+    dest: "{{docker_conf_path}}/Build/swarmprom/node-exporter/conf/docker-entrypoint.sh"
     owner: '1024'
     group: '100'
   tags:
