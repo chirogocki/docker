@@ -39,8 +39,8 @@ services:
         - traefik.port=8080
         - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
         - traefik.frontend.auth.forward.trustForwardHeader=true
-      mode: replicated
-      replicas: 1
+      mode: global
+      #replicas: 1
       placement:
         constraints: [node.role == manager]
       restart_policy:
