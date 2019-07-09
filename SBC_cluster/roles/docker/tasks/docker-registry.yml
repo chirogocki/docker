@@ -1,0 +1,13 @@
+---
+
+- name: Touch dir
+  file:
+    path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
+    state: directory
+    recurse: yes
+
+- name: Trust CA
+  copy:
+    src: "{{docker_conf_path}}/SSL/cert.crt"
+    dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
+    remote_src: yes

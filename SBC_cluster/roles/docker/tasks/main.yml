@@ -5,6 +5,11 @@
     - docker
     - docker-daemon-config
 
+- import_tasks: docker-registry.yml
+  tags:
+    - docker
+    - docker-registry-config
+
 - import_tasks: docker-tune-limits.yml
   tags:
     - docker
