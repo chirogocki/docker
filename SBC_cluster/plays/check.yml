@@ -1,5 +1,7 @@
 ---
 - hosts: all
+  vars_files:
+    - "../env_vars/main.yml"
   gather_facts: no
   roles:
     - check
