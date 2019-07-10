@@ -1,0 +1,16 @@
+---
+- name: Template 'Hydra2' compose file
+  template:
+    src: hydra2.yml.j2
+    dest: "{{docker_conf_path}}/Hydra2/hydra2.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Hydra2' stack from file
+  docker_stack:
+    state: present
+    name: hydra2
+    compose:
+     - "{{docker_conf_path}}//Hydra2/hydra2.yml"
+
+

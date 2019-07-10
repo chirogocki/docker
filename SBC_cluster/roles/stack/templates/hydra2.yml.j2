@@ -1,0 +1,55 @@
+version: "3.2"
+
+services:
+  ubooquity:
+    image:  linuxserver/hydra2:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - config:/config
+    - downloads:/downloads
+      
+    networks:
+      - internal
+      - traefik_public
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == worker]
+      labels:
+        - traefik.admbooks.frontend.rule=Host:hydra2.{{domain}}
+        - traefik.admbooks.port=5076
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+volumes:
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/{{docker_remote_path}}Hydra2/"
+  downloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/{{downloads_remote_path}}"
+
+networks:
+  traefik_public:
+    external: true
+  internal:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.12.0/24
