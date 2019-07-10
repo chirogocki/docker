@@ -12,7 +12,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{docker_conf_path}}/Heimdall:/config
+    - config:/config
     deploy:
       labels:
         - traefik.docker.network=traefik_public
@@ -30,3 +30,10 @@ networks:
     ipam:
       config:
         - subnet: 172.16.11.0/24
+
+volumes:
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/{{docker_remote_path}}Heimdall/"

@@ -49,3 +49,7 @@ networks:
 
 volumes:
   portainer_data:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw"
+      device: ":/{{docker_remote_path}}Portainer/"
