@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.7"
 
 networks:
   net:
@@ -36,8 +36,10 @@ services:
       resources:
         limits:
           memory: 128M
+          cpus: '0.5'
         reservations:
           memory: 64M
+          cpus: '0.25'
 
   cadvisor:
     image: registry.{{domain}}/sp_cadvisor:latest
@@ -55,8 +57,10 @@ services:
       resources:
         limits:
           memory: 128M
+          cpus: '1'
         reservations:
           memory: 64M
+          cpus: '0.5'
 
   grafana:
     image: registry.{{domain}}/sp_grafana:latest
@@ -86,8 +90,10 @@ services:
       resources:
         limits:
           memory: 128M
+          cpus: '0.25'
         reservations:
           memory: 64M
+          cpus: '0.1'
       labels:
         - traefik.frontend.rule=Host:grafana.{{domain}}
         - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
@@ -118,8 +124,10 @@ services:
       resources:
         limits:
           memory: 128M
+          cpus: '0.25'
         reservations:
           memory: 64M
+          cpus: '0.1'
       labels:
         - traefik.frontend.rule=Host:alertmanager.{{domain}}
         - traefik.port=9093
@@ -142,6 +150,13 @@ services:
       placement:
         constraints:
           - node.role == manager
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.25'
+        reservations:
+          memory: 64M
+          cpus: '0.1'
       labels:
         - traefik.frontend.rule=Host:unsee.{{domain}}
         - traefik.port=8080
@@ -172,8 +187,10 @@ services:
       resources:
         limits:
           memory: 128M
+          cpus: '0.25'
         reservations:
           memory: 64M
+          cpus: '0.1'
 
   prometheus:
     image: registry.{{domain}}/sp_prometheus:latest
@@ -200,9 +217,11 @@ services:
           - node.role == manager
       resources:
         limits:
-          memory: 2048M
+          memory: 768M
+          cpus: '1'
         reservations:
           memory: 128M
+          cpus: '0.5'
       labels:
         - traefik.frontend.rule=Host:prometheus.{{domain}}
         - traefik.port=9090
