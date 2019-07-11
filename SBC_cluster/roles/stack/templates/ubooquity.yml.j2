@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.7"
 
 services:
   ubooquity:
@@ -31,8 +31,10 @@ services:
       resources:
         limits:
           memory: 1024M
+          cpus: '1.5'
         reservations:
           memory: 768M
+          cpus: '1.0'
       restart_policy:
         condition: on-failure
         delay: 15s
