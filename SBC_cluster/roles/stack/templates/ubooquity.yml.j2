@@ -7,7 +7,7 @@ services:
       - PGID=100
       - PUID=1024
       - TZ=Europe/Paris
-      - MAXMEM=768
+      - MAXMEM=512
     volumes:
     - /etc/localtime:/etc/localtime:ro
     - config:/config
@@ -30,10 +30,10 @@ services:
         - traefik.books.port=2202
       resources:
         limits:
-          memory: 1024M
+          memory: 768M
           cpus: '0.5'
         reservations:
-          memory: 768M
+          memory: 256M
           cpus: '0.25'
       restart_policy:
         condition: on-failure
