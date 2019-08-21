@@ -46,8 +46,8 @@ services:
         - "traefik.frontend.headers.STSIncludeSubdomains=true"
         - "traefik.frontend.headers.STSPreload=true"
         - "traefik.frontend.headers.frameDeny=true"
-        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
-        - traefik.frontend.auth.forward.trustForwardHeader=true
+        #- traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+        #- traefik.frontend.auth.forward.trustForwardHeader=true
       mode: global
       #replicas: 1
       placement:
