@@ -54,18 +54,18 @@ services:
         constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
-  traefik-forward-auth:
-    image: registry.{{domain}}/traefik-forward-auth:latest
-    env_file: {{docker_conf_path}}/Traefik-swarm/traefik-forward-auth.env
-    networks:
-      - traefik_public
+  #traefik-forward-auth:
+  #  image: registry.{{domain}}/traefik-forward-auth:latest
+  #  env_file: {{docker_conf_path}}/Traefik-swarm/traefik-forward-auth.env
+  #  networks:
+  #    - traefik_public
     # Uncomment these lines if you're using auth host mode
-    deploy:
-      labels:
-        - traefik.port=4181
-        - traefik.frontend.rule=Host:auth.{{domain}}
-        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
-        - traefik.frontend.auth.forward.trustForwardHeader=true
+  #  deploy:
+  #    labels:
+  #      - traefik.port=4181
+  #      - traefik.frontend.rule=Host:auth.{{domain}}
+  #      - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+  #      - traefik.frontend.auth.forward.trustForwardHeader=true
 
 networks:
   traefik_public:
