@@ -17,9 +17,9 @@ services:
         published: 443
         protocol: tcp
         mode: host
-      - target: 8080
-        published: 8081
-        protocol: tcp
+      #- target: 8080
+      #  published: 8081
+      #  protocol: tcp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - {{docker_conf_path}}/Traefik-swarm:/etc/traefik
