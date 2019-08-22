@@ -46,11 +46,11 @@ services:
         reservations:
           memory: 256M
           cpus: '0.25'
-      restart_policy:
-        condition: no
-        delay: 15s
-        max_attempts: 3
-        window: 120s
+      #restart_policy:
+      #  condition: on-failure
+      #  delay: 15s
+      #  max_attempts: 3
+      #   window: 120s
 
 volumes:
   config:
