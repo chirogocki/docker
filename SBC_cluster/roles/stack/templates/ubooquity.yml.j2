@@ -42,12 +42,12 @@ services:
       resources:
         limits:
           memory: 1152M
-          cpus: '2'
+          cpus: '4'
         reservations:
           memory: 256M
           cpus: '0.25'
       restart_policy:
-        condition: on-failure
+        condition: no
         delay: 15s
         max_attempts: 3
         window: 120s
