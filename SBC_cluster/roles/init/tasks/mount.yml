@@ -37,3 +37,5 @@
     - mount
     - mount_share
 
+- name: flush handlers
+  meta: lush_handlers
