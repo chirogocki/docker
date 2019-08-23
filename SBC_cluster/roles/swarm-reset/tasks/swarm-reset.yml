@@ -9,8 +9,12 @@
     - swarm_reset_leave
 
 - name: Prune system
-  command: |
-        docker system prune -a -f
+  docker_prune:
+    containers: yes
+    images: yes
+    networks: yes
+    volumes: yes
+    builder_cache: yes
   tags:
     - swarm_reset
     - swarm_reset_prune
