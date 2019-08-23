@@ -26,15 +26,16 @@
     - mount
     - mount_facts
 
-- blockinfile:
+- name: Copy fstab content
+  blockinfile:
     dest: /etc/fstab
     content: '{{ hosts_content }}'
     insertafter: EOF
     state: present
     validate: "/bin/mount -fav %s"
-  notify: Mount share
   tags :
     - mount
     - mount_share
 
-- meta: flush_handlers
+- name: Mount share
+  command: mount -a
