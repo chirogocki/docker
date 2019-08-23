@@ -8,27 +8,27 @@
     owner: '1024'
     group: '100'
   with_items :
-   - "{{docker_conf_path}}/Swarprom"
+   - "{{docker_conf_path}}/Swarmprom"
   tags:
   - docker_swarmprom_dir
 
 - name: Copy necessary files
   copy:
     src: "{{item}}"
-    dest: "{{docker_conf_path}}/Swarprom/"
+    dest: "{{docker_conf_path}}/Swarmprom/"
     owner: '1024'
     group: '100'
   with_items:
-    - "swarprom/dockerd-exporter/Caddyfile"
-    - "swarprom/prometheus/swarm_node.rules.yml"
-    - "swarprom/prometheus/swarm_task.rules.yml"
+    - "swarmprom/dockerd-exporter/Caddyfile"
+    - "swarmprom/prometheus/swarm_node.rules.yml"
+    - "swarmprom/prometheus/swarm_task.rules.yml"
   tags:
     - sp_node-exporter_copy_datasources
 
-- name: Template 'Swarprom' compose file
+- name: Template 'Swarmprom' compose file
   template:
     src: swarmprom.yml.j2
-    dest: "{{docker_conf_path}}/Swarprom/swarmprom.yml"
+    dest: "{{docker_conf_path}}/Swarmprom/swarmprom.yml"
     owner: '1024'
     group: '100'
 
@@ -43,4 +43,4 @@
     state: present
     name: swarmprom
     compose:
-     - "{{docker_conf_path}}/Swarprom/swarmprom.yml"
+     - "{{docker_conf_path}}/Swarmprom/swarmprom.yml"

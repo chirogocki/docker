@@ -8,18 +8,29 @@ networks:
     external: true
 
 volumes:
-    prometheus: {}
-    grafana: {}
-    alertmanager: {}
+    prometheus:
+    driver_opts:
+      type: "nfs"
+      o: "rw,relatime,vers=4.1,rsize=131072,wsize=131072,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none,addr={{NAS1}},_netdev"
+      device: ":/{{docker_remote_path}}Swarmprom/volumes/prometheus"
+    grafana:
+    driver_opts:
+      type: "nfs"
+      o: "rw,relatime,vers=4.1,rsize=131072,wsize=131072,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none,addr={{NAS1}},_netdev"
+      device: ":/{{docker_remote_path}}Swarmprom/volumes/grafana"
+    alertmanager:
+    driver_opts:
+      type: "nfs"
+      o: "rw,relatime,vers=4.1,rsize=131072,wsize=131072,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,local_lock=none,addr={{NAS1}},_netdev"
+      device: ":/{{docker_remote_path}}Swarmprom/volumes/alertmanager"
 
 configs:
-
   dockerd_config:
-    file: {{docker_conf_path}}/Swarprom//Caddyfile
+    file: {{docker_conf_path}}/Swarmprom/Caddyfile
   node_rules:
-    file: {{docker_conf_path}}/Swarprom/swarm_node.rules.yml
+    file: {{docker_conf_path}}/Swarmprom/swarm_node.rules.yml
   task_rules:
-    file: {{docker_conf_path}}/Swarprom/swarm_task.rules.yml
+    file: {{docker_conf_path}}/Swarmprom/swarm_task.rules.yml
 
 services:
   dockerd-exporter:
