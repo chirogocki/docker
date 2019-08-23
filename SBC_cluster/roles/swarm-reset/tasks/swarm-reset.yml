@@ -9,10 +9,11 @@
     - swarm_reset_leave
 
 - name: Prune system
-  command: |
-    docker container prune -f 
-    docker image prune -f 
-    docker volume prune -f
+  command: "{{ item }}"
+  with_items:
+    - docker container prune -f
+    - docker image prune -f 
+    - docker volume prune -f
   tags:
     - swarm_reset
     - swarm_reset_prune
