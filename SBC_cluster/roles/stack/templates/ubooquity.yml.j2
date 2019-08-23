@@ -46,37 +46,37 @@ services:
         reservations:
           memory: 256M
           cpus: '0.25'
-      #restart_policy:
-      #  condition: on-failure
-      #  delay: 15s
-      #  max_attempts: 3
-      #   window: 120s
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+         window: 120s
 
 volumes:
   config:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw"
+      o: "addr={{NAS1}},nolock,hard,rw"
       device: ":/{{docker_remote_path}}UB/"
   books:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw"
+      o: "addr={{NAS1}},nolock,hard,rw"
       device: ":/{{books_remote_path}}"
   files:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw"
+      o: "addr={{NAS1}},nolock,hard,rw"
       device: ":/{{books_remote_path}}files"
   comics:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw"
+      o: "addr={{NAS1}},nolock,hard,rw"
       device: ":/{{comics_remote_path}}"
   private:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS2}},nolock,soft,rw"
+      o: "addr={{NAS2}},nolock,hard,rw"
       device: ":/{{private_remote_path}}"
 
 networks:
