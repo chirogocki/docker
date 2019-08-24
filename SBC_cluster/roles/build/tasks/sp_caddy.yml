@@ -38,11 +38,11 @@
 
 
 - name: Unarchive release
-  # command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
-  unarchive:
-    src: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
-    dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
-    remote_src: yes
+  command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+  #unarchive:
+    #src: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
+    #dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+    #remote_src: yes
     #owner: '1024'
     #group: '100'
   tags:
