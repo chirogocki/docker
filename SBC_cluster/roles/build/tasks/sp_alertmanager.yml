@@ -53,7 +53,7 @@
       path: "{{docker_conf_path}}/Build/swarmprom/alertmanager"
       pull: yes
     name: registry.{{domain}}/sp_alertmanager
-    tag: armv7l-v1
+    tag: armv7l-v2
     push: yes
     source: build
   when: ansible_architecture == "armv7l"
@@ -82,7 +82,7 @@
       build:
         path: "/mount/docker/Build/swarmprom/alertmanager"
       name: registry.{{domain}}/sp_alertmanager
-      tag: x86_64-v1
+      tag: x86_64-v2
       push: yes
       pull: no
       source: build
@@ -95,7 +95,7 @@
 
 
 - name: Create manifest to registry
-  command: "docker manifest create --amend registry.{{domain}}/sp_alertmanager:latest registry.{{domain}}/sp_alertmanager:armv7l-v1 registry.{{domain}}/sp_alertmanager:x86_64-v1"
+  command: "docker manifest create --amend registry.{{domain}}/sp_alertmanager:latest registry.{{domain}}/sp_alertmanager:armv7l-v2 registry.{{domain}}/sp_alertmanager:x86_64-v2"
 
 - name: Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_alertmanager:latest"

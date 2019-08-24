@@ -24,7 +24,7 @@
     build:
       path: "{{docker_conf_path}}/Build/traefik-forward-auth"
     name: registry.{{domain}}/traefik-forward-auth
-    tag: armv7l-v1
+    tag: armv7l-v2
     push: yes
     pull: no
     source: build
@@ -54,7 +54,7 @@
       build:
         path: "/mount/docker/Build/traefik-forward-auth"
       name: registry.{{domain}}/traefik-forward-auth
-      tag: x86_64-v1
+      tag: x86_64-v2
       push: yes
       pull: no
       source: build
@@ -66,7 +66,7 @@
   delegate_to: localhost
 
 - name: Create manifest to registry
-  command: "docker manifest create --amend registry.{{domain}}/traefik-forward-auth:latest registry.{{domain}}/traefik-forward-auth:armv7l-v1 registry.{{domain}}/traefik-forward-auth:x86_64-v1"
+  command: "docker manifest create --amend registry.{{domain}}/traefik-forward-auth:latest registry.{{domain}}/traefik-forward-auth:armv7l-v2 registry.{{domain}}/traefik-forward-auth:x86_64-v2"
 
 - name: Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/traefik-forward-auth:latest"

@@ -73,7 +73,7 @@
       path: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
       pull: yes
     name: registry.{{domain}}/sp_caddy
-    tag: armv7l-v1
+    tag: armv7l-v2
     push: yes
     source: build
   when: ansible_architecture == "armv7l"
@@ -141,7 +141,7 @@
         path: "/mount/docker/Build/swarmprom/caddy/x86_64/"
         pull: yes
       name: registry.{{domain}}/sp_caddy
-      tag: x86_64-v1
+      tag: x86_64-v2
       push: yes
       source: build
   - name: Log out of private registry
@@ -152,7 +152,7 @@
   delegate_to: localhost
 
 - name: Create manifest to registry
-  command: "docker manifest create --amend registry.{{domain}}/sp_caddy:latest registry.{{domain}}/sp_caddy:armv7l-v1 registry.{{domain}}/sp_caddy:x86_64-v1"
+  command: "docker manifest create --amend registry.{{domain}}/sp_caddy:latest registry.{{domain}}/sp_caddy:armv7l-v2 registry.{{domain}}/sp_caddy:x86_64-v2"
 
 - name: Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_caddy:latest"
