@@ -43,8 +43,8 @@
     src: "{{docker_conf_path}}/Build/swarmprom/caddy/arm7"
     dest: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
     remote_src: yes
-    owner: '1024'
-    group: '100'
+    #owner: '1024'
+    #group: '100'
   tags:
     - sp_caddy-unarchive
 
