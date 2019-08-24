@@ -68,7 +68,7 @@
       path: "{{docker_conf_path}}/Build/swarmprom/grafana"
       pull: yes
     name: registry.{{domain}}/sp_grafana
-    tag: armv7l-v2.1
+    tag: armv7l-v2.2
     push: yes
     source: build
   when: ansible_architecture == "armv7l"
@@ -97,7 +97,7 @@
       build:
         path: "/mount/docker/Build/swarmprom/grafana"
       name: registry.{{domain}}/sp_grafana
-      tag: x86_64-v2.1
+      tag: x86_64-v2.2
       push: yes
       pull: no
       source: build
@@ -110,7 +110,7 @@
 
 
 - name: Create manifest to registry
-  command: "docker manifest create --amend registry.{{domain}}/sp_grafana:latest registry.{{domain}}/sp_grafana:armv7l-v2.1 registry.{{domain}}/sp_grafana:x86_64-v2.1"
+  command: "docker manifest create --amend registry.{{domain}}/sp_grafana:latest registry.{{domain}}/sp_grafana:armv7l-v2.2 registry.{{domain}}/sp_grafana:x86_64-v2.2"
 
 - name: Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_grafana:latest"
