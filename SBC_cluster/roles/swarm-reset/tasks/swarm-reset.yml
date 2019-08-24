@@ -11,7 +11,9 @@
 - name: Prune system
   command: "{{ item }}"
   with_items:
-    - docker system prune -af
+    - docker system prune -f
+    - docker image prune -f 
+    - docker volume prune -f
   tags:
     - swarm_reset
     - swarm_reset_prune
