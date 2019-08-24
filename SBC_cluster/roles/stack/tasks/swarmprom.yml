@@ -41,6 +41,7 @@
 - name: Deploy 'Swarmprom' stack from file
   docker_stack:
     state: present
+    resolve_image: always
     name: swarmprom
     compose:
      - "{{docker_conf_path}}/Swarmprom/swarmprom.yml"
