@@ -1,5 +1,5 @@
 ---
-- hosts: [manager1]
+- hosts: [builder]
   vars_files:
     - "../env_vars/main.yml"
   roles:
