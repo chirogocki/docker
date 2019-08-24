@@ -13,16 +13,16 @@ volumes:
     #    type: "nfs"
     #    o: "addr={{NAS1}},nolock,hard,rw"
     #    device: ":/{{docker_remote_path}}Swarmprom/volumes/prometheus"
-    grafana:
-      driver_opts:
-        type: "nfs"
-        o: "addr={{NAS1}},nolock,hard,rw"
-        device: ":/{{docker_remote_path}}Swarmprom/volumes/grafana"
-    alertmanager:
-      driver_opts:
-        type: "nfs"
-        o: "addr={{NAS1}},nolock,hard,rw"
-        device: ":/{{docker_remote_path}}Swarmprom/volumes/alertmanager"
+    grafana: {}
+    #  driver_opts:
+    #    type: "nfs"
+    #    o: "addr={{NAS1}},nolock,hard,rw"
+    #    device: ":/{{docker_remote_path}}Swarmprom/volumes/grafana"
+    alertmanager: {}
+    #  driver_opts:
+    #    type: "nfs"
+    #    o: "addr={{NAS1}},nolock,hard,rw"
+    #    device: ":/{{docker_remote_path}}Swarmprom/volumes/alertmanager"
 
 configs:
   dockerd_config:
