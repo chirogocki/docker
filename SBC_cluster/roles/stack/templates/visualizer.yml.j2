@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  visualizer:
+    image:  alexellis2/visualizer-arm:latest
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+      
+    networks:
+      - traefik_public
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      labels:
+        - traefik.visualizer.frontend.rule=Host:visualizer.{{domain}}
+        - traefik.visualizer.port=8080
+        - traefik.docker.network=traefik_public
+        - traefik.enable=true
+        - "traefik.frontend.headers.SSLRedirect=true"
+        - "traefik.frontend.headers.STSSeconds=315360000"
+        - "traefik.frontend.headers.browserXSSFilter=true"
+        - "traefik.frontend.headers.contentTypeNosniff=true"
+        - "traefik.frontend.headers.forceSTSHeader=true"
+        - "traefik.frontend.headers.SSLHost={{domain}}"
+        - "traefik.frontend.headers.STSIncludeSubdomains=true"
+        - "traefik.frontend.headers.STSPreload=true"
+        - "traefik.frontend.headers.frameDeny=true"
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_public:
+    external: true

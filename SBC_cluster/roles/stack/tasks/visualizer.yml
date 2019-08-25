@@ -1,0 +1,16 @@
+---
+- name: Template 'Visualizer' compose file
+  template:
+    src: visualizer.yml.j2
+    dest: "{{docker_conf_path}}/Visualizer/visualizer.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Visualizer' stack from file
+  docker_stack:
+    state: present
+    name: visualizer
+    compose:
+     - "{{docker_conf_path}}/Visualizer/visualizer.yml"
+
+
