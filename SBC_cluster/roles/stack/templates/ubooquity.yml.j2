@@ -17,7 +17,7 @@ services:
     - private:/private
       
     networks:
-      - internal
+      #- internal
       - traefik_public
     deploy:
       replicas: 1
@@ -82,8 +82,8 @@ volumes:
 networks:
   traefik_public:
     external: true
-  internal:
-    driver: overlay
-    ipam:
-      config:
-        - subnet: 172.16.12.0/24
+  #internal:
+  #  driver: overlay
+  #  ipam:
+  #    config:
+  #      - subnet: 172.16.12.0/24
