@@ -5,6 +5,11 @@
     - stack
     - stack_traefik
 
+- import_tasks: visualizer.yml
+  tags:
+    - stack
+    - stack_visualizer
+
 - import_tasks: docker-cleanup.yml
   tags:
     - stack
