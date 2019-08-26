@@ -17,3 +17,15 @@
     - "../env_vars/main.yml"
   roles:
     - swarm-reset
+
+- hosts: all
+  vars_files:
+    - "../env_vars/main.yml"
+  roles:
+    - swarm
+
+- hosts: [manager1]
+  vars_files:
+    - "../env_vars/main.yml"
+  roles:
+    - swarm-network
