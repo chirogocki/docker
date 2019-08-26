@@ -35,6 +35,7 @@
     build:
       path: "{{docker_conf_path}}/Build/swarmprom/unsee"
       pull: yes
+      nocache: yes
     name: registry.{{domain}}/sp_unsee
     tag: armv7l-v2
     push: yes
@@ -64,10 +65,11 @@
     docker_image:
       build:
         path: "/mount/docker/Build/swarmprom/unsee"
+        nocache: yes
+        pull: yes
       name: registry.{{domain}}/sp_unsee
       tag: x86_64-v2
       push: yes
-      pull: no
       source: build
   - name: Log out of private registry
     docker_login:

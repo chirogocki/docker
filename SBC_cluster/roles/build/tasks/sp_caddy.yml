@@ -72,6 +72,7 @@
     build:
       path: "{{docker_conf_path}}/Build/swarmprom/caddy/armv7l"
       pull: yes
+      nocache: yes
     name: registry.{{domain}}/sp_caddy
     tag: armv7l-v2
     push: yes
@@ -139,6 +140,7 @@
     docker_image:
       build:
         path: "/mount/docker/Build/swarmprom/caddy/x86_64/"
+        nocache: yes
         pull: yes
       name: registry.{{domain}}/sp_caddy
       tag: x86_64-v2

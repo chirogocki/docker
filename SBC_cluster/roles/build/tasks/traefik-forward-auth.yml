@@ -23,6 +23,7 @@
   docker_image:
     build:
       path: "{{docker_conf_path}}/Build/traefik-forward-auth"
+      nocache: yes
     name: registry.{{domain}}/traefik-forward-auth
     tag: armv7l-v2
     push: yes

@@ -51,6 +51,7 @@
   docker_image:
     build:
       path: "{{docker_conf_path}}/Build/swarmprom/alertmanager"
+      nocache: yes
       pull: yes
     name: registry.{{domain}}/sp_alertmanager
     tag: armv7l-v2
@@ -81,10 +82,11 @@
     docker_image:
       build:
         path: "/mount/docker/Build/swarmprom/alertmanager"
+        nocache: yes
+        pull: yes
       name: registry.{{domain}}/sp_alertmanager
       tag: x86_64-v2
       push: yes
-      pull: no
       source: build
   - name: Log out of private registry
     docker_login:
