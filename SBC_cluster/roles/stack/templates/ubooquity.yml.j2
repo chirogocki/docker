@@ -39,13 +39,13 @@ services:
         - "traefik.frontend.headers.STSIncludeSubdomains=true"
         - "traefik.frontend.headers.STSPreload=true"
         - "traefik.frontend.headers.frameDeny=true"
-      resources:
-        limits:
-          memory: 1152M
-          cpus: '4'
-        reservations:
-          memory: 256M
-          cpus: '0.25'
+      #resources:
+      #  limits:
+      #    memory: 1152M
+      #    cpus: '4'
+      #  reservations:
+      #    memory: 256M
+      #    cpus: '0.25'
       restart_policy:
         condition: on-failure
         delay: 15s
