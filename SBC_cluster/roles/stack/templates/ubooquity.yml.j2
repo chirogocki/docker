@@ -56,27 +56,27 @@ volumes:
   config:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=5"
       device: ":/{{docker_remote_path}}UB/"
   books:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=5"
       device: ":/{{books_remote_path}}"
   files:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=5"
       device: ":/{{books_remote_path}}files"
   comics:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=5"
       device: ":/{{comics_remote_path}}"
   private:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS2}},nolock,hard,rw"
+      o: "addr={{NAS2}},nolock,soft,rw,timeo=5"
       device: ":/{{private_remote_path}}"
 
 networks:
