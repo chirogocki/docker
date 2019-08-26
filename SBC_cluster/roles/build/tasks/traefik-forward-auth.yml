@@ -1,5 +1,5 @@
 ---
-- name: Ensure build dir
+- name: Traefik forward auth - Ensure build dir
   file:
     path: "{{docker_conf_path}}/Build/traefik-forward-auth"
     state: directory
@@ -7,7 +7,7 @@
 
 # Armv7l
 
-- name: Log into private registry and force re-authorization
+- name: Traefik forward auth - Log into private registry and force re-authorization
   docker_login:
     registry: registry.{{domain}}
     username: "{{registry_user}}"
@@ -19,7 +19,7 @@
     src: traefik-forward-auth.Dockerfile.j2
     dest: "{{docker_conf_path}}/Build/traefik-forward-auth/Dockerfile"
 
-- name: Build an ARM image and push it to a private repo
+- name: Traefik forward auth - Build an ARM image and push it to a private repo
   docker_image:
     build:
       path: "{{docker_conf_path}}/Build/traefik-forward-auth"
@@ -34,23 +34,23 @@
 # Amd64
 
 - block:
-  - name: Touch dir
+  - name: Traefik forward auth - Touch dir
     file:
       path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
       state: directory
       recurse: yes
-  - name: Trust CA
+  - name: Traefik forward auth - Trust CA
     copy:
       src: "/mount/docker/SSL/cert.crt"
       dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
       remote_src: yes
-  - name: Log into private registry
+  - name: Traefik forward auth - Log into private registry
     docker_login:
       registry: registry.{{domain}}
       username: "{{registry_user}}"
       password: "{{registry_password}}"
       reauthorize: yes
-  - name: Build an x86_64 image and push it to a private repo
+  - name: Traefik forward auth - Build an x86_64 image and push it to a private repo
     docker_image:
       build:
         path: "/mount/docker/Build/traefik-forward-auth"
@@ -59,20 +59,20 @@
       push: yes
       pull: no
       source: build
-  - name: Log out of private registry
+  - name: Traefik forward auth - Log out of private registry
     docker_login:
       registry: registry.{{domain}}
       state: absent
     when: ansible_architecture == "x86_64"
   delegate_to: localhost
 
-- name: Create manifest to registry
+- name: Traefik forward auth - Create manifest to registry
   command: "docker manifest create --amend registry.{{domain}}/traefik-forward-auth:latest registry.{{domain}}/traefik-forward-auth:armv7l-v2 registry.{{domain}}/traefik-forward-auth:x86_64-v2"
 
-- name: Push manifest to registry
+- name: Traefik forward auth - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/traefik-forward-auth:latest"
 
-- name: Log out of private registry
+- name: Traefik forward auth - Log out of private registry
   docker_login:
     registry: registry.{{domain}}
     state: absent

@@ -2,7 +2,7 @@
 
 # Prerequisite
 
-- name: Ensure build dir
+- name: Swarmprom grafana - Ensure build dir
   file:
     path: "{{item}}"
     state: directory
@@ -15,7 +15,7 @@
   tags:
     - sp_grafana-dir
 
-- name: Copy dashboards files
+- name: Swarmprom grafana - Copy dashboards files
   copy:
     src: "{{item}}"
     dest: "{{docker_conf_path}}/Build/swarmprom/grafana/dashboards/"
@@ -28,7 +28,7 @@
   tags:
     - sp_grafana_copy_dashboards
 
-- name: Copy datasources files
+- name: Swarmprom grafana - Copy datasources files
   copy:
     src: "sp_grafana/datasources/prometheus.yaml"
     dest: "{{docker_conf_path}}/Build/swarmprom/grafana/datasources/prometheus.yaml"
@@ -37,7 +37,7 @@
   tags:
     - sp_grafana_copy_datasources
 
-- name: Copy provider file
+- name: Swarmprom grafana - Copy provider file
   copy:
     src: "sp_grafana/swarmprom_dashboards.yml"
     dest: "{{docker_conf_path}}/Build/swarmprom/grafana/swarmprom_dashboards.yml"
@@ -48,21 +48,21 @@
 
 # Armv7l
 
-- name: Log into private registry and force re-authorization
+- name: Swarmprom grafana - Log into private registry and force re-authorization
   docker_login:
     registry: registry.{{domain}}
     username: "{{registry_user}}"
     password: "{{registry_password}}"
     reauthorize: yes
 
-- name: Template Dockerfile
+- name: Swarmprom grafana - Template Dockerfile
   template:
     src: sp_grafana.Dockerfile.j2
     dest: "{{docker_conf_path}}/Build/swarmprom/grafana/Dockerfile"
     owner: '1024'
     group: '100'
 
-- name: Build an ARM image and push it to a private repo
+- name: Swarmprom grafana - Build an ARM image and push it to a private repo
   docker_image:
     build:
       path: "{{docker_conf_path}}/Build/swarmprom/grafana"
@@ -77,23 +77,23 @@
 # Amd64
 
 - block:
-  - name: Touch dir
+  - name: Swarmprom grafana - Touch dir
     file:
       path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
       state: directory
       recurse: yes
-  - name: Trust CA
+  - name: Swarmprom grafana - Trust CA
     copy:
       src: "/mount/docker/SSL/cert.crt"
       dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
       remote_src: yes
-  - name: Log into private registry
+  - name: Swarmprom grafana - Log into private registry
     docker_login:
       registry: registry.{{domain}}
       username: "{{registry_user}}"
       password: "{{registry_password}}"
       reauthorize: yes
-  - name: Build an x86_64 image and push it to a private repo
+  - name: Swarmprom grafana - Build an x86_64 image and push it to a private repo
     docker_image:
       build:
         path: "/mount/docker/Build/swarmprom/grafana"
@@ -103,7 +103,7 @@
       tag: x86_64-v2.7
       push: yes
       source: build
-  - name: Log out of private registry
+  - name: Swarmprom grafana - Log out of private registry
     docker_login:
       registry: registry.{{domain}}
       state: absent
@@ -111,13 +111,13 @@
   delegate_to: localhost
 
 
-- name: Create manifest to registry
+- name: Swarmprom grafana - Create manifest to registry
   command: "docker manifest create --amend registry.{{domain}}/sp_grafana:latest registry.{{domain}}/sp_grafana:armv7l-v2.7 registry.{{domain}}/sp_grafana:x86_64-v2.7"
 
-- name: Push manifest to registry
+- name: Swarmprom grafana - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_grafana:latest"
 
-- name: Log out of private registry
+- name: Swarmprom grafana - Log out of private registry
   docker_login:
     registry: registry.{{domain}}
     state: absent

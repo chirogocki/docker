@@ -2,7 +2,7 @@
 
 # Prerequisite
 
-- name: Ensure build dir
+- name: Swarmprom cadvisor - Ensure build dir
   file:
     path: "{{item}}"
     state: directory
@@ -16,21 +16,21 @@
 
 # Armv7l
 
-- name: Log into private registry and force re-authorization
+- name: Swarmprom cadvisor - Log into private registry and force re-authorization
   docker_login:
     registry: registry.{{domain}}
     username: "{{registry_user}}"
     password: "{{registry_password}}"
     reauthorize: yes
 
-- name: Template Dockerfile
+- name: Swarmprom cadvisor - Template Dockerfile
   template:
     src: sp_cadvisor.Dockerfile.j2
     dest: "{{docker_conf_path}}/Build/swarmprom/cadvisor/armv7l/Dockerfile"
     owner: '1024'
     group: '100'
 
-- name: Build an ARM image and push it to a private repo
+- name: Swarmprom cadvisor - Build an ARM image and push it to a private repo
   docker_image:
     build:
       path: "{{docker_conf_path}}/Build/swarmprom/cadvisor/armv7l"
@@ -44,20 +44,20 @@
 
 # Amd64
 
-- name: Pull amd64 image from dockerhub and push to private repo
+- name: Swarmprom cadvisor - Pull amd64 image from dockerhub and push to private repo
   docker_image:
     name: google/cadvisor:v0.32.0
     repository: registry.{{domain}}/sp_cadvisor:x86_64-v2
     source: pull
     push: yes
 
-- name: Create manifest to registry
+- name: Swarmprom cadvisor - Create manifest to registry
   command: "docker manifest create --amend registry.{{domain}}/sp_cadvisor:latest registry.{{domain}}/sp_cadvisor:armv7l-v2 registry.{{domain}}/sp_cadvisor:x86_64-v2"
 
-- name: Push manifest to registry
+- name: Swarmprom cadvisor - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_cadvisor:latest"
 
-- name: Log out of private registry
+- name: Swarmprom cadvisor - Log out of private registry
   docker_login:
     registry: registry.{{domain}}
     state: absent

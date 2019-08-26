@@ -2,7 +2,7 @@
 
 # Prerequisite
 
-- name: Ensure build dir
+- name: Swarmprom prometheus - Ensure build dir
   file:
     path: "{{item}}"
     state: directory
@@ -15,7 +15,7 @@
   tags:
     - sp_prometheus-dir
 
-- name: Copy conf files
+- name: Swarmprom prometheus - Copy conf files
   copy:
     src: "{{item}}"
     dest: "{{docker_conf_path}}/Build/swarmprom/prometheus/conf/"
@@ -28,12 +28,12 @@
   tags:
     - sp_prometheus_copy_conf
 
-- name: Ensure entrypoint x
+- name: Swarmprom prometheus - Ensure entrypoint x
   file:
     path: "{{docker_conf_path}}/Build/swarmprom/prometheus/conf/docker-entrypoint.sh"
     mode: u+x
 
-- name: Copy rules files
+- name: Swarmprom prometheus - Copy rules files
   copy:
     src: "{{item}}"
     dest: "{{docker_conf_path}}/Build/swarmprom/prometheus/rules/"
@@ -47,21 +47,21 @@
 
 # Armv7l
 
-- name: Log into private registry and force re-authorization
+- name: Swarmprom prometheus - Log into private registry and force re-authorization
   docker_login:
     registry: registry.{{domain}}
     username: "{{registry_user}}"
     password: "{{registry_password}}"
     reauthorize: yes
 
-- name: Template Dockerfile
+- name: Swarmprom prometheus - Template Dockerfile
   template:
     src: sp_prometheus.Dockerfile.j2
     dest: "{{docker_conf_path}}/Build/swarmprom/prometheus/Dockerfile"
     owner: '1024'
     group: '100'
 
-- name: Build an ARM image and push it to a private repo
+- name: Swarmprom prometheus - Build an ARM image and push it to a private repo
   docker_image:
     build:
       path: "{{docker_conf_path}}/Build/swarmprom/prometheus"
@@ -76,23 +76,23 @@
 # Amd64
 
 - block:
-  - name: Touch dir
+  - name: Swarmprom prometheus - Touch dir
     file:
       path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
       state: directory
       recurse: yes
-  - name: Trust CA
+  - name: Swarmprom prometheus - Trust CA
     copy:
       src: "/mount/docker/SSL/cert.crt"
       dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
       remote_src: yes
-  - name: Log into private registry
+  - name: Swarmprom prometheus - Log into private registry
     docker_login:
       registry: registry.{{domain}}
       username: "{{registry_user}}"
       password: "{{registry_password}}"
       reauthorize: yes
-  - name: Build an x86_64 image and push it to a private repo
+  - name: Swarmprom prometheus - Build an x86_64 image and push it to a private repo
     docker_image:
       build:
         path: "/mount/docker/Build/swarmprom/prometheus"
@@ -102,7 +102,7 @@
       tag: x86_64-v2
       push: yes
       source: build
-  - name: Log out of private registry
+  - name: Swarmprom prometheus - Log out of private registry
     docker_login:
       registry: registry.{{domain}}
       state: absent
@@ -110,13 +110,13 @@
   delegate_to: localhost
 
 
-- name: Create manifest to registry
+- name: Swarmprom prometheus - Create manifest to registry
   command: "docker manifest create --amend registry.{{domain}}/sp_prometheus:latest registry.{{domain}}/sp_prometheus:armv7l-v2 registry.{{domain}}/sp_prometheus:x86_64-v2"
 
-- name: Push manifest to registry
+- name: Swarmprom prometheus - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_prometheus:latest"
 
-- name: Log out of private registry
+- name: Swarmprom prometheus - Log out of private registry
   docker_login:
     registry: registry.{{domain}}
     state: absent

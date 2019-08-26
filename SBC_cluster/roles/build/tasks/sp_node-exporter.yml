@@ -2,7 +2,7 @@
 
 # Prerequisite
 
-- name: Ensure build dir
+- name: Swarmprom node-exporter - Ensure build dir
   file:
     path: "{{item}}"
     state: directory
@@ -14,7 +14,7 @@
   tags:
     - sp_node-exporter-dir
 
-- name: Copy datasources files
+- name: Swarmprom node-exporter - Copy datasources files
   copy:
     src: "sp_node-exporter/docker-entrypoint.sh"
     dest: "{{docker_conf_path}}/Build/swarmprom/node-exporter/conf/docker-entrypoint.sh"
@@ -27,21 +27,21 @@
 
 # Armv7l
 
-- name: Log into private registry and force re-authorization
+- name: Swarmprom node-exporter - Log into private registry and force re-authorization
   docker_login:
     registry: registry.{{domain}}
     username: "{{registry_user}}"
     password: "{{registry_password}}"
     reauthorize: yes
 
-- name: Template Dockerfile
+- name: Swarmprom node-exporter - Template Dockerfile
   template:
     src: sp_node-exporter.Dockerfile.j2
     dest: "{{docker_conf_path}}/Build/swarmprom/node-exporter/Dockerfile"
     owner: '1024'
     group: '100'
 
-- name: Build an ARM image and push it to a private repo
+- name: Swarmprom node-exporter - Build an ARM image and push it to a private repo
   docker_image:
     build:
       path: "{{docker_conf_path}}/Build/swarmprom/node-exporter"
@@ -56,23 +56,23 @@
 # Amd64
 
 - block:
-  - name: Touch dir
+  - name: Swarmprom node-exporter - Touch dir
     file:
       path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
       state: directory
       recurse: yes
-  - name: Trust CA
+  - name: Swarmprom node-exporter - Trust CA
     copy:
       src: "/mount/docker/SSL/cert.crt"
       dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
       remote_src: yes
-  - name: Log into private registry
+  - name: Swarmprom node-exporter - Log into private registry
     docker_login:
       registry: registry.{{domain}}
       username: "{{registry_user}}"
       password: "{{registry_password}}"
       reauthorize: yes
-  - name: Build an x86_64 image and push it to a private repo
+  - name: Swarmprom node-exporter - Build an x86_64 image and push it to a private repo
     docker_image:
       build:
         path: "/mount/docker/Build/swarmprom/node-exporter"
@@ -82,7 +82,7 @@
       tag: x86_64-v2
       push: yes
       source: build
-  - name: Log out of private registry
+  - name: Swarmprom node-exporter - Log out of private registry
     docker_login:
       registry: registry.{{domain}}
       state: absent
@@ -90,13 +90,13 @@
   delegate_to: localhost
 
 
-- name: Create manifest to registry
+- name: Swarmprom node-exporter - Create manifest to registry
   command: "docker manifest create --amend registry.{{domain}}/sp_node-exporter:latest registry.{{domain}}/sp_node-exporter:armv7l-v2 registry.{{domain}}/sp_node-exporter:x86_64-v2"
 
-- name: Push manifest to registry
+- name: Swarmprom node-exporter - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_node-exporter:latest"
 
-- name: Log out of private registry
+- name: Swarmprom node-exporter - Log out of private registry
   docker_login:
     registry: registry.{{domain}}
     state: absent
