@@ -8,19 +8,38 @@
     - swarm_reset
     - swarm_reset_leave
 
-- name: Prune system
-  command: "{{ item }}"
-  with_items:
-    - docker system prune -af
-  ignore_errors: yes
+- name: Stop docker
+  systemd:
+    name: docker
+    state: stopped
   tags:
     - swarm_reset
-    - swarm_reset_prune
+    - swarm_reset_docker_stop
+
+- name: Delete docker related
+  file:
+    path: "{{item}}"
+    state: absent
+  with_items:
+    - "/var/lib/docker"
+    - "/mnt/dietpi_userdata"
+  tags:
+    - swarm_reset
+    - swarm_reset_docker_delete
+
+#- name: Prune system
+#  command: "{{ item }}"
+#  with_items:
+#    - docker system prune -af
+#  ignore_errors: yes
+#  tags:
+#    - swarm_reset
+#    - swarm_reset_prune
 
 - name: Restart docker
   systemd:
     name: docker
-    state: restarted
+    state: started
     daemon_reload: yes
   tags:
     - swarm_reset
