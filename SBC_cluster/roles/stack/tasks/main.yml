@@ -49,3 +49,8 @@
   tags:
     - stack
     - stack_hydra2
+
+- import_tasks: sabnzbd.yml
+  tags:
+    - stack
+    - stack_sabnzbd

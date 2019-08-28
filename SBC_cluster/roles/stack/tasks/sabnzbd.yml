@@ -1,0 +1,16 @@
+---
+- name: Template 'Sabnzbd' compose file
+  template:
+    src: sabnzbd.yml.j2
+    dest: "{{docker_conf_path}}/Sabnzbd/sabnzbd.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Sabnzbd' stack from file
+  docker_stack:
+    state: present
+    name: sabnzbd
+    compose:
+     - "{{docker_conf_path}}/Sabnzbd/sabnzbd.yml"
+
+
