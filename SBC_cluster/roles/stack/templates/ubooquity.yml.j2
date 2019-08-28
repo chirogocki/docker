@@ -39,13 +39,13 @@ services:
         - "traefik.frontend.headers.STSIncludeSubdomains=true"
         - "traefik.frontend.headers.STSPreload=true"
         - "traefik.frontend.headers.frameDeny=true"
-      #resources:
-      #  limits:
-      #    memory: 1152M
-      #    cpus: '4'
-      #  reservations:
-      #    memory: 256M
-      #    cpus: '0.25'
+      resources:
+        limits:
+          memory: 1152M
+          cpus: '4'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -56,27 +56,27 @@ volumes:
   config:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=5"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{docker_remote_path}}UB/"
   books:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=5"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{books_remote_path}}"
   files:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=5"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{books_remote_path}}files"
   comics:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=5"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{comics_remote_path}}"
   private:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS2}},nolock,soft,rw,timeo=5"
+      o: "addr={{NAS2}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{private_remote_path}}"
 
 networks:
