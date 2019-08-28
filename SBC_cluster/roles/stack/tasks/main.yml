@@ -44,3 +44,8 @@
   tags:
     - stack
     - stack_ubooquity
+
+- import_tasks: hydra2.yml
+  tags:
+    - stack
+    - stack_hydra2

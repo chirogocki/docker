@@ -11,6 +11,6 @@
     state: present
     name: hydra2
     compose:
-     - "{{docker_conf_path}}//Hydra2/hydra2.yml"
+     - "{{docker_conf_path}}/Hydra2/hydra2.yml"
 
 
