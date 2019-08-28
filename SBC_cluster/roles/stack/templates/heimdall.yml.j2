@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.7"
 
 services:
   heimdall:
@@ -35,5 +35,5 @@ volumes:
   config:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{docker_remote_path}}Heimdall/"
