@@ -13,7 +13,7 @@ services:
     - downloads:/downloads
       
     networks:
-      - internal
+      - common
       - traefik_public
     deploy:
       replicas: 1
@@ -59,8 +59,5 @@ volumes:
 networks:
   traefik_public:
     external: true
-  internal:
-    driver: overlay
-    ipam:
-      config:
-        - subnet: 172.16.120.0/24
+  common:
+    external: true
