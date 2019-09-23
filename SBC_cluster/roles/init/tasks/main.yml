@@ -1,5 +1,9 @@
 ---
 
+- import_tasks: iscsi.yml
+  tags:
+    - iscsi
+
 - import_tasks: init.yml
   tags:
     - init

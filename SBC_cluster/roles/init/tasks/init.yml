@@ -15,6 +15,9 @@
       - python3-jsondiff #Needed for ansible stack module
       - python3-yaml #Needed for ansible stack module
       - python3-pip
+      - open-iscsi #Needed for Iscsi
+      - multipath-tools #Needed for mutipath
+      - snmpd
   tags:
     - init
     - init_install

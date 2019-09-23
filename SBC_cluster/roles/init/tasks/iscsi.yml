@@ -1,0 +1,30 @@
+---
+
+- block:
+  - name: Add the tcp_iscsi module
+    modprobe:
+      name: tcp_iscsi
+      state: present
+  - name: Add the scsi_dh_rdac module
+    modprobe:
+      name: scsi_dh_rdac
+      state: present
+  - name: Add the dm-multipath module
+    modprobe:
+      name: dm-multipath
+      state: present
+  tags:
+    - iscsi
+    - iscsi_modules
+
+- name: Load modules on boot
+  template:
+    src: iscsi_kernel.conf
+    dest: /etc/modules-load.d/iscsi.conf
+    mode: 0644
+    owner: root
+    group: root
+  tags:
+    - iscsi
+    - iscsi_modules_boot
+

@@ -1,0 +1,9 @@
+---
+
+- name: Configure snmpd for Observium
+  template:
+    src: snmpd.conf
+    dest: /etc/snmp/snmpd.conf
+    mode: 0644
+    owner: root
+    group: root
