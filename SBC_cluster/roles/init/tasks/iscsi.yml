@@ -7,7 +7,6 @@
       discover: yes
       portal:
         - '{{NAS2}}'
-        - '{{NAS20}}'
       port: "3260"
   - name: Login to Iscsi
     open_iscsi:
@@ -17,5 +16,20 @@
       port: "3260"
       portal:
         - '{{NAS2}}'
-        - '{{NAS20}}'
 
+- block:
+  - name: Perform a discovery and show available target nodes
+    open_iscsi:
+      show_nodes: yes
+      discover: yes
+      portal:
+        - '{{NAS20}}'
+      port: "3260"
+  - name: Login to Iscsi
+    open_iscsi:
+      login: 'yes'
+      target: '{{iqn}}'
+      auto_node_startup: 'yes'
+      port: "3260"
+      portal:
+        - '{{NAS20}}'
