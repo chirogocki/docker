@@ -5,6 +5,10 @@
     show_nodes: yes
     discover: yes
     portal: '{{NAS2}}'
+  register: isisci_reg
+
+- debug: msg="{{isisci_reg.stdout}}"
+
 
 - name: Login to Iscsi
   open_iscsi:
