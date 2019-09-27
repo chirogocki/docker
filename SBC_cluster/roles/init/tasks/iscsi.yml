@@ -7,7 +7,7 @@
     portal: '{{NAS2}}'
   register: isisci_reg
 
-- debug: msg="{{isisci_reg.output}}"
+- debug: msg="{{isisci_reg}}"
 
 
 - name: Login to Iscsi
