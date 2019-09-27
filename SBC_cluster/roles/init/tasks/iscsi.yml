@@ -1,21 +1,21 @@
 ---
 
-- name: Perform a discovery and show available target nodes
-  open_iscsi:
-    show_nodes: yes
-    discover: yes
-    portal: '{{NAS2}}'
-    port: "3260"
-  register: isisci_reg
-
-- debug: msg="{{isisci_reg.nodes}}"
-
-
-- name: Login to Iscsi
-  open_iscsi:
-    login: 'yes'
-    target: 'iqn.2000-01.com.synology:stor2.Swarm.ad5871fae5'
-    auto_node_startup: 'yes'
-    portal: '{{NAS2}}'
-
+- block:
+  - name: Perform a discovery and show available target nodes
+    open_iscsi:
+      show_nodes: yes
+      discover: yes
+      portal:
+        - '{{NAS2}}'
+        - '{{NAS20}}'
+      port: "3260"
+  - name: Login to Iscsi
+    open_iscsi:
+      login: 'yes'
+      target: '{{iqn}}'
+      auto_node_startup: 'yes'
+      port: "3260"
+      portal:
+        - '{{NAS2}}'
+        - '{{NAS20}}'
 
