@@ -1,9 +1,46 @@
 ---
-
+- block:
+  - name: Template architecture script
+    template:
+      src: snmp/architecture.sh.j2
+      dest: /usr/bin/architecture.sh
+      mode: 0744
+      owner: root
+      group: root
+  - name: Template vendor script
+    template:
+      src: snmp/vendor.sh.j2
+      dest: /usr/bin/vendor.sh
+      mode: 0744
+      owner: root
+      group: root
+  - name: Template model script
+    template:
+      src: snmp/model.sh.j2
+      dest: /usr/bin/model.sh
+      mode: 0744
+      owner: root
+      group: root
+  - name: Template distro script
+    template:
+      src: snmp/distro.sh.j2
+      dest: /usr/local/bin/distro.sh
+      mode: 0744
+      owner: root
+      group: root
+  - name: Template distro script
+    template:
+      src: snmp/ifAlias_persist.pl.j2
+      dest: /usr/local/bin/ifAlias_persist
+      mode: 0744
+      owner: root
+      group: root
+  
 - name: Configure snmpd for Observium
   template:
-    src: snmpd.conf
+    src: snmp/snmpd.conf
     dest: /etc/snmp/snmpd.conf
     mode: 0644
     owner: root
     group: root
+  notify: Restart snmpd

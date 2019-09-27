@@ -2,3 +2,9 @@
 
 - name: Mount share
   command: mount -a
+
+- name: Restart snmpd
+  systemd:
+    name: snmpd
+    enabled: yes
+    state: restarted

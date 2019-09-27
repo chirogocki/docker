@@ -1,12 +1,16 @@
 ---
 
+- import_tasks: init.yml
+  tags:
+    - init
+
 - import_tasks: iscsi.yml
   tags:
     - iscsi
 
-- import_tasks: init.yml
+- import_tasks: snmp.yml
   tags:
-    - init
+    - snmp
 
 - import_tasks: bashrc.yml
   tags:
