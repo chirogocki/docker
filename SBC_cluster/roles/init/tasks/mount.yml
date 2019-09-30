@@ -16,6 +16,7 @@
     state: directory
   with_items: 
     - "{{ mount_nfs_path }}"
+    - "{{ swarm_db_path }}"
   tags:
     - mount
     - mount-ensure-dir
