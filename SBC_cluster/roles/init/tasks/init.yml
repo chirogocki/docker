@@ -18,6 +18,7 @@
       - open-iscsi #Needed for Iscsi
       - multipath-tools #Needed for mutipath
       - snmpd
+      - autofs
   tags:
     - init
     - init_install

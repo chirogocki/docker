@@ -1,0 +1,10 @@
+---
+
+- name: Configure multipath
+  template:
+    src: multipath/multipath.conf.j2
+    dest: /etc/multipath.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: Restart multipathd

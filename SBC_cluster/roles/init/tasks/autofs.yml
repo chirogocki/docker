@@ -1,0 +1,33 @@
+---
+
+- name: Check if auto_direct is already configured.
+  stat: path={{ auto_direct_path }}
+  register: auto_direct_result
+
+- name: Check if auto.master contain auto_direct
+  find:
+    paths: "/etc"
+    patterns: "auto.master"
+    contains: "/-	/etc/auto_direct	-intr,nosuid"
+  register: auto_master_result
+
+- name: Modify auto.master
+  template:
+    src: "auto.master.j2"
+    dest: /etc/auto.master
+  notify: Enable reload and start autofs service
+  when: auto_master_result.matched == 0
+  tags:
+    - autofs
+    - autofs_auto.master
+
+- name: Configure auto_direct
+  template:
+    src: "auto_direct.j2"
+    dest: /etc/auto_direct
+  notify: Enable reload and start autofs service
+  when: not auto_direct_result.stat.exists
+  tags:
+    - autofs
+    - autofs_auto_direct
+    

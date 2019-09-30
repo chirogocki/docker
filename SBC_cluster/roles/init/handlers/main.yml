@@ -8,3 +8,16 @@
     name: snmpd
     enabled: yes
     state: restarted
+
+- name: Restart multipathd
+  systemd:
+    name: multipathd
+    enabled: yes
+    state: restarted
+
+- name: Enable reload and start autofs service
+  systemd:
+    state: started
+    daemon_reload: yes
+    enabled: yes
+    name: autofs

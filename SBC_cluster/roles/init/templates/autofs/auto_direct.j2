@@ -1,0 +1,8 @@
+# {{ ansible_tag }}
+# Direct map for automounter
+#
+# Key                   Options         Location
+# ---                   -------         --------
+#
+/share/swarm    -fstype=auto    /dev/mapper/swarm-part1
+{{docker_conf_path}}   -fstype=auto    {{NAS1}}:/{{docker_remote_path}}

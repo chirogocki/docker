@@ -16,6 +16,14 @@
   tags:
     - bashrc
 
+- import_tasks: autofs.yml
+  tags:
+    - autofs
+
+- import_tasks: multipath.yml
+  tags:
+    - multipath
+
 - import_tasks: mount.yml
   tags:
     - mount
