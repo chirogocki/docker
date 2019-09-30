@@ -13,7 +13,7 @@
 
 - name: Modify auto.master
   template:
-    src: "auto.master.j2"
+    src: "autofs/auto.master.j2"
     dest: /etc/auto.master
   notify: Enable reload and start autofs service
   when: auto_master_result.matched == 0
@@ -23,7 +23,7 @@
 
 - name: Configure auto_direct
   template:
-    src: "auto_direct.j2"
+    src: "autofs/auto_direct.j2"
     dest: /etc/auto_direct
   notify: Enable reload and start autofs service
   when: not auto_direct_result.stat.exists
