@@ -81,80 +81,81 @@
 
 # Amd64
 
-- block:
-  - name: Swarmprom caddy - Touch dir
-    file:
-      path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
-      state: directory
-      recurse: yes
-  - name: Swarmprom caddy - Trust CA
-    copy:
-      src: "/mount/docker/SSL/cert.crt"
-      dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
-      remote_src: yes
-  - name: Swarmprom caddy - Log into private registry
-    docker_login:
-      registry: registry.{{domain}}
-      username: "{{registry_user}}"
-      password: "{{registry_password}}"
-      reauthorize: yes
-  - name: Swarmprom caddy - Get the latest amd64 Caddy release information from Github
-    uri:
-      url: https://caddyserver.com/download/linux/amd64?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
-      method: GET
-      dest: "/mount/docker/Build/swarmprom/caddy"
-    register: _caddy_github_release
-    until: _caddy_github_release.status == 200
-    retries: 5
-    delay: 15
-    tags:
-      - sp_caddy-dl
-  - name: Swarmprom caddy - Unarchive release
-    # command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
-    unarchive:
-      src: "/mount/docker/Build/swarmprom/caddy/amd64"
-      dest: "/mount/docker/Build/swarmprom/caddy/x86_64/"
-      remote_src: yes
-      owner: '1024'
-      group: '100'
-    tags:
-      - sp_caddy-unarchive
-  - name: Swarmprom caddy - Copy necessary file
-    copy:
-      src: "{{item}}"
-      dest: "/mount/docker/Build/swarmprom/caddy/x86_64"
-      owner: '1024'
-      group: '100'
-    with_items:
-      - "sp_caddy/Caddyfile"
-      - "sp_caddy/index.md"
-    tags:
-      - sp_caddy_copy
-  - name: Swarmprom caddy - Template Dockerfile
-    template:
-      src: sp_caddy.Dockerfile.j2
-      dest: "/mount/docker/Build/swarmprom/caddy/x86_64/Dockerfile"
-      owner: '1024'
-      group: '100'
-  - name: Swarmprom caddy - Build an x86_64 image and push it to a private repo
-    docker_image:
-      build:
-        path: "/mount/docker/Build/swarmprom/caddy/x86_64/"
-        nocache: yes
-        pull: yes
-      name: registry.{{domain}}/sp_caddy
-      tag: x86_64-v2
-      push: yes
-      source: build
-  - name: Swarmprom caddy - Log out of private registry
-    docker_login:
-      registry: registry.{{domain}}
-      state: absent
-    when: ansible_architecture == "x86_64"
-  delegate_to: localhost
+# - block:
+#   - name: Swarmprom caddy - Touch dir
+#     file:
+#       path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
+#       state: directory
+#       recurse: yes
+#   - name: Swarmprom caddy - Trust CA
+#     copy:
+#       src: "/mount/docker/SSL/cert.crt"
+#       dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
+#       remote_src: yes
+#   - name: Swarmprom caddy - Log into private registry
+#     docker_login:
+#       registry: registry.{{domain}}
+#       username: "{{registry_user}}"
+#       password: "{{registry_password}}"
+#       reauthorize: yes
+#   - name: Swarmprom caddy - Get the latest amd64 Caddy release information from Github
+#     uri:
+#       url: https://caddyserver.com/download/linux/amd64?plugins=http.ipfilter,http.prometheus&license=personal&telemetry=off
+#       method: GET
+#       dest: "/mount/docker/Build/swarmprom/caddy"
+#     register: _caddy_github_release
+#     until: _caddy_github_release.status == 200
+#     retries: 5
+#     delay: 15
+#     tags:
+#       - sp_caddy-dl
+#   - name: Swarmprom caddy - Unarchive release
+#     # command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+#     unarchive:
+#       src: "/mount/docker/Build/swarmprom/caddy/amd64"
+#       dest: "/mount/docker/Build/swarmprom/caddy/x86_64/"
+#       remote_src: yes
+#       owner: '1024'
+#       group: '100'
+#     tags:
+#       - sp_caddy-unarchive
+#   - name: Swarmprom caddy - Copy necessary file
+#     copy:
+#       src: "{{item}}"
+#       dest: "/mount/docker/Build/swarmprom/caddy/x86_64"
+#       owner: '1024'
+#       group: '100'
+#     with_items:
+#       - "sp_caddy/Caddyfile"
+#       - "sp_caddy/index.md"
+#     tags:
+#       - sp_caddy_copy
+#   - name: Swarmprom caddy - Template Dockerfile
+#     template:
+#       src: sp_caddy.Dockerfile.j2
+#       dest: "/mount/docker/Build/swarmprom/caddy/x86_64/Dockerfile"
+#       owner: '1024'
+#       group: '100'
+#   - name: Swarmprom caddy - Build an x86_64 image and push it to a private repo
+#     docker_image:
+#       build:
+#         path: "/mount/docker/Build/swarmprom/caddy/x86_64/"
+#         nocache: yes
+#         pull: yes
+#       name: registry.{{domain}}/sp_caddy
+#       tag: x86_64-v2
+#       push: yes
+#       source: build
+#   - name: Swarmprom caddy - Log out of private registry
+#     docker_login:
+#       registry: registry.{{domain}}
+#       state: absent
+#     when: ansible_architecture == "x86_64"
+#   delegate_to: localhost
 
 - name: Swarmprom caddy - Create manifest to registry
-  command: "docker manifest create --amend registry.{{domain}}/sp_caddy:latest registry.{{domain}}/sp_caddy:armv7l-v2 registry.{{domain}}/sp_caddy:x86_64-v2"
+  # command: "docker manifest create --amend registry.{{domain}}/sp_caddy:latest registry.{{domain}}/sp_caddy:armv7l-v2 registry.{{domain}}/sp_caddy:x86_64-v2"
+  command: "docker manifest create --amend registry.{{domain}}/sp_caddy:latest registry.{{domain}}/sp_caddy:armv7l-v2"
 
 - name: Swarmprom caddy - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_caddy:latest"

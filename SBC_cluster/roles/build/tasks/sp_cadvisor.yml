@@ -44,15 +44,16 @@
 
 # Amd64
 
-- name: Swarmprom cadvisor - Pull amd64 image from dockerhub and push to private repo
-  docker_image:
-    name: google/cadvisor:v0.32.0
-    repository: registry.{{domain}}/sp_cadvisor:x86_64-v2
-    source: pull
-    push: yes
+# - name: Swarmprom cadvisor - Pull amd64 image from dockerhub and push to private repo
+#   docker_image:
+#     name: google/cadvisor:v0.32.0
+#     repository: registry.{{domain}}/sp_cadvisor:x86_64-v2
+#     source: pull
+#     push: yes
 
 - name: Swarmprom cadvisor - Create manifest to registry
-  command: "docker manifest create --amend registry.{{domain}}/sp_cadvisor:latest registry.{{domain}}/sp_cadvisor:armv7l-v2 registry.{{domain}}/sp_cadvisor:x86_64-v2"
+  # command: "docker manifest create --amend registry.{{domain}}/sp_cadvisor:latest registry.{{domain}}/sp_cadvisor:armv7l-v2 registry.{{domain}}/sp_cadvisor:x86_64-v2"
+  command: "docker manifest create --amend registry.{{domain}}/sp_cadvisor:latest registry.{{domain}}/sp_cadvisor:armv7l-v2"
 
 - name: Swarmprom cadvisor - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_cadvisor:latest"
