@@ -91,7 +91,7 @@ services:
       #- GF_SMTP_USER=${GF_SMTP_USER}
       #- GF_SMTP_PASSWORD=${GF_SMTP_PASSWORD}
     volumes:
-      - grafana:/var/lib/grafana
+      - "{{swarm_db_path}}/Swarmprom/grafana:/var/lib/grafana"
     deploy:
       mode: replicated
       replicas: 1
@@ -125,7 +125,7 @@ services:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
       - '--storage.path=/alertmanager'
     volumes:
-      - alertmanager:/alertmanager
+      - "{{swarm_db_path}}/Swarmprom/alertmanager:/alertmanager"
     deploy:
       mode: replicated
       replicas: 1
@@ -214,7 +214,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention=24h'
     volumes:
-      - prometheus:/prometheus
+      - "{{swarm_db_path}}/Swarmprom/prometheus:/prometheus"
     configs:
       - source: node_rules
         target: /etc/prometheus/swarm_node.rules.yml
