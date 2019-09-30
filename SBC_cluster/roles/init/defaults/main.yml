@@ -4,6 +4,7 @@ ansible_tag: "File managed by Ansible"
 
 dietpi_home_path: "/mnt/user_data"
 docker_conf_path: "/mnt/docker"
+swarm_db_path: "/mnt/swarm"
 comics_path: "/mnt/comics"
 books_path: "/mnt/books"
 incomplete_path: "/mnt/incomplete"
