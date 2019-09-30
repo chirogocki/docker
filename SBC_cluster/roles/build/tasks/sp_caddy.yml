@@ -160,10 +160,10 @@
 - name: Swarmprom caddy - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_caddy:latest"
 
-- name: Swarmprom caddy - Log out of private registry
-  docker_login:
-    registry: registry.{{domain}}
-    state: absent
+# - name: Swarmprom caddy - Log out of private registry
+#   docker_login:
+#     registry: registry.{{domain}}
+#     state: absent
 
 
 

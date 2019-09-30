@@ -97,7 +97,7 @@
 - name: Swarmprom node-exporter - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_node-exporter:latest"
 
-- name: Swarmprom node-exporter - Log out of private registry
-  docker_login:
-    registry: registry.{{domain}}
-    state: absent
+# - name: Swarmprom node-exporter - Log out of private registry
+#   docker_login:
+#     registry: registry.{{domain}}
+#     state: absent

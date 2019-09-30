@@ -118,7 +118,7 @@
 - name: Swarmprom grafana - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_grafana:latest"
 
-- name: Swarmprom grafana - Log out of private registry
-  docker_login:
-    registry: registry.{{domain}}
-    state: absent
+# - name: Swarmprom grafana - Log out of private registry
+#   docker_login:
+#     registry: registry.{{domain}}
+#     state: absent

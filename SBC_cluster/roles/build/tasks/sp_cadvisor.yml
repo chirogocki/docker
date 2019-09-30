@@ -58,7 +58,7 @@
 - name: Swarmprom cadvisor - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_cadvisor:latest"
 
-- name: Swarmprom cadvisor - Log out of private registry
-  docker_login:
-    registry: registry.{{domain}}
-    state: absent
+# - name: Swarmprom cadvisor - Log out of private registry
+#   docker_login:
+#     registry: registry.{{domain}}
+#     state: absent

@@ -117,7 +117,7 @@
 - name: Swarmprom prometheus - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_prometheus:latest"
 
-- name: Swarmprom prometheus - Log out of private registry
-  docker_login:
-    registry: registry.{{domain}}
-    state: absent
+# - name: Swarmprom prometheus - Log out of private registry
+#   docker_login:
+#     registry: registry.{{domain}}
+#     state: absent

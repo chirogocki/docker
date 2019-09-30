@@ -73,9 +73,9 @@
 - name: Traefik forward auth - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/traefik-forward-auth:latest"
 
-- name: Traefik forward auth - Log out of private registry
-  docker_login:
-    registry_url: registry.{{domain}}
-    username: "{{registry_user}}"
-    password: "{{registry_password}}"
-    state: absent
+# - name: Traefik forward auth - Log out of private registry
+#   docker_login:
+#     registry_url: registry.{{domain}}
+#     username: "{{registry_user}}"
+#     password: "{{registry_password}}"
+#     state: absent

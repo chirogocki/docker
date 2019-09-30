@@ -86,7 +86,7 @@
 - name: Swarmprom unsee - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_unsee:latest"
 
-- name: Swarmprom unsee - Log out of private registry
-  docker_login:
-    registry: registry.{{domain}}
-    state: absent
+# - name: Swarmprom unsee - Log out of private registry
+#   docker_login:
+#     registry: registry.{{domain}}
+#     state: absent
