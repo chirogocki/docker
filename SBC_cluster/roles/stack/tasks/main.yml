@@ -5,6 +5,11 @@
     - stack
     - stack_traefik
 
+- import_tasks: traefik-forward-auth.yml
+  tags:
+    - stack
+    - stack_traefik-forward-auth
+
 - import_tasks: visualizer.yml
   tags:
     - stack
