@@ -29,3 +29,14 @@
       auto_node_startup: 'yes'
       port: "3260"
       portal: '{{NAS20}}'
+
+# wwid motoko 360014052372e1a6d0587d4ff9daeced0
+# wwid akira 3600140577590fddd471fd4a22d959cd8
+# wwid tetsuo 36001405edaffd66dd91fd4cf4d94e2d7
+# wwid kaneda 3600140573da4271dc9dad435cd9f98d3
+# wwid kei 36001405d74d077dd6b90d4c69d84ffd5
+# wwid kaori 36001405e8115429dd98cd4a90d9d13d3
+# wwid kai 3600140511cc4b0fd47f3d4f7cdaa61d0
+# wwid ryu 36001405ff509b7dd6bb4d4387d83d2dd
+# wwid takashi 36001405ec72235ed55f0d431ed9b72da
+

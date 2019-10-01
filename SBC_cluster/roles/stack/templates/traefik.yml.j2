@@ -72,3 +72,299 @@ services:
 networks:
   traefik_public:
     external: true
+
+# Traefik.yml
+# api:
+#   insecure: true
+
+# global:
+#   checkNewVersion: true
+
+# entryPoints:
+#   http:
+#     address: ":80"
+#   https:
+#     address: ":443"
+
+# providers:
+#   docker:
+#     endpoint: "unix:///var/run/docker.sock"
+#     exposedByDefault: false
+#     swarmMode: true
+#     network: traefik_network
+#   file:
+#     directory: /etc/traefik
+
+# tls:
+#   certificates:
+#   - certFile: /etc/traefik/certs/cert.crt
+#     keyFile: /etc/traefik/certs/privkey.key
+#   stores:
+#     default:
+#       defaultCertificate:
+#         certFile: /etc/traefik/certs/cert.crt
+#         keyFile: /etc/traefik/certs/privkey.key
+
+# # Redirect HTTP to HTTPS
+# http:
+#   middlewares:
+#     redirect:
+#       redirectScheme:
+#         scheme: https
+#         permanent: true
+
+# metrics:
+#   prometheus: {}
+
+# tracing:
+#   zipkin:
+#     httpEndpoint: http://zipkin:9411/api/v2/spans
+
+# # log:
+# #   level: DEBUG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# version: "3.7"
+
+# services:
+#   traefik:
+#     image: traefik:${TRAEFIK_VERSION:?TRAEFIK_VERSION is not set!}
+#     ports:
+#       - target: 80
+#         published: 80
+#         protocol: tcp
+#         mode: host
+#       - target: 443
+#         published: 443
+#         protocol: tcp
+#         mode: host
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock:ro
+#     secrets:
+#       - source: wildswisssign.crt
+#         target: /etc/traefik/certs/cert.crt
+#       - source: wildswisssign.key
+#         target: /etc/traefik/certs/privkey.key
+#       - source: wildhuggeswisssign.crt
+#         target: /etc/traefik/certs/cert.crt
+#       - source: wildhuggeswisssign.key
+#         target: /etc/traefik/certs/privkey.key
+#     networks:
+#       - network
+#     configs:
+#       - source: traefik.yml
+#         target: /etc/traefik/traefik.yml
+#     deploy:
+#       labels:
+#         - "traefik.enable=true"
+#         - "traefik.http.routers.traefik-unsecure.rule=Host(`${TRAEFIK_UI_TRAEFIK_URI:?TRAEFIK_UI_TRAEFIK_URI is not set!}`)"
+#         - "traefik.http.routers.traefik-unsecure.middlewares=redirect@file"
+#         - "traefik.http.routers.traefik-unsecure.entrypoints=http"
+#         - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_UI_TRAEFIK_URI:?TRAEFIK_UI_TRAEFIK_URI is not set!}`)"
+#         - "traefik.http.routers.traefik.tls=true"
+#         - "traefik.http.routers.traefik.entrypoints=https"
+#         - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+#       mode: global
+#       placement:
+#         constraints: [node.role == manager]
+#       restart_policy:
+#         condition: on-failure
+
+#   prometheus:
+#     image: prom/prometheus:${PROMETHEUS_VERSION:?PROMETHEUS_VERSION is not set!}
+#     volumes:
+#       - prometheus_data:/prometheus
+#     command:
+#       - "--config.file=/etc/prometheus/prometheus.yml"
+#       - "--storage.tsdb.path=/prometheus"
+#       - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+#       - "--web.console.templates=/usr/share/prometheus/consoles"
+#     networks:
+#       - network
+#     configs:
+#       - source: prometheus.yml
+#         target: /etc/prometheus/prometheus.yml
+#       - source: prometheus.rules
+#         target: /etc/prometheus/prometheus.rules
+#     deploy:
+#       replicas: 1
+#       placement:
+#         constraints:
+#           - node.role == worker
+
+#   # influxdb:
+#   #   image: influxdb:${INFLUXDB_VERSION:?INFLUXDB_VERSION is not set!}
+#   #   environment:
+#   #     - INFLUXDB_DB=traefik_metrics
+#   #   networks:
+#   #     - network
+#   #   deploy:
+#   #     replicas: 1
+#   #     placement:
+#   #       constraints:
+#   #         - node.role == worker
+
+#   grafana:
+#     image: grafana/grafana:${GRAFANA_VERSION:?GRAFANA_VERSION is not set!}
+#     volumes:
+#       - grafana_data:/var/lib/grafana
+#     networks:
+#       - network
+#     deploy:
+#       labels:
+#         - "traefik.enable=true"
+#         - "traefik.http.routers.traefik-grafana-unsecure.rule=Host(`${GRAFANA_UI_TRAEFIK_URI:?GRAFANA_UI_TRAEFIK_URI is not set!}`)"
+#         - "traefik.http.routers.traefik-grafana-unsecure.middlewares=redirect@file"
+#         - "traefik.http.routers.traefik-grafana-unsecure.entrypoints=http"
+#         - "traefik.http.routers.traefik-grafana.rule=Host(`${GRAFANA_UI_TRAEFIK_URI:?GRAFANA_UI_TRAEFIK_URI is not set!}`)"
+#         - "traefik.http.routers.traefik-grafana.tls=true"
+#         - "traefik.http.routers.traefik-grafana.entrypoints=https"
+#         - "traefik.http.services.traefik-grafana.loadbalancer.server.port=3000"
+#       replicas: 1
+#       placement:
+#         constraints:
+#           - node.role == worker
+#       resources:
+#         limits:
+#           cpus: "1"
+#           memory: 512M
+#         reservations:
+#           cpus: "0.2"
+#           memory: 100M
+
+# secrets:
+#   wildswisssign.crt:
+#     external: true
+#   wildswisssign.key:
+#     external: true
+#   wildhuggeswisssign.crt:
+#     external: true
+#   wildhuggeswisssign.key:
+#     external: true
+
+# configs:
+#   prometheus.yml:
+#     file: ./configurations/prometheus.yml
+#   prometheus.rules:
+#     file: ./configurations/prometheus.rules
+#   traefik.yml:
+#     file: ./configurations/traefik.yml
+
+# volumes:
+#   prometheus_data:
+#     name: ${TRAEFIK_PROMETHEUS_VOLUME:?TRAEFIK_PROMETHEUS_VOLUME is not set!}
+#   grafana_data:
+#     name: ${TRAEFIK_GRAFANA_VOLUME:?TRAEFIK_GRAFANA_VOLUME is not set!}
+
+# networks:
+#   network:
+#     driver: overlay
+#     attachable: true
+
+
+# Deploy
+# # Traefik
+# export TRAEFIK_UI_TRAEFIK_URI=traefik-dev.
+# export GRAFANA_UI_TRAEFIK_URI=traefik-grafana-dev.
+
+# # Versions
+# export TRAEFIK_VERSION=v2.0
+# export PROMETHEUS_VERSION=v2.12.0
+# export GRAFANA_VERSION=6.3.6
+
+# # Volumes
+# export TRAEFIK_PROMETHEUS_VOLUME=dev-traefik-prometheus
+# export TRAEFIK_GRAFANA_VOLUME=dev-traefik-grafana
+
+# docker stack deploy -c docker-compose.yml --resolve-image=always --prune --with-registry-auth traefik
+
+
+
+#prometheus.yml
+# # my global config
+# global:
+#   scrape_interval:     15s # By default, scrape targets every 15 seconds.
+#   evaluation_interval: 15s # By default, scrape targets every 15 seconds.
+#   # scrape_timeout is set to the global default (10s).
+
+#   # Attach these labels to any time series or alerts when communicating with
+#   # external systems (federation, remote storage, Alertmanager).
+#   external_labels:
+#       monitor: 'my-project'
+
+# # Load and evaluate rules in this file every 'evaluation_interval' seconds.
+# rule_files:
+#   - 'prometheus.rules'
+#   # - "first.rules"
+#   # - "second.rules"
+
+# # alert
+# # alerting:
+# #   alertmanagers:
+# #   - scheme: http
+# #     static_configs:
+# #     - targets:
+# #       - "alertmanager:9093"
+
+# # A scrape configuration containing exactly one endpoint to scrape:
+# # Here it's Prometheus itself.
+# scrape_configs:
+#   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+
+#   - job_name: 'prometheus'
+
+#     # Override the global default and scrape targets from this job every 5 seconds.
+#     scrape_interval: 5s
+
+#     static_configs:
+#          - targets: ['localhost:9090']
+
+
+#   - job_name: 'traefik'
+#     # Override the global default and scrape targets from this job every 5 seconds.
+#     scrape_interval: 5s
+#     static_configs:
+#       - targets:
+#         - traefik:8080
+
+
+
+
+
+
+
+#prometheus.rules
+# groups:
+# - name: example
+#   rules:
+
+#   # Alert for any instance that is unreachable for >2 minutes.
+#   - alert: service_down
+#     expr: up == 0
+#     for: 2m
+#     labels:
+#       severity: page
+#     annotations:
+#       summary: "Instance {{ $labels.instance }} down"
+#       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
+
+#   - alert: high_load
+#     expr: node_load1 > 0.5
+#     for: 2m
+#     labels:
+#       severity: page
+#     annotations:
+#       summary: "Instance {{ $labels.instance }} under high load"
+#       description: "{{ $labels.instance }} of job {{ $labels.job }} is under high load."
