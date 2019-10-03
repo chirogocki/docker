@@ -1,0 +1,31 @@
+---
+
+- name: Template 'Traefik2' compose file
+  template:
+    src: traefik2.yml.j2
+    dest: "{{docker_conf_path}}/Traefik2S/traefik-app.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Create secret cert
+  docker_secret:
+    name: cert.pem
+    data: "{{ lookup('file', '{{docker_conf_path}}/SSL/cert.pem') | b64encode }}"
+    data_is_b64: true
+    force: yes
+    state: present
+
+- name: Create secret privkey
+  docker_secret:
+    name: privkey.pem
+    data: "{{ lookup('file', '{{docker_conf_path}}/SSL/privkey.pem') | b64encode }}"
+    data_is_b64: true
+    force: yes
+    state: present
+
+- name: Deploy 'Traefik2' stack from file
+  docker_stack:
+    state: present
+    name: traefik
+    compose:
+     - "{{docker_conf_path}}/Traefik2S/traefik-app.yml"
