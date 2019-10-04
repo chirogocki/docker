@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.7"
 
 services:
   registry:
@@ -7,7 +7,7 @@ services:
     volumes:
       - registry:/var/lib/registry
     networks:
-      - traefik_public
+      - traefik_network
     deploy:
       mode: replicated
       replicas: 1
@@ -15,10 +15,14 @@ services:
         constraints:
           - node.role == manager
       labels:
-        - "traefik.port=5000"
-        - "traefik.docker.network=traefik_public"
-        - "traefik.frontend.rule=Host:registry.{{domain}}"
-        - traefik.enable=true
+        - "traefik.enable=true"
+        - "traefik.http.routers.registry-unsecure.rule=Host(`registry.{{domain}}`)"
+        - "traefik.http.routers.registry-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.registry-unsecure.entrypoints=http"
+        - "traefik.http.routers.registry.rule=Host(`registry{{domain}}`)"
+        - "traefik.http.routers.registry.tls=true"
+        - "traefik.http.routers.registry.entrypoints=https"
+        - "traefik.http.services.registry.loadbalancer.server.port=5000"
 
 volumes:
   registry:
@@ -28,5 +32,5 @@ volumes:
       device: ":/{{docker_remote_path}}Registry"
 
 networks:
-  traefik_public:
+  traefik_network:
     external: true
