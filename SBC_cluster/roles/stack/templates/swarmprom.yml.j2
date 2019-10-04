@@ -4,7 +4,7 @@ networks:
   net:
     driver: overlay
     attachable: true
-  traefik_public:
+  traefik_network:
     external: true
 
 configs:
@@ -61,7 +61,7 @@ services:
     networks:
       - net
       - default
-      - traefik_public
+      - traefik_network
     environment:
       - GF_SECURITY_ADMIN_USER={{swarmprom_user}}
       - GF_SECURITY_ADMIN_PASSWORD={{swarmprom_password}}
@@ -82,24 +82,28 @@ services:
         constraints:
           - node.role == manager
       resources:
-      #  limits:
-      #    memory: 128M
-      #    cpus: '0.25'
+        limits:
+          memory: 128M
+          cpus: '0.25'
         reservations:
           memory: 64M
           cpus: '0.1'
       labels:
-        - traefik.frontend.rule=Host:grafana.{{domain}}
-        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
-        - traefik.docker.network=traefik_public
-        - traefik.port=3000
+        - "traefik.enable=true"
+        - "traefik.http.routers.grafana-unsecure.rule=Host(`grafana.{{domain}}`)"
+        - "traefik.http.routers.grafana-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.grafana-unsecure.entrypoints=http"
+        - "traefik.http.routers.grafana.rule=Host(`grafana.{{domain}}`)"
+        - "traefik.http.routers.grafana.tls=true"
+        - "traefik.http.routers.grafana.entrypoints=https"
+        - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
   alertmanager:
     image: registry.{{domain}}/sp_alertmanager:latest
     networks:
       - net
       - default
-      - traefik_public
+      - traefik_network
     environment:
       - SLACK_URL={{slack_url}}
       - SLACK_CHANNEL={{slack_channel}}
@@ -123,19 +127,21 @@ services:
           memory: 64M
           cpus: '0.1'
       labels:
-        - traefik.frontend.rule=Host:alertmanager.{{domain}}
-        - traefik.port=9093
-        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
-        - traefik.frontend.auth.forward.trustForwardHeader=true
-        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
-        - traefik.docker.network=traefik_public
+        - "traefik.enable=true"
+        - "traefik.http.routers.alertmanager-unsecure.rule=Host(`alertmanager.{{domain}}`)"
+        - "traefik.http.routers.alertmanager-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.alertmanager-unsecure.entrypoints=http"
+        - "traefik.http.routers.alertmanager.rule=Host(`alertmanager.{{domain}}`)"
+        - "traefik.http.routers.alertmanager.tls=true"
+        - "traefik.http.routers.alertmanager.entrypoints=https"
+        - "traefik.http.services.alertmanager.loadbalancer.server.port=9093"
 
   unsee:
     image: registry.{{domain}}/sp_unsee:latest
     networks:
       - net
       - default
-      - traefik_public
+      - traefik_network
     environment:
       - "ALERTMANAGER_URI=http://alertmanager:9093"
     deploy:
@@ -152,12 +158,16 @@ services:
           memory: 64M
           cpus: '0.1'
       labels:
-        - traefik.frontend.rule=Host:unsee.{{domain}}
-        - traefik.port=8080
-        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
-        - traefik.frontend.auth.forward.trustForwardHeader=true
-        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
-        - traefik.docker.network=traefik_public
+        - "traefik.enable=true"
+        - "traefik.http.routers.unsee-unsecure.rule=Host(`unsee.{{domain}}`)"
+        - "traefik.http.routers.unsee-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.unsee-unsecure.entrypoints=http"
+        - "traefik.http.routers.unsee.rule=Host(`unsee.{{domain}}`)"
+        - "traefik.http.routers.unsee.tls=true"
+        - "traefik.http.routers.unsee.entrypoints=https"
+        - "traefik.http.services.unsee.loadbalancer.server.port=8080"
+        - "traefik.http.middlewares.auth-unsee.basicauth.users=admin:$$apr1$$Ux7zvNx5$$ohgAm9jcAtLbnyheCOekZ1"
+        - "traefik.http.routers.unsee.middlewares=auth-unsee"
 
   node-exporter:
     image: registry.{{domain}}/sp_node-exporter:latest
@@ -191,7 +201,7 @@ services:
     networks:
       - net
       - default
-      - traefik_public
+      - traefik_network
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -217,10 +227,13 @@ services:
           memory: 128M
           cpus: '0.5'
       labels:
-        - traefik.frontend.rule=Host:prometheus.{{domain}}
-        - traefik.port=9090
-        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
-        - traefik.frontend.auth.forward.trustForwardHeader=true
-        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
-        - traefik.docker.network=traefik_public
-
+        - "traefik.enable=true"
+        - "traefik.http.routers.prometheus-unsecure.rule=Host(`prometheus.{{domain}}`)"
+        - "traefik.http.routers.prometheus-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.prometheus-unsecure.entrypoints=http"
+        - "traefik.http.routers.prometheus.rule=Host(`prometheus.{{domain}}`)"
+        - "traefik.http.routers.prometheus.tls=true"
+        - "traefik.http.routers.prometheus.entrypoints=https"
+        - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+        - "traefik.http.middlewares.auth-prometheus.basicauth.users=admin:$$apr1$$Ux7zvNx5$$ohgAm9jcAtLbnyheCOekZ1"
+        - "traefik.http.routers.prometheus.middlewares=auth-prometheus"
