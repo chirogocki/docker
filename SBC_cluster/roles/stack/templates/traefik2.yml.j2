@@ -3,6 +3,9 @@ version: "3.7"
 services:
   traefik:
     image: traefik:v2.0
+    environment:
+      - UID=1024
+      - GID=100
     ports:
       - target: 80
         published: 80
@@ -34,6 +37,7 @@ services:
         - "traefik.http.routers.traefik.tls=true"
         - "traefik.http.routers.traefik.entrypoints=https"
         - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+        - traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$Ux7zvNx5$$ohgAm9jcAtLbnyheCOekZ1"
       mode: global
       placement:
         constraints: [node.role == manager]
@@ -55,20 +59,4 @@ networks:
     driver: overlay
     attachable: true
 
-
-# Deploy
-# # Traefik
-# export TRAEFIK_UI_TRAEFIK_URI=traefik-dev.
-# export GRAFANA_UI_TRAEFIK_URI=traefik-grafana-dev.
-
-# # Versions
-# export TRAEFIK_VERSION=v2.0
-# export PROMETHEUS_VERSION=v2.12.0
-# export GRAFANA_VERSION=6.3.6
-
-# # Volumes
-# export TRAEFIK_PROMETHEUS_VOLUME=dev-traefik-prometheus
-# export TRAEFIK_GRAFANA_VOLUME=dev-traefik-grafana
-
-# docker stack deploy -c docker-compose.yml --resolve-image=always --prune --with-registry-auth traefik
 
