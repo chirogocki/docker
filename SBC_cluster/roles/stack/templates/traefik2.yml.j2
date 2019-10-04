@@ -36,8 +36,9 @@ services:
         - "traefik.http.routers.traefik.rule=Host(`traefik-swarm.{{domain}}`)"
         - "traefik.http.routers.traefik.tls=true"
         - "traefik.http.routers.traefik.entrypoints=https"
+        - "traefik.http.routers.traefik.middlewares=auth-traefik"
         - "traefik.http.services.traefik.loadbalancer.server.port=8080"
-        - traefik.http.middlewares.auth-traefik.basicauth.users=admin:$$apr1$$Ux7zvNx5$$ohgAm9jcAtLbnyheCOekZ1"
+        - "traefik.http.middlewares.auth-traefik.basicauth.users=admin:$$apr1$$Ux7zvNx5$$ohgAm9jcAtLbnyheCOekZ1"
       mode: global
       placement:
         constraints: [node.role == manager]
