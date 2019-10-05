@@ -74,13 +74,14 @@ services:
       #- GF_SMTP_USER=${GF_SMTP_USER}
       #- GF_SMTP_PASSWORD=${GF_SMTP_PASSWORD}
     volumes:
-      - "{{swarm_db_path}}/Swarmprom/grafana:/var/lib/grafana"
+      - "/docker/Swarmprom/grafana:/var/lib/grafana"
     deploy:
       mode: replicated
       replicas: 1
       placement:
         constraints:
           - node.role == manager
+          - node.hostname!=tetsuo.{{domain}}
       resources:
         limits:
           memory: 128M
@@ -112,13 +113,14 @@ services:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
       - '--storage.path=/alertmanager'
     volumes:
-      - "{{swarm_db_path}}/Swarmprom/alertmanager:/alertmanager"
+      - "/docker/Swarmprom/alertmanager:/alertmanager"
     deploy:
       mode: replicated
       replicas: 1
       placement:
         constraints:
           - node.role == manager
+          - node.hostname!=akira.{{domain}}
       resources:
         limits:
           memory: 128M
@@ -207,7 +209,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention=24h'
     volumes:
-      - "{{swarm_db_path}}/Swarmprom/prometheus:/prometheus"
+      - "/docker/Swarmprom/prometheus:/prometheus"
     configs:
       - source: node_rules
         target: /etc/prometheus/swarm_node.rules.yml
@@ -219,6 +221,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          - node.hostname!=kaneda.{{domain}}
       resources:
         limits:
           memory: 768M
