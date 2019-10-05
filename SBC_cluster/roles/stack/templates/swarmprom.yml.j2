@@ -81,7 +81,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.hostname!=tetsuo.{{domain}}
+          - node.hostname==tetsuo.{{domain}}
       resources:
         limits:
           memory: 128M
@@ -120,7 +120,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.hostname!=akira.{{domain}}
+          - node.hostname==akira.{{domain}}
       resources:
         limits:
           memory: 128M
@@ -221,7 +221,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.hostname!=kaneda.{{domain}}
+          - node.hostname==kaneda.{{domain}}
       resources:
         limits:
           memory: 768M
