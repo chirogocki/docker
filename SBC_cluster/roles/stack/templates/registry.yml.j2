@@ -16,9 +16,9 @@ services:
           - node.role == manager
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.registry-unsecure.rule=Host(`registry.{{domain}}`)"
+        {# - "traefik.http.routers.registry-unsecure.rule=Host(`registry.{{domain}}`)"
         - "traefik.http.routers.registry-unsecure.middlewares=redirect@file"
-        - "traefik.http.routers.registry-unsecure.entrypoints=http"
+        - "traefik.http.routers.registry-unsecure.entrypoints=http" #}
         - "traefik.http.routers.registry.rule=Host(`registry{{domain}}`)"
         - "traefik.http.routers.registry.tls=true"
         - "traefik.http.routers.registry.entrypoints=https"
