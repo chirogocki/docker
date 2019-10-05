@@ -3,13 +3,7 @@ version: "3.7"
 services:
   registry:
     restart: always
-    image: registry:2.6
-    environment:
-      - REGISTRY_HTTP_ADDR=0.0.0.0:443
-      - REGISTRY_HTTP_TLS_CERTIFICATE="/run/secrets/cert.pem"
-      - REGISTRY_HTTP_TLS_KEY="/run/secrets/privkey.pem"
-    ports:
-      - 5000:443
+    image: registry:2.7
     volumes:
       - registry:/var/lib/registry
     networks:
@@ -26,10 +20,10 @@ services:
         #- "traefik.http.routers.registry-unsecure.middlewares=redirect@file"
         #- "traefik.http.routers.registry-unsecure.entrypoints=http"
         - "traefik.http.routers.registry.rule=Host(`registry{{domain}}`)"
-        - "traefik.http.routers.registry.tls=true"
-        - "traefik.http.routers.registry.entrypoints=https"
+        #- "traefik.http.routers.registry.tls=true"
+        - "traefik.http.routers.registry.entrypoints=http"
         - "traefik.http.routers.registry.service=registry"
-        - "traefik.http.services.registry.loadbalancer.server.port=443"
+        - "traefik.http.services.registry.loadbalancer.server.port=5000"
 
 volumes:
   registry:
