@@ -10,39 +10,43 @@ services:
       - MAXMEM=1024
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /mnt/swarm/Ubooquity:/config
+    - /docker/Ubooquity:/config
     - books:/books
     - files:/files
     - comics:/comics
     - private:/private
       
     networks:
-      #- internal
-      - traefik_public
+      - traefik_network
     deploy:
       replicas: 1
       placement:
-        constraints: [node.role == worker]
+        constraints:
+          - node.role == worker
+          - node.hostname==ryu.{{domain}}
       labels:
-        - traefik.admbooks.frontend.rule=Host:admbooks.{{domain}}
-        - traefik.admbooks.port=2203
-        - traefik.books.frontend.rule=Host:books.{{domain}}
-        - traefik.books.port=2202
-        - traefik.docker.network=traefik_public
-        - traefik.enable=true
-        - "traefik.frontend.headers.SSLRedirect=true"
-        - "traefik.frontend.headers.STSSeconds=315360000"
-        - "traefik.frontend.headers.browserXSSFilter=true"
-        - "traefik.frontend.headers.contentTypeNosniff=true"
-        - "traefik.frontend.headers.forceSTSHeader=true"
-        - "traefik.frontend.headers.SSLHost={{domain}}"
-        - "traefik.frontend.headers.STSIncludeSubdomains=true"
-        - "traefik.frontend.headers.STSPreload=true"
-        - "traefik.frontend.headers.frameDeny=true"
+        - "traefik.enable=true"
+        - "traefik.http.routers.admbooks-unsecure.rule=Host(`admbooks.{{domain}}`)"
+        - "traefik.http.routers.admbooks-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.admbooks-unsecure.entrypoints=http"
+        - "traefik.http.routers.admbooks.rule=Host(`admbooks.{{domain}}`)"
+        - "traefik.http.routers.admbooks.tls=true"
+        - "traefik.http.routers.admbooks.entrypoints=https"
+        - "traefik.http.routers.admbooks.service=admbooks"
+        - "traefik.http.services.admbooks.loadbalancer.server.port=2203"
+        - "traefik.enable=true"
+        - "traefik.http.routers.books-unsecure.rule=Host(`books.{{domain}}`)"
+        - "traefik.http.routers.books-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.books-unsecure.entrypoints=http"
+        - "traefik.http.routers.books.rule=Host(`books.{{domain}}`)"
+        - "traefik.http.routers.books.tls=true"
+        - "traefik.http.routers.books.entrypoints=https"
+        - "traefik.http.routers.books.service=books"
+        - "traefik.http.services.books.loadbalancer.server.port=2202"
       resources:
         limits:
           memory: 1152M
-          cpus: '4'
+          cpus: '2'
         reservations:
           memory: 256M
           cpus: '0.25'
@@ -53,11 +57,6 @@ services:
         window: 120s
 
 volumes:
-  # config:
-  #   driver_opts:
-  #     type: "nfs"
-  #     o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
-  #     device: ":/{{docker_remote_path}}UB/"
   books:
     driver_opts:
       type: "nfs"
@@ -80,10 +79,5 @@ volumes:
       device: ":/{{private_remote_path}}"
 
 networks:
-  traefik_public:
+  traefik_network:
     external: true
-  #internal:
-  #  driver: overlay
-  #  ipam:
-  #    config:
-  #      - subnet: 172.16.12.0/24
