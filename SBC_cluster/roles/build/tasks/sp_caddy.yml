@@ -151,7 +151,7 @@
       registry: registry.{{domain}}
       state: absent
     when: ansible_architecture == "x86_64"
-  delegate_to: docker
+  delegate_to: localhost
 
 - name: Swarmprom caddy - Create manifest to registry
   command: "docker manifest create --amend registry.{{domain}}/sp_caddy:latest registry.{{domain}}/sp_caddy:armv7l-v2 registry.{{domain}}/sp_caddy:x86_64-v2"
