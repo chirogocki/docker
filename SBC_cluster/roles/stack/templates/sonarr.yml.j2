@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  sonarr:
+    image: linuxserver/sonarr:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /storage/Sonarr:/config
+    - /mount/downloads:/downloads
+    - /mount/tv:/tv
+    - /mount/tv-archive:/tv-archive
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.sonarr-unsecure.rule=Host(`srr.{{domain}}`)"
+        - "traefik.http.routers.sonarr-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.sonarr-unsecure.entrypoints=http"
+        - "traefik.http.routers.sonarr.rule=Host(`srr.{{domain}}`)"
+        - "traefik.http.routers.sonarr.tls=true"
+        - "traefik.http.routers.sonarr.entrypoints=https"
+        - "traefik.http.routers.sonarr.service=sonarr"
+        - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+

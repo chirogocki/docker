@@ -9,31 +9,28 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - config:/config
-    - downloads:/downloads
-    - incomplete:/incomplete-downloads
+    - /storage/Sabnzbd:/config
+    - /mount/downloads:/downloads
+    - /mount/incomplete-downloads:/incomplete-downloads
       
     networks:
-      - common
-      - traefik_public
+      - traefik_network
     deploy:
       replicas: 1
       placement:
-        constraints: [node.role == worker]
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
       labels:
-        - traefik.sabnzbd.frontend.rule=Host:sn.{{domain}}
-        - traefik.sabnzbd.port=8080
-        - traefik.docker.network=traefik_public
-        - traefik.enable=true
-        - "traefik.frontend.headers.SSLRedirect=true"
-        - "traefik.frontend.headers.STSSeconds=315360000"
-        - "traefik.frontend.headers.browserXSSFilter=true"
-        - "traefik.frontend.headers.contentTypeNosniff=true"
-        - "traefik.frontend.headers.forceSTSHeader=true"
-        - "traefik.frontend.headers.SSLHost={{domain}}"
-        - "traefik.frontend.headers.STSIncludeSubdomains=true"
-        - "traefik.frontend.headers.STSPreload=true"
-        - "traefik.frontend.headers.frameDeny=true"
+        - "traefik.enable=true"
+        - "traefik.http.routers.sabnzbd-unsecure.rule=Host(`sn.{{domain}}`)"
+        - "traefik.http.routers.sabnzbd-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.sabnzbd-unsecure.entrypoints=http"
+        - "traefik.http.routers.sabnzbd.rule=Host(`sn.{{domain}}`)"
+        - "traefik.http.routers.sabnzbd.tls=true"
+        - "traefik.http.routers.sabnzbd.entrypoints=https"
+        - "traefik.http.routers.sabnzbd.service=sn"
+        - "traefik.http.services.sabnzbd.loadbalancer.server.port=8080"
       resources:
         limits:
           memory: 1024M
@@ -45,26 +42,7 @@ services:
         max_attempts: 3
         window: 120s
 
-volumes:
-  config:
-    driver_opts:
-      type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
-      device: ":/{{docker_remote_path}}Hydra2/"
-  downloads:
-    driver_opts:
-      type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
-      device: ":/{{downloads_remote_path}}"
-  incomplete:
-    driver_opts:
-      type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
-      device: ":/{{downloads_remote_path}}incomplete/"
-
 networks:
-  traefik_public:
-    external: true
-  common:
+  traefik_network:
     external: true
 

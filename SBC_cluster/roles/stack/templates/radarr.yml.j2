@@ -1,0 +1,48 @@
+version: "3.7"
+
+services:
+  radarr:
+    image: linuxserver/radarr:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /storage/Radarr:/config
+    - /mount/downloads:/downloads
+    - /mount/video/movies
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.radarr-unsecure.rule=Host(`rrr.{{domain}}`)"
+        - "traefik.http.routers.radarr-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.radarr-unsecure.entrypoints=http"
+        - "traefik.http.routers.radarr.rule=Host(`rrr.{{domain}}`)"
+        - "traefik.http.routers.radarr.tls=true"
+        - "traefik.http.routers.radarr.entrypoints=https"
+        - "traefik.http.routers.radarr.service=radarr"
+        - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+

@@ -1,0 +1,128 @@
+version: "3.7"
+
+services:
+  trvpn:
+    image: haugene/transmission-openvpn:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+      - CREATE_TUN_DEVICE=true
+      - OPENVPN_PROVIDER={{vpn_provider}}
+      - OPENVPN_CONFIG={{vpn_config}}
+      - OPENVPN_USERNAME={{vpn_user}}
+      - OPENVPN_PASSWORD={{vpn_password}}
+      - WEBPROXY_ENABLED=false
+      - LOCAL_NETWORK={{local_network}}
+      - GLOBAL_APPLY_PERMISSIONS=true
+      - TRANSMISSION_ALT_SPEED_DOWN=50
+      - TRANSMISSION_ALT_SPEED_ENABLED=false
+      - TRANSMISSION_ALT_SPEED_TIME_BEGIN=540
+      - TRANSMISSION_ALT_SPEED_TIME_DAY=127
+      - TRANSMISSION_ALT_SPEED_TIME_ENABLED=false
+      - TRANSMISSION_ALT_SPEED_TIME_END=1020
+      - TRANSMISSION_ALT_SPEED_UP=50
+      - TRANSMISSION_BIND_ADDRESS_IPV4=0.0.0.0
+      - TRANSMISSION_BIND_ADDRESS_IPV6=::
+      - TRANSMISSION_BLOCKLIST_ENABLED=false
+      - TRANSMISSION_BLOCKLIST_URL=http://www.example.com/blocklist
+      - TRANSMISSION_CACHE_SIZE_MB=4
+      - TRANSMISSION_DHT_ENABLED=true
+      - TRANSMISSION_DOWNLOAD_DIR=/data/completed
+      - TRANSMISSION_DOWNLOAD_LIMIT=100
+      - TRANSMISSION_DOWNLOAD_LIMIT_ENABLED=0
+      - TRANSMISSION_DOWNLOAD_QUEUE_ENABLED=true
+      - TRANSMISSION_DOWNLOAD_QUEUE_SIZE=5
+      - TRANSMISSION_ENCRYPTION=1
+      - TRANSMISSION_IDLE_SEEDING_LIMIT=30
+      - TRANSMISSION_IDLE_SEEDING_LIMIT_ENABLED=false
+      - TRANSMISSION_INCOMPLETE_DIR=/data/incomplete
+      - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
+      - TRANSMISSION_LPD_ENABLED=false
+      - TRANSMISSION_MAX_PEERS_GLOBAL=200
+      - TRANSMISSION_MESSAGE_LEVEL=2
+      - TRANSMISSION_PEER_ID_TTL_HOURS=6
+      - TRANSMISSION_PEER_LIMIT_GLOBAL=200
+      - TRANSMISSION_PEER_LIMIT_PER_TORRENT=50
+      - TRANSMISSION_PEER_PORT=51413
+      - TRANSMISSION_PEER_PORT_RANDOM_HIGH=65535
+      - TRANSMISSION_PEER_PORT_RANDOM_LOW=49152
+      - TRANSMISSION_PEER_PORT_RANDOM_ON_START=false
+      - TRANSMISSION_PEER_SOCKET_TOS=default
+      - TRANSMISSION_PEX_ENABLED=true
+      - TRANSMISSION_PORT_FORWARDING_ENABLED=false
+      - TRANSMISSION_PREALLOCATION=1
+      - TRANSMISSION_PREFETCH_ENABLED=1
+      - TRANSMISSION_QUEUE_STALLED_ENABLED=true
+      - TRANSMISSION_QUEUE_STALLED_MINUTES=30
+      - TRANSMISSION_RATIO_LIMIT=2
+      - TRANSMISSION_RATIO_LIMIT_ENABLED=false
+      - TRANSMISSION_RENAME_PARTIAL_FILES=true
+      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
+      - TRANSMISSION_RPC_BIND_ADDRESS=0.0.0.0
+      - TRANSMISSION_RPC_ENABLED=true
+      - TRANSMISSION_RPC_HOST_WHITELIST_ENABLED=false
+      - TRANSMISSION_RPC_PASSWORD={{transmission_password}}2019@monmotdepassetransmission-openvpN
+      - TRANSMISSION_RPC_PORT=9091
+      - TRANSMISSION_RPC_URL=/transmission/
+      - TRANSMISSION_RPC_USERNAME=admin
+      - TRANSMISSION_RPC_WHITELIST=127.0.0.1
+      - TRANSMISSION_RPC_WHITELIST_ENABLED=false
+      - TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED=true
+      - TRANSMISSION_SCRIPT_TORRENT_DONE_ENABLED=false
+      - TRANSMISSION_SEED_QUEUE_ENABLED=false
+      - TRANSMISSION_SEED_QUEUE_SIZE=10
+      - TRANSMISSION_SPEED_LIMIT_DOWN=100
+      - TRANSMISSION_SPEED_LIMIT_DOWN_ENABLED=false
+      - TRANSMISSION_SPEED_LIMIT_UP=100
+      - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=false
+      - TRANSMISSION_START_ADDED_TORRENTS=true
+      - TRANSMISSION_TRASH_ORIGINAL_TORRENT_FILES=false
+      - TRANSMISSION_UMASK=2
+      - TRANSMISSION_UPLOAD_LIMIT=100
+      - TRANSMISSION_UPLOAD_LIMIT_ENABLED=0
+      - TRANSMISSION_UPLOAD_SLOTS_PER_TORRENT=14
+      - TRANSMISSION_UTP_ENABLED=true
+      - TRANSMISSION_WATCH_DIR=/data/watch
+      - TRANSMISSION_WATCH_DIR_ENABLED=true
+      - TRANSMISSION_HOME=/data/transmission-home
+      - TRANSMISSION_WATCH_DIR_FORCE_GENERIC=false
+      - ENABLE_UFW=false
+      - UFW_ALLOW_GW_NET=false
+      - UFW_DISABLE_IPTABLES_REJECT=false
+      - WEBPROXY_PORT=8888
+      - HEALTH_CHECK_HOST=google.com
+      - TRANSMISSION_WEB_UI=kettu
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /storage/Transmission-openvpn/config:/config
+      - /storage/Transmission-openvpn:/data
+      - /mount/downloads/torrent_upload:/data/completed
+      - /mount/downloads/torrent_hole:/watch
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.trvpn-unsecure.rule=Host(`trvpn.{{domain}}`)"
+        - "traefik.http.routers.trvpn-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.trvpn-unsecure.entrypoints=http"
+        - "traefik.http.routers.trvpn.rule=Host(`trvpn.{{domain}}`)"
+        - "traefik.http.routers.trvpn.tls=true"
+        - "traefik.http.routers.trvpn.entrypoints=https"
+        - "traefik.http.routers.trvpn.service=trvpn"
+        - "traefik.http.services.trvpn.loadbalancer.server.port=9091"
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
