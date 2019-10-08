@@ -1,16 +1,16 @@
 ---
-- name: Template 'Radar' compose file
+- name: Template 'Radarr' compose file
   template:
-    src: radar.yml.j2
-    dest: "{{docker_conf_path}}/Radar/radar.yml"
+    src: radarr.yml.j2
+    dest: "{{docker_conf_path}}/Radarr/radarr.yml"
     owner: '1024'
     group: '100'
 
-- name: Deploy 'Radar' stack from file
+- name: Deploy 'Radarr' stack from file
   docker_stack:
     state: present
-    name: radar
+    name: radarr
     compose:
-     - "{{docker_conf_path}}/Radar/radar.yml"
+     - "{{docker_conf_path}}/Radarr/radarr.yml"
 
 
