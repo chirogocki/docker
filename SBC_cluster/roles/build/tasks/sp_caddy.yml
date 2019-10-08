@@ -110,7 +110,7 @@
     tags:
       - sp_caddy-dl
   - name: Swarmprom caddy - Unarchive release
-    command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
+    #command: "tar xzf {{docker_conf_path}}/Build/swarmprom/caddy/arm7 --owner=1024 --group=100 --overwrite --no-same-owner -C {{docker_conf_path}}/Build/swarmprom/caddy/armv7l/"
     unarchive:
       src: "/mount/docker/Build/swarmprom/caddy/amd64"
       dest: "/mount/docker/Build/swarmprom/caddy/x86_64/"
