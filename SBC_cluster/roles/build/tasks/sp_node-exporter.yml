@@ -55,49 +55,49 @@
 
 # Amd64
 
-# - block:
-#   - name: Swarmprom node-exporter - Touch dir
-#     file:
-#       path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
-#       state: directory
-#       recurse: yes
-#   - name: Swarmprom node-exporter - Trust CA
-#     copy:
-#       src: "/mount/docker/SSL/cert.crt"
-#       dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
-#       remote_src: yes
-#   - name: Swarmprom node-exporter - Log into private registry
-#     docker_login:
-#       registry: registry.{{domain}}
-#       username: "{{registry_user}}"
-#       password: "{{registry_password}}"
-#       reauthorize: yes
-#   - name: Swarmprom node-exporter - Build an x86_64 image and push it to a private repo
-#     docker_image:
-#       build:
-#         path: "/mount/docker/Build/swarmprom/node-exporter"
-#         nocache: yes
-#         pull: yes
-#       name: registry.{{domain}}/sp_node-exporter
-#       tag: x86_64-v2
-#       push: yes
-#       source: build
-#   - name: Swarmprom node-exporter - Log out of private registry
-#     docker_login:
-#       registry: registry.{{domain}}
-#       state: absent
-#     when: ansible_architecture == "x86_64"
-#   delegate_to: localhost
+- block:
+  - name: Swarmprom node-exporter - Touch dir
+    file:
+      path: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}"
+      state: directory
+      recurse: yes
+  - name: Swarmprom node-exporter - Trust CA
+    copy:
+      src: "/mount/docker/SSL/cert.crt"
+      dest: "/etc/docker/certs.d/{{ registry_name }}.{{domain}}/ca.crt"
+      remote_src: yes
+  - name: Swarmprom node-exporter - Log into private registry
+    docker_login:
+      registry: registry.{{domain}}
+      username: "{{registry_user}}"
+      password: "{{registry_password}}"
+      reauthorize: yes
+  - name: Swarmprom node-exporter - Build an x86_64 image and push it to a private repo
+    docker_image:
+      build:
+        path: "/mount/docker/Build/swarmprom/node-exporter"
+        nocache: yes
+        pull: yes
+      name: registry.{{domain}}/sp_node-exporter
+      tag: x86_64-v2
+      push: yes
+      source: build
+  - name: Swarmprom node-exporter - Log out of private registry
+    docker_login:
+      registry: registry.{{domain}}
+      state: absent
+    when: ansible_architecture == "x86_64"
+  delegate_to: docker
 
 
 - name: Swarmprom node-exporter - Create manifest to registry
-  # command: "docker manifest create --amend registry.{{domain}}/sp_node-exporter:latest registry.{{domain}}/sp_node-exporter:armv7l-v2 registry.{{domain}}/sp_node-exporter:x86_64-v2"
-  command: "docker manifest create --amend registry.{{domain}}/sp_node-exporter:latest registry.{{domain}}/sp_node-exporter:armv7l-v2"
+  command: "docker manifest create --amend registry.{{domain}}/sp_node-exporter:latest registry.{{domain}}/sp_node-exporter:armv7l-v2 registry.{{domain}}/sp_node-exporter:x86_64-v2"
+  #command: "docker manifest create --amend registry.{{domain}}/sp_node-exporter:latest registry.{{domain}}/sp_node-exporter:armv7l-v2"
 
 - name: Swarmprom node-exporter - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_node-exporter:latest"
 
-# - name: Swarmprom node-exporter - Log out of private registry
-#   docker_login:
-#     registry: registry.{{domain}}
-#     state: absent
+- name: Swarmprom node-exporter - Log out of private registry
+  docker_login:
+    registry: registry.{{domain}}
+    state: absent
