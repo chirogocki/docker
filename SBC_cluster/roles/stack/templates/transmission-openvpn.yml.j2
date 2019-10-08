@@ -3,6 +3,8 @@ version: "3.7"
 services:
   trvpn:
     image: haugene/transmission-openvpn:latest
+    cap_add:
+      - NET_ADMIN
     environment:
       - PGID=100
       - PUID=1024
