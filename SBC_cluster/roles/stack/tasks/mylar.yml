@@ -1,0 +1,16 @@
+---
+- name: Template 'Mylar' compose file
+  template:
+    src: mylar.yml.j2
+    dest: "{{docker_conf_path}}/Mylar/mylar.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Mylar' stack from file
+  docker_stack:
+    state: present
+    name: mylar
+    compose:
+     - "{{docker_conf_path}}/Mylar/mylar.yml"
+
+

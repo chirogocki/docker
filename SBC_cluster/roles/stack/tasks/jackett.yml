@@ -1,0 +1,16 @@
+---
+- name: Template 'Jackett' compose file
+  template:
+    src: jackett.yml.j2
+    dest: "{{docker_conf_path}}/Jackett/jackett.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Jackett' stack from file
+  docker_stack:
+    state: present
+    name: jackett
+    compose:
+     - "{{docker_conf_path}}/Jackett/jackett.yml"
+
+

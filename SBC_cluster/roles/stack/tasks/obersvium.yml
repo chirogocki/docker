@@ -1,0 +1,16 @@
+---
+- name: Template 'Observium' compose file
+  template:
+    src: observium.yml.j2
+    dest: "{{docker_conf_path}}/Observium/observium.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Observium' stack from file
+  docker_stack:
+    state: present
+    name: observium
+    compose:
+     - "{{docker_conf_path}}/Observium/observium.yml"
+
+

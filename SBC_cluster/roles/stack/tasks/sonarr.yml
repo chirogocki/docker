@@ -1,0 +1,16 @@
+---
+- name: Template 'Sonarr' compose file
+  template:
+    src: sonarr.yml.j2
+    dest: "{{docker_conf_path}}/Sonarr/sonarr.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Sonarr' stack from file
+  docker_stack:
+    state: present
+    name: sonarr
+    compose:
+     - "{{docker_conf_path}}/Sonarr/sonarr.yml"
+
+

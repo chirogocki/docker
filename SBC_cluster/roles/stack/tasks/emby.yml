@@ -1,0 +1,16 @@
+---
+- name: Template 'Emby' compose file
+  template:
+    src: emby.yml.j2
+    dest: "{{docker_conf_path}}/Emby/emby.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Emby' stack from file
+  docker_stack:
+    state: present
+    name: emby
+    compose:
+     - "{{docker_conf_path}}/Emby/emby.yml"
+
+

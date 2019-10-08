@@ -1,0 +1,16 @@
+---
+- name: Template 'LazyLibrarian' compose file
+  template:
+    src: lazylibrarian.yml.j2
+    dest: "{{docker_conf_path}}/Lazylibrarian/lazylibrarian.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'LazyLibrarian' stack from file
+  docker_stack:
+    state: present
+    name: lazylibrarian
+    compose:
+     - "{{docker_conf_path}}/Lazylibrarian/lazylibrarian.yml"
+
+

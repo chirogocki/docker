@@ -1,0 +1,16 @@
+---
+- name: Template 'Transmission-openvpn' compose file
+  template:
+    src: transmission-openvpn.yml.j2
+    dest: "{{docker_conf_path}}/Transmission-openvpn/transmission-openvpn.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Transmission-openvpn' stack from file
+  docker_stack:
+    state: present
+    name: transmission-openvpn
+    compose:
+     - "{{docker_conf_path}}/Transmission-openvpn/transmission-openvpn.yml"
+
+

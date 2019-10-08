@@ -1,0 +1,16 @@
+---
+- name: Template 'Bazarr' compose file
+  template:
+    src: bazarr.yml.j2
+    dest: "{{docker_conf_path}}/Bazarr/bazarr.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Bazarr' stack from file
+  docker_stack:
+    state: present
+    name: bazarr
+    compose:
+     - "{{docker_conf_path}}/Bazarr/bazarr.yml"
+
+
