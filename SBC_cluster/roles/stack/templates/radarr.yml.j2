@@ -11,7 +11,7 @@ services:
     - /etc/localtime:/etc/localtime:ro
     - /storage/Radarr:/config
     - /mount/downloads:/downloads
-    - /mount/video/movies
+    - /mount/video:/movies
       
     networks:
       - traefik_network
