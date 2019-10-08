@@ -22,7 +22,7 @@ services:
       placement:
         constraints:
           - node.role==worker
-          - node.hostname==docker.{{domain}}
+          - node.hostname==docker
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.admbooks-unsecure.rule=Host(`admbooks.{{domain}}`)"

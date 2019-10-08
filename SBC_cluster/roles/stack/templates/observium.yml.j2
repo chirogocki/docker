@@ -26,7 +26,7 @@ services:
       placement:
         constraints:
           - node.role==worker
-          - node.hostname==docker.{{domain}}
+          - node.hostname==docker
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.observium-unsecure.rule=Host(`observium.{{domain}}`)"
@@ -65,7 +65,7 @@ services:
       placement:
         constraints:
           - node.role==worker
-          - node.hostname==docker.{{domain}}
+          - node.hostname==docker
       restart_policy:
         condition: on-failure
         delay: 15s
