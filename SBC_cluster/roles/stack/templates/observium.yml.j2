@@ -19,8 +19,8 @@ services:
       
     networks:
       - traefik_network
-    #depends_on:
-    #  - observium_db
+    depends_on:
+      - observium_db
     deploy:
       replicas: 1
       placement:
