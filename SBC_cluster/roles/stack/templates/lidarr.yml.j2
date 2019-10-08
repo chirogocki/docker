@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  lidarr:
+    image: linuxserver/lidarr:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /storage/Lidarr:/config
+    - /mount/downloads:/downloads
+    - /mount/music:/music
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.lidarr-unsecure.rule=Host(`lidarr.{{domain}}`)"
+        - "traefik.http.routers.lidarr-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.lidarr-unsecure.entrypoints=http"
+        - "traefik.http.routers.lidarr.rule=Host(`lidarr.{{domain}}`)"
+        - "traefik.http.routers.lidarr.tls=true"
+        - "traefik.http.routers.lidarr.entrypoints=https"
+        - "traefik.http.routers.lidarr.service=lidarr"
+        - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
+      resources:
+        limits:
+          memory: 2048M
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+

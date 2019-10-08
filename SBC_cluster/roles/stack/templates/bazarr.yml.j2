@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  bazarr:
+    image: linuxserver/bazarr:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /storage/Bazarr:/config
+    - /mount/tv:/tv
+    - /mount/tv-archive:/tv-archive
+    - /mount/video/movies
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.bazarr-unsecure.rule=Host(`brr.{{domain}}`)"
+        - "traefik.http.routers.bazarr-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.bazarr-unsecure.entrypoints=http"
+        - "traefik.http.routers.bazarr.rule=Host(`brr.{{domain}}`)"
+        - "traefik.http.routers.bazarr.tls=true"
+        - "traefik.http.routers.bazarr.entrypoints=https"
+        - "traefik.http.routers.bazarr.service=bazarr"
+        - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+

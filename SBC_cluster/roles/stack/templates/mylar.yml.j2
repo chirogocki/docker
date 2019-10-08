@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  mylar:
+    image: linuxserver/mylar:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /storage/Mylar:/config
+    - /mount/downloads:/downloads
+    - /mount/comics:/comics
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.mylar-unsecure.rule=Host(`mylar.{{domain}}`)"
+        - "traefik.http.routers.mylar-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.mylar-unsecure.entrypoints=http"
+        - "traefik.http.routers.mylar.rule=Host(`mylar.{{domain}}`)"
+        - "traefik.http.routers.mylar.tls=true"
+        - "traefik.http.routers.mylar.entrypoints=https"
+        - "traefik.http.routers.mylar.service=mylar"
+        - "traefik.http.services.mylar.loadbalancer.server.port=8090"
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+

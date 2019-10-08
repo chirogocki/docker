@@ -28,17 +28,22 @@ services:
       - portainer_data:/data
     networks:
       - agent_network
-      - traefik_public
+      - traefik_network
     deploy:
       mode: replicated
       replicas: 1
       placement:
         constraints: [node.role == manager]
       labels:
-        - traefik.enable=true
-        - traefik.frontend.rule=Host:admin.{{domain}}
-        - traefik.docker.network=traefik_public
-        - traefik.port=9000
+        - "traefik.enable=true"
+        - "traefik.http.routers.portainer-unsecure.rule=Host(`ptr.{{domain}}`)"
+        - "traefik.http.routers.portainer-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.portainer-unsecure.entrypoints=http"
+        - "traefik.http.routers.portainer.rule=Host(`ptr.{{domain}}`)"
+        - "traefik.http.routers.portainer.tls=true"
+        - "traefik.http.routers.portainer.entrypoints=https"
+        - "traefik.http.routers.portainer.service=portainer"
+        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
 
 networks:
   traefik_public:

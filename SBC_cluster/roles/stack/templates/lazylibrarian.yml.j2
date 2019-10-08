@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  lazylibrarian:
+    image: linuxserver/lazylibrarian:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /storage/Lazylibrarian:/config
+    - /mount/downloads:/downloads
+    - /mount/books:/books
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.lazylibrarian-unsecure.rule=Host(`library.{{domain}}`)"
+        - "traefik.http.routers.lazylibrarian-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.lazylibrarian-unsecure.entrypoints=http"
+        - "traefik.http.routers.lazylibrarian.rule=Host(`library.{{domain}}`)"
+        - "traefik.http.routers.lazylibrarian.tls=true"
+        - "traefik.http.routers.lazylibrarian.entrypoints=https"
+        - "traefik.http.routers.lazylibrarian.service=lazylibrarian"
+        - "traefik.http.services.lazylibrarian.loadbalancer.server.port=5299"
+      resources:
+        limits:
+          memory: 2048M
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+

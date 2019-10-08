@@ -9,35 +9,27 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - config:/config
-    - downloads:/downloads
+    - /mount/Hydra2:/config
+    - /mount/downloads:/downloads
       
     networks:
-      - common
-      - traefik_public
+      - traefik_network
     deploy:
       replicas: 1
       placement:
-        constraints: [node.role == worker]
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
       labels:
-        - traefik.hydra2.frontend.rule=Host:hydra2.{{domain}}
-        - traefik.hydra2.port=5076
-        - traefik.docker.network=traefik_public
-        - traefik.enable=true
-        - "traefik.frontend.headers.SSLRedirect=true"
-        - "traefik.frontend.headers.STSSeconds=315360000"
-        - "traefik.frontend.headers.browserXSSFilter=true"
-        - "traefik.frontend.headers.contentTypeNosniff=true"
-        - "traefik.frontend.headers.forceSTSHeader=true"
-        - "traefik.frontend.headers.SSLHost={{domain}}"
-        - "traefik.frontend.headers.STSIncludeSubdomains=true"
-        - "traefik.frontend.headers.STSPreload=true"
-        - "traefik.frontend.headers.frameDeny=true"
-      resources:
-        limits:
-          memory: 1024M
-        reservations:
-          memory: 128M
+        - "traefik.enable=true"
+        - "traefik.http.routers.hydra2-unsecure.rule=Host(`hydra2.{{domain}}`)"
+        - "traefik.http.routers.hydra2-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.hydra2-unsecure.entrypoints=http"
+        - "traefik.http.routers.hydra2.rule=Host(`hydra2.{{domain}}`)"
+        - "traefik.http.routers.hydra2.tls=true"
+        - "traefik.http.routers.hydra2.entrypoints=https"
+        - "traefik.http.routers.hydra2.service=hydra2"
+        - "traefik.http.services.hydra2.loadbalancer.server.port=5076"
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -57,7 +49,5 @@ volumes:
       device: ":/{{downloads_remote_path}}"
 
 networks:
-  traefik_public:
-    external: true
-  common:
+  traefik_network:
     external: true

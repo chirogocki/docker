@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  emby:
+    image: emby/embyserver:latest
+    environment:
+      - GID=100
+      - UID=1024
+      - GIDLIST=27
+      - TZ=Europe/Paris
+    devices:
+      - /dev/dri/renderD128:/dev/dri
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /storage/Emby:/config
+    - /mount/tv-archive:/tv-archive
+    - /mount/music:/music
+    - /mount/private:/mnt/private
+    - /mount/video:/mnt/video
+    - /mount/anime:/mnt/anime
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.emby-unsecure.rule=Host(`emby.{{domain}}`)"
+        - "traefik.http.routers.emby-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.emby-unsecure.entrypoints=http"
+        - "traefik.http.routers.emby.rule=Host(`emby.{{domain}}`)"
+        - "traefik.http.routers.emby.tls=true"
+        - "traefik.http.routers.emby.entrypoints=https"
+        - "traefik.http.routers.emby.service=emby"
+        - "traefik.http.services.emby.loadbalancer.server.port=8096"
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+

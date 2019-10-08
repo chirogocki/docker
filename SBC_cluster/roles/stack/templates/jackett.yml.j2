@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  jackett:
+    image: linuxserver/jackett:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /storage/Jackett:/config
+    - /mount/downloads/torrent_hole:/downloads
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==worker
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.jackett-unsecure.rule=Host(`jtt.{{domain}}`)"
+        - "traefik.http.routers.jackett-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.jackett-unsecure.entrypoints=http"
+        - "traefik.http.routers.jackett.rule=Host(`jtt.{{domain}}`)"
+        - "traefik.http.routers.jackett.tls=true"
+        - "traefik.http.routers.jackett.entrypoints=https"
+        - "traefik.http.routers.jackett.service=jackett"
+        - "traefik.http.services.jackett.loadbalancer.server.port=9117"
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+
