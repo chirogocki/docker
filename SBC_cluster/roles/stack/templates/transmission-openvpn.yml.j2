@@ -16,6 +16,7 @@ services:
       - OPENVPN_CONFIG={{vpn_config}}
       - OPENVPN_USERNAME={{vpn_user}}
       - OPENVPN_PASSWORD={{vpn_password}}
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
       - WEBPROXY_ENABLED=false
       - LOCAL_NETWORK={{local_network}}
       - GLOBAL_APPLY_PERMISSIONS=true
@@ -122,9 +123,8 @@ services:
         - "traefik.http.routers.trvpn.service=trvpn"
         - "traefik.http.services.trvpn.loadbalancer.server.port=9091"
       restart_policy:
-        condition: on-failure
+        condition: always
         delay: 15s
-        max_attempts: 3
         window: 120s
 
 networks:

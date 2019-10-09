@@ -37,6 +37,11 @@ services:
         - "traefik.http.routers.emby.entrypoints=https"
         - "traefik.http.routers.emby.service=emby"
         - "traefik.http.services.emby.loadbalancer.server.port=8096"
+      resources:
+        limits:
+          memory: 4096M
+        reservations:
+          memory: 128M
       restart_policy:
         condition: on-failure
         delay: 15s
