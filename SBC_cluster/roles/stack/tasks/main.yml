@@ -1,9 +1,9 @@
 ---
 
-#- import_tasks: traefik2.yml
-#  tags:
-#    - stack
-#    - stack_traefik2
+- import_tasks: traefik2.yml
+  tags:
+    - stack
+    - stack_traefik2
 
 #- import_tasks: traefik-forward-auth.yml
 #  tags:
