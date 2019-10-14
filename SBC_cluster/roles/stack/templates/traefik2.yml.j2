@@ -37,7 +37,6 @@ services:
         - "traefik.http.routers.traefik-unsecure.rule=Host(`traefik-swarm.{{domain}}`)"
         - "traefik.http.routers.traefik-unsecure.middlewares=auth-traefik"
         - "traefik.http.routers.traefik-unsecure.entrypoints=http"
-        - "traefik.http.services.traefik-unsecure.loadbalancer.server.port=8080"
         - "traefik.http.routers.traefik.rule=Host(`traefik-swarm.{{domain}}`)"
         - "traefik.http.routers.traefik.tls=true"
         - "traefik.http.routers.traefik.entrypoints=https"
