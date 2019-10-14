@@ -47,5 +47,9 @@ scrape_configs:
       username: admin
       password: {{traefik_password}}
     metrics_path: "/traefik"
-    static_configs:
-    - targets: ['traefik-swarm.{{domain}}']
+    dns_sd_configs:
+    - names:
+      - 'tasks.traefik'
+      type: 'A'
+      port: 8080
+      
