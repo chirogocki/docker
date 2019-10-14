@@ -30,7 +30,7 @@
 - name: Swarmprom prometheus - Template conf
   template:
     src: "{{item}}"
-    dest: "{{docker_conf_path}}/Build/swarmprom/prometheus/conf/sp_prometheus.yml"
+    dest: "{{docker_conf_path}}/Build/swarmprom/prometheus/conf/prometheus.yml"
     owner: '1024'
     group: '100'
   with_items:
