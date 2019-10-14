@@ -78,7 +78,7 @@
       pull: yes
       nocache: yes
     name: registry.{{domain}}/sp_prometheus
-    tag: armv7l-v3.6
+    tag: armv7l-v3.7
     push: yes
     source: build
   when: ansible_architecture == "armv7l"
@@ -122,7 +122,7 @@
 
 - name: Swarmprom prometheus - Create manifest to registry
   # command: "docker manifest create --amend registry.{{domain}}/sp_prometheus:latest registry.{{domain}}/sp_prometheus:armv7l-v2 registry.{{domain}}/sp_prometheus:x86_64-v2"
-  command: "docker manifest create --amend registry.{{domain}}/sp_prometheus:latest registry.{{domain}}/sp_prometheus:armv7l-v3.6"
+  command: "docker manifest create --amend registry.{{domain}}/sp_prometheus:latest registry.{{domain}}/sp_prometheus:armv7l-v3.7"
 
 - name: Swarmprom prometheus - Push manifest to registry
   command: "docker manifest push --purge registry.{{domain}}/sp_prometheus:latest"
