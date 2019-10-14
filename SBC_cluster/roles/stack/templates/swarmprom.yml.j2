@@ -14,8 +14,6 @@ configs:
     file: {{docker_conf_path}}/Swarmprom/swarm_node.rules.yml
   task_rules:
     file: {{docker_conf_path}}/Swarmprom/swarm_task.rules.yml
-  prometheusyml:
-    files: {{docker_conf_path}}/Swarmprom/prometheus.yml
 
 services:
   dockerd-exporter:
@@ -202,7 +200,7 @@ services:
           cpus: '0.1'
 
   prometheus:
-    image: registry.{{domain}}/sp_prometheus:armv7l-v2
+    image: registry.{{domain}}/sp_prometheus:armv7l-v3
     networks:
       - net
       - default
@@ -218,8 +216,6 @@ services:
         target: /etc/prometheus/swarm_node.rules.yml
       - source: task_rules
         target: /etc/prometheus/swarm_task.rules.yml
-      - source: prometheusyml
-        target: /etc/prometheus/prometheus.yml
     deploy:
       mode: replicated
       replicas: 1

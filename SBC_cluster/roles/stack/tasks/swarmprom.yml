@@ -22,7 +22,6 @@
     - "swarmprom/dockerd-exporter/Caddyfile"
     - "swarmprom/prometheus/swarm_node.rules.yml"
     - "swarmprom/prometheus/swarm_task.rules.yml"
-    - "swarmprom/prometheus/prometheus.yml"
   tags:
     - sp_node-exporter_copy_datasources
 
