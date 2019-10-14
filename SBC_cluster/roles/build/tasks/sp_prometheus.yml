@@ -30,13 +30,13 @@
 - name: Swarmprom prometheus - Template conf
   template:
     src: "{{item}}"
-    dest: "{{docker_conf_path}}/Build/swarmprom/prometheus/conf/"
+    dest: "{{docker_conf_path}}/Build/swarmprom/prometheus/conf/sp_prometheus.yml"
     owner: '1024'
     group: '100'
   with_items:
     - "sp_prometheus.yml.j2"
   tags:
-    - sp_prometheus_copy_conf
+    - sp_prometheus_copy_template
 
 - name: Swarmprom prometheus - Ensure entrypoint x
   file:
