@@ -19,7 +19,7 @@ services:
       placement:
         constraints:
           - node.role==worker
-          - node.hostname==docker
+          - node.hostname==docker.{{domain}}
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.hydra2-unsecure.rule=Host(`hydra2.{{domain}}`)"

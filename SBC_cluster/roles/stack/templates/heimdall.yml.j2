@@ -4,8 +4,7 @@ services:
   heimdall:
     image: linuxserver/heimdall
     networks:
-      - internal
-      - traefik_public
+      - traefik_network
     environment:
       - PGID=100
       - PUID=1024
@@ -15,21 +14,21 @@ services:
     - config:/config
     deploy:
       labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.heimdall-unsecure.rule=Host(`start.{{domain}}`)"
+        - "traefik.http.routers.heimdall-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.heimdall-unsecure.entrypoints=http"
+        - "traefik.http.routers.heimdall.rule=Host(`start.{{domain}}`)"
+        - "traefik.http.routers.heimdall.tls=true"
+        - "traefik.http.routers.heimdall.entrypoints=https"
+        - "traefik.http.services.heimdall.loadbalancer.server.port=80"
+        - "traefik.http.middlewares.auth-heimdall.basicauth.users=admin:$$apr1$$Ux7zvNx5$$ohgAm9jcAtLbnyheCOekZ1"
+        - "traefik.http.routers.heimdall.middlewares=auth-heimdall"
         - traefik.docker.network=traefik_public
-        - traefik.frontend.rule=Host:start.{{domain}}
-        - traefik.port=80
-        - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
-        - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
-        - traefik.frontend.auth.forward.trustForwardHeader=true
 
 networks:
-  traefik_public:
+  traefik_network:
     external: true
-  internal:
-    driver: overlay
-    ipam:
-      config:
-        - subnet: 172.16.11.0/24
 
 volumes:
   config:

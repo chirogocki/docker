@@ -14,6 +14,8 @@ configs:
     file: {{docker_conf_path}}/Swarmprom/swarm_node.rules.yml
   task_rules:
     file: {{docker_conf_path}}/Swarmprom/swarm_task.rules.yml
+  prometheus.yml:
+    files: {{docker_conf_path}}/Swarmprom/prometheus.yml
 
 services:
   dockerd-exporter:
@@ -216,6 +218,8 @@ services:
         target: /etc/prometheus/swarm_node.rules.yml
       - source: task_rules
         target: /etc/prometheus/swarm_task.rules.yml
+      - source: prometheus.yml
+        target: /etc/prometheus/prometheus.yml
     deploy:
       mode: replicated
       replicas: 1
