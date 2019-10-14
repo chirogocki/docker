@@ -23,8 +23,18 @@
     group: '100'
   with_items:
     - "sp_prometheus/conf/docker-entrypoint.sh"
-    - "sp_prometheus/conf/prometheus.yml"
     - "sp_prometheus/conf/weave-cortex.yml"
+  tags:
+    - sp_prometheus_copy_conf
+
+- name: Swarmprom prometheus - Template conf
+  template:
+    src: "{{item}}"
+    dest: "{{docker_conf_path}}/Build/swarmprom/prometheus/conf/"
+    owner: '1024'
+    group: '100'
+  with_items:
+    - "sp_prometheus.yml.j2"
   tags:
     - sp_prometheus_copy_conf
 
