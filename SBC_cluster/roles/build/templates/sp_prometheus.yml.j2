@@ -46,6 +46,5 @@ scrape_configs:
     basic_auth:
       username: admin
       password: {{traefik_password}}
-    metrics_path: "/metrics"
     static_configs:
-    - targets: ['metrics.{{domain}}']
+    - targets: ['traefik-swarm.{{domain}}:8080']
