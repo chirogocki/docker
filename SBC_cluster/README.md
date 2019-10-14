@@ -36,6 +36,13 @@ Considering low storage support for these SBC, mounted shares are used. Here is 
   
 ![benchmark](../pictures/SBC/benchmark.png)  
   
+These were my firsts toughts but running persistent storage for docker over NFS is a big mistake especailly when used for DB.  
+  
+After many try, switching to **Armbian** Debian 10 with kernel compile  
+Using this [guide](https://docs.armbian.com/Developer-Guide_Build-Preparation/)  
+  
+#![slim-case](../pictures/SBC/hardware/slim-case.png)
+
 ### Configuration
 First installation was straightforward ! System menu help me to :
 * configure basic access :
