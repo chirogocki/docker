@@ -8,6 +8,11 @@ services:
       - UID=1024
       - GIDLIST=27
       - TZ=Europe/Paris
+    ports:
+      - target: 8096
+        published: 8096
+        protocol: tcp
+        mode: host
     devices:
       - /dev/dri/renderD128:/dev/dri
     volumes:
