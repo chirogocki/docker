@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   visualizer:
-    image: charypar/swarm-dashboard
+    image: alexellis2/visualizer-arm:latest
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
       
@@ -12,7 +12,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.hostname==akira.{{domain}}
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.visualizer-unsecure.rule=Host(`visualizer.{{domain}}`)"
@@ -23,11 +23,11 @@ services:
         - "traefik.http.routers.visualizer.entrypoints=https"
         - "traefik.http.routers.visualizer.service=visualizer"
         - "traefik.http.services.visualizer.loadbalancer.server.port=8080"
-      {# restart_policy:
+      restart_policy:
         condition: on-failure
         delay: 15s
         max_attempts: 3
-        window: 120s #}
+        window: 120s
 
 networks:
   traefik_network:
