@@ -2,30 +2,27 @@ version: "3.7"
 
 services:
   visualizer:
-    image:  alexellis2/visualizer-arm:latest
+    image: charypar/swarm-dashboard
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
       
     networks:
-      - traefik_public
+      - traefik_network
     deploy:
       replicas: 1
       placement:
-        constraints: [node.role == manager]
+        constraints:
+          - node.hostname==docker.{{domain}}
       labels:
-        - traefik.visualizer.frontend.rule=Host:visualizer.{{domain}}
-        - traefik.visualizer.port=8080
-        - traefik.docker.network=traefik_public
-        - traefik.enable=true
-        - "traefik.frontend.headers.SSLRedirect=true"
-        - "traefik.frontend.headers.STSSeconds=315360000"
-        - "traefik.frontend.headers.browserXSSFilter=true"
-        - "traefik.frontend.headers.contentTypeNosniff=true"
-        - "traefik.frontend.headers.forceSTSHeader=true"
-        - "traefik.frontend.headers.SSLHost={{domain}}"
-        - "traefik.frontend.headers.STSIncludeSubdomains=true"
-        - "traefik.frontend.headers.STSPreload=true"
-        - "traefik.frontend.headers.frameDeny=true"
+        - "traefik.enable=true"
+        - "traefik.http.routers.visualizer-unsecure.rule=Host(`visualizer.{{domain}}`)"
+        - "traefik.http.routers.visualizer-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.visualizer-unsecure.entrypoints=http"
+        - "traefik.http.routers.visualizer.rule=Host(`visualizer.{{domain}}`)"
+        - "traefik.http.routers.visualizer.tls=true"
+        - "traefik.http.routers.visualizer.entrypoints=https"
+        - "traefik.http.routers.visualizer.service=visualizer"
+        - "traefik.http.services.visualizer.loadbalancer.server.port=8080"
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -33,5 +30,5 @@ services:
         window: 120s
 
 networks:
-  traefik_public:
+  traefik_network:
     external: true
