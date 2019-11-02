@@ -114,3 +114,8 @@
   tags:
     - stack
     - stack_transmission-openvpn
+
+- import_tasks: bookstack.yml
+  tags:
+    - stack
+    - stack_bookstack

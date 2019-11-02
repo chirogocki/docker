@@ -1,0 +1,16 @@
+---
+- name: Template 'Bookstack' compose file
+  template:
+    src: bookstack.yml.j2
+    dest: "{{docker_conf_path}}/Bookstack/bookstack.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Bookstack' stack from file
+  docker_stack:
+    state: present
+    name: bookstack
+    compose:
+     - "{{docker_conf_path}}/Bookstack/bookstack.yml"
+
+
