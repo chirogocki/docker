@@ -38,7 +38,7 @@
       - iscsi-initiator-utils #Needed for Iscsi
       - snmpd
       - autofs
-  when: ansible_os_family == "CentOs"
+  when: ansible_os_family == "CentOS"
   tags:
     - init
     - init_install_centos
