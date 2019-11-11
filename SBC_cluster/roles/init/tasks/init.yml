@@ -25,7 +25,7 @@
     - init_install
 
 - name: Ensure minimal package for ansible
-  apt:
+  yum:
     name: "{{ packages }}"
     state: present
     update_cache: yes
