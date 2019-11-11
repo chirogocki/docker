@@ -25,7 +25,6 @@
     dest: /etc/keepalived/keepalived.conf
   tags:
     - keepalived-config
-  notify: Restart enabled Keepalived
 
 - name: Start keepalived service
   systemd:
