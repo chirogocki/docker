@@ -32,5 +32,14 @@
     name: keepalived
     enabled: yes
     state: restarted
+  when: ansible_os_family == "Debian"
+  tags:
+    - keepalived-start
+
+- name: Start keepalived service on alpine
+  service:
+    name: keepalived
+    state: restarted
+  when: arch == "x86"
   tags:
     - keepalived-start
