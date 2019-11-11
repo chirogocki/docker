@@ -30,7 +30,7 @@ services:
         - "traefik.http.routers.admbooks.rule=Host(`admbooks.{{domain}}`)"
         - "traefik.http.routers.admbooks.tls=true"
         - "traefik.http.routers.admbooks.entrypoints=https"
-        - "traefik.http.routers.admbooks.service=admbooks"
+        #- "traefik.http.routers.admbooks.service=admbooks"
         - "traefik.http.services.admbooks.loadbalancer.server.port=2203"
         - "traefik.http.routers.books-unsecure.rule=Host(`books.{{domain}}`)"
         - "traefik.http.routers.books-unsecure.middlewares=redirect@file"
@@ -38,7 +38,7 @@ services:
         - "traefik.http.routers.books.rule=Host(`books.{{domain}}`)"
         - "traefik.http.routers.books.tls=true"
         - "traefik.http.routers.books.entrypoints=https"
-        - "traefik.http.routers.books.service=books"
+        #- "traefik.http.routers.books.service=books"
         - "traefik.http.services.books.loadbalancer.server.port=2202"
       resources:
         limits:
