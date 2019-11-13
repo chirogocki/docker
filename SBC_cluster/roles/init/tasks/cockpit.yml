@@ -33,6 +33,7 @@
     name: cockpit
     enabled: yes
     state: restarted
+  when: arch == "arm"
 
 
 # - name: Cockpit for x86 Centos
