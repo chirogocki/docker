@@ -12,6 +12,10 @@
   tags:
     - snmp
 
+- import_tasks: cockpit.yml
+  tags:
+    - cockpit
+
 - import_tasks: bashrc.yml
   tags:
     - bashrc

@@ -1,0 +1,56 @@
+---
+
+- name: Cockpit for Armbian
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - cockpit
+      - cockpit-storaged
+      - cockpit-docker
+      - cockpit-networkmanager
+      - cockpit-packagekit
+      - cockpit-pcp
+      - tuned
+  when: arch == "arm"
+  tags:
+    - cockpit
+    - cockpit_install_arm
+
+- name: Template cockpit conf
+  template:
+    src: cockpit/cockpit.conf.j2
+    dest: /etc/cockpit/cockpit.conf
+  when: arch == "arm"
+  tags:
+    - cockpit
+    - cockpit_conf_arm
+
+- name: Restart and enable Cockpit
+  systemd:
+    name: cockpit
+    enabled: yes
+    state: restarted
+
+
+# - name: Cockpit for x86 Centos
+#   apt:
+#     name: "{{ packages }}"
+#     state: present
+#     update_cache: yes
+#   vars:
+#     packages:
+#       - cockpit
+#       - cockpit-storaged
+#       - cockpit-docker
+#       - cockpit-networkmanager
+#       - cockpit-packagekit
+#       - cockpit-pcp
+#       - tuned
+#   when: arch == "x86" and
+        
+#   tags:
+#     - cockpit
+#     - cockpit_install_arm
