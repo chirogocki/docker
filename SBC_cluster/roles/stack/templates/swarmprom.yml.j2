@@ -57,7 +57,7 @@ services:
           cpus: '0.5'
 
   grafana:
-    image: registry.{{domain}}/sp_grafana:latest
+    image: registry.{{domain}}/sp_grafana:x86_64-v2.7
     networks:
       - net
       - default
@@ -101,7 +101,7 @@ services:
         - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
   alertmanager:
-    image: registry.{{domain}}/sp_alertmanager:latest
+    image: registry.{{domain}}/sp_alertmanager:x86_64-v2
     networks:
       - net
       - default
@@ -201,7 +201,7 @@ services:
           cpus: '0.1'
 
   prometheus:
-    image: registry.{{domain}}/sp_prometheus:latest
+    image: registry.{{domain}}/sp_prometheus:x86_64-v2
     networks:
       - net
       - default
