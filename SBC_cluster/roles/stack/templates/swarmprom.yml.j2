@@ -57,7 +57,7 @@ services:
           cpus: '0.5'
 
   grafana:
-    image: registry.{{domain}}/sp_grafana:armv7l-v2.7
+    image: registry.{{domain}}/sp_grafana:latest
     networks:
       - net
       - default
@@ -201,7 +201,7 @@ services:
           cpus: '0.1'
 
   prometheus:
-    image: registry.{{domain}}/sp_prometheus:armv7l-v3.8
+    image: registry.{{domain}}/sp_prometheus:latest
     networks:
       - net
       - default
