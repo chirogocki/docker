@@ -87,7 +87,7 @@
       registry: registry.{{domain}}
       state: absent
     when: ansible_architecture == "x86_64"
-  delegate_to: docker
+  delegate_to: localhost
 
 
 - name: Swarmprom node-exporter - Create manifest to registry
