@@ -50,7 +50,7 @@
       state: present
     when: not epel_repofile_result.stat.exists
     ignore_errors: "{{ ansible_check_mode }}"
-  when: ansible_os_family == "RedHat"and
+  when: ansible_os_family == "RedHat" and
         arch="x86"
   tags:
     - init
@@ -71,7 +71,7 @@
       - net-snmp
       - autofs
       - neofetch
-  when: ansible_os_family == "RedHat"and
+  when: ansible_os_family == "RedHat" and
         arch="x86"
   tags:
     - init
