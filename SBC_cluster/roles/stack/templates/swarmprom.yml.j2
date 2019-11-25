@@ -75,7 +75,7 @@ services:
       #- GF_SMTP_PASSWORD=${GF_SMTP_PASSWORD}
       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-piechart-panel,
     volumes:
-      - "/docker/Swarmprom/grafana:/var/lib/grafana"
+      - "/storage/Swarmprom/grafana:/var/lib/grafana"
     deploy:
       mode: replicated
       replicas: 1
@@ -114,7 +114,7 @@ services:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
       - '--storage.path=/alertmanager'
     volumes:
-      - "/docker/Swarmprom/alertmanager:/alertmanager"
+      - "/storage/Swarmprom/alertmanager:/alertmanager"
     deploy:
       mode: replicated
       replicas: 1
@@ -211,7 +211,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention=720h'
     volumes:
-      - "/docker/Swarmprom/prometheus:/prometheus"
+      - "/storage/Swarmprom/prometheus:/prometheus"
     configs:
       - source: node_rules
         target: /etc/prometheus/swarm_node.rules.yml
