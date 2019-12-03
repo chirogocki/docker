@@ -1,0 +1,8 @@
+#!/bin/sh
+# {{ ansible_tag }}
+if [ -e /proc/net/rpc/nfsd ]
+then 
+    echo '<<<app-nfsd>>>'
+    cat /proc/net/rpc/nfsd
+    echo
+fi

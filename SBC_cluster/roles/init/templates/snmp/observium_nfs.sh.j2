@@ -1,0 +1,8 @@
+#!/bin/sh
+# {{ ansible_tag }}
+if [ -e /proc/net/rpc/nfs ]
+then 
+    echo '<<<app-nfs>>>'
+    cat /proc/net/rpc/nfs
+    echo
+fi
