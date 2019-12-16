@@ -207,22 +207,22 @@ volumes:
   db:
     driver_opts:
       type: "nfs"
-      o: "addr={{NFS}},rw,hard,intr,proto=tcp,port=2049,noacl,nocto,noatime,nodiratime,noac,_netdev,nofail"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.2"
       device: ":/data/librenms/db"
   librenms:
     driver_opts:
       type: "nfs"
-      o: "addr={{NFS}},rw,hard,intr,proto=tcp,port=2049,noacl,nocto,noatime,nodiratime,noac,_netdev,nofail"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.2"
       device: ":/data/librenms/librenms"
   rrd:
     driver_opts:
       type: "nfs"
-      o: "addr={{NFS}},rw,hard,intr,proto=tcp,port=2049,noacl,nocto,noatime,nodiratime,noac,_netdev,nofail"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.2"
       device: ":/data/librenms/rrd"
   rrd-journal:
     driver_opts:
       type: "nfs"
-      o: "addr={{NFS}},rw,hard,intr,proto=tcp,port=2049,noacl,nocto,noatime,nodiratime,noac,_netdev,nofail"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.2"
       device: ":/data/librenms/rrd-journal"
 
 networks:
