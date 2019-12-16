@@ -110,12 +110,17 @@
     - stack
     - stack_sonarr2
 
-- import_tasks: transmission-openvpn.yml
-  tags:
-    - stack
-    - stack_transmission-openvpn
+# - import_tasks: transmission-openvpn.yml
+#   tags:
+#     - stack
+#     - stack_transmission-openvpn
 
 - import_tasks: bookstack.yml
   tags:
     - stack
     - stack_bookstack
+
+- import_tasks: librenms.yml
+  tags:
+    - stack
+    - stack_librenms
