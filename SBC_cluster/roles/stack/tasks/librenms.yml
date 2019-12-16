@@ -1,0 +1,30 @@
+---
+- name: Configure env for 'Librenms'
+  template:
+    src: .env.j2
+    dest: "{{docker_conf_path}}/Librenms/.env"
+    owner: '1024'
+    group: '100'
+
+- name: Configure Librenms env for 'Librenms'
+  template:
+    src: librenms.env.j2
+    dest: "{{docker_conf_path}}/Librenms/librenms.env"
+    owner: '1024'
+    group: '100'
+
+- name: Template 'Librenms' compose file
+  template:
+    src: librenms.yml.j2
+    dest: "{{docker_conf_path}}/Librenms/librenms.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Librenms' stack from file
+  docker_stack:
+    state: present
+    name: librenms
+    compose:
+     - "{{docker_conf_path}}/Librenms/librenms.yml"
+
+
