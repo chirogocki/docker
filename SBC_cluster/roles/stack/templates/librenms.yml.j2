@@ -19,7 +19,7 @@ services:
       - "MYSQL_USER=${MYSQL_USER}"
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
     env_file:
-      - "/mount/docker/Librenms/all.env"
+      - "/mnt/docker/Librenms/all.env"
     deploy:
       replicas: 1
       placement:
@@ -36,7 +36,7 @@ services:
     environment:
       - "TZ=${TZ}"
     env_file:
-      - "/mount/docker/Librenms/all.env"
+      - "/mnt/docker/Librenms/all.env"
     deploy:
       replicas: 1
       placement:
@@ -61,7 +61,7 @@ services:
       - "WRITE_THREADS=4"
       - "FLUSH_DEAD_DATA_INTERVAL=3600"
     env_file:
-      - "/mount/docker/Librenms/all.env"
+      - "/mnt/docker/Librenms/all.env"
     deploy:
       replicas: 1
       placement:
@@ -83,7 +83,7 @@ services:
       - "SMTP_USERNAME=${SMTP_USERNAME}"
       - "SMTP_PASSWORD=${SMTP_PASSWORD}"
     env_file:
-      - "/mount/docker/Librenms/all.env"
+      - "/mnt/docker/Librenms/all.env"
     deploy:
       replicas: 1
       placement:
@@ -116,8 +116,8 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
     env_file:
-      - "/mount/docker/Librenms/librenms.env"
-      - "/mount/docker/Librenms/all.env"
+      - "/mnt/docker/Librenms/librenms.env"
+      - "/mnt/docker/Librenms/all.env"
     deploy:
       replicas: 1
       placement:
@@ -162,8 +162,8 @@ services:
       - "DB_TIMEOUT=60"
       - "SIDECAR_CRON=1"
     env_file:
-      - "/mount/docker/Librenms/librenms.env"
-      - "/mount/docker/Librenms/all.env"
+      - "/mnt/docker/Librenms/librenms.env"
+      - "/mnt/docker/Librenms/all.env"
     deploy:
       replicas: 1
       placement:
@@ -201,8 +201,8 @@ services:
       - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
     env_file:
-      - "/mount/docker/Librenms/librenms.env"
-      - "/mount/docker/Librenms/all.env"
+      - "/mnt/docker/Librenms/librenms.env"
+      - "/mnt/docker/Librenms/all.env"
     deploy:
       replicas: 1
       placement:
