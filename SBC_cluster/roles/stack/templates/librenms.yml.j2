@@ -18,6 +18,8 @@ services:
       - "MYSQL_DATABASE=${MYSQL_DATABASE}"
       - "MYSQL_USER=${MYSQL_USER}"
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+    env_file:
+      - "/mount/docker/Librenms/.env"
     deploy:
       replicas: 1
       placement:
@@ -33,6 +35,8 @@ services:
     image: memcached:alpine
     environment:
       - "TZ=${TZ}"
+    env_file:
+      - "/mount/docker/Librenms/.env"
     deploy:
       replicas: 1
       placement:
@@ -56,6 +60,8 @@ services:
       - "WRITE_JITTER=1800"
       - "WRITE_THREADS=4"
       - "FLUSH_DEAD_DATA_INTERVAL=3600"
+    env_file:
+      - "/mount/docker/Librenms/.env"
     deploy:
       replicas: 1
       placement:
@@ -76,6 +82,8 @@ services:
       - "SMTP_SERVER=${SMTP_SERVER}"
       - "SMTP_USERNAME=${SMTP_USERNAME}"
       - "SMTP_PASSWORD=${SMTP_PASSWORD}"
+    env_file:
+      - "/mount/docker/Librenms/.env"
     deploy:
       replicas: 1
       placement:
@@ -109,6 +117,7 @@ services:
       - "DB_TIMEOUT=60"
     env_file:
       - "/mount/docker/Librenms/librenms.env"
+      - "/mount/docker/Librenms/.env"
     deploy:
       replicas: 1
       placement:
@@ -154,6 +163,7 @@ services:
       - "SIDECAR_CRON=1"
     env_file:
       - "/mount/docker/Librenms/librenms.env"
+      - "/mount/docker/Librenms/.env"
     deploy:
       replicas: 1
       placement:
@@ -192,6 +202,7 @@ services:
       - "SIDECAR_SYSLOGNG=1"
     env_file:
       - "/mount/docker/Librenms/librenms.env"
+      - "/mount/docker/Librenms/.env"
     deploy:
       replicas: 1
       placement:
