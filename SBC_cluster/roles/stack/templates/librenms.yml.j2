@@ -13,13 +13,13 @@ services:
     volumes:
       - "/mnt/nfs/librenms/db:/var/lib/mysql"
     environment:
-      - "TZ=${TZ}"
+      - "TZ=Europe/Paris"
       - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
-      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
-      - "MYSQL_USER=${MYSQL_USER}"
-      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
-    env_file:
-      - "/mnt/docker/Librenms/all.env"
+      - "MYSQL_DATABASE=librenms"
+      - "MYSQL_USER={{librenms_mysql_user}}"
+      - "MYSQL_PASSWORD={{librenms_mysql_password}}"
+      - "PUID=1024"
+      - "PGID=100"
     deploy:
       replicas: 1
       placement:
@@ -34,9 +34,7 @@ services:
   memcached:
     image: memcached:alpine
     environment:
-      - "TZ=${TZ}"
-    env_file:
-      - "/mnt/docker/Librenms/all.env"
+      - "TZ=TZ=Europe/Paris"
     deploy:
       replicas: 1
       placement:
@@ -54,14 +52,14 @@ services:
       - "/mnt/nfs/librenms/rrd:/data/db"
       - "/mnt/nfs/librenms/rrd-journal:/data/journal"
     environment:
-      - "TZ=${TZ}"
+      - "TZ=Europe/Paris"
       - "LOG_LEVEL=LOG_INFO"
       - "WRITE_TIMEOUT=1800"
       - "WRITE_JITTER=1800"
       - "WRITE_THREADS=4"
       - "FLUSH_DEAD_DATA_INTERVAL=3600"
-    env_file:
-      - "/mnt/docker/Librenms/all.env"
+      - "PUID=1024"
+      - "PGID=100"
     deploy:
       replicas: 1
       placement:
@@ -78,12 +76,11 @@ services:
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
     environment:
+      - "TZ=Europe/Paris"
       - "SERVER_HOSTNAME=librenms.{{domain}}"
-      - "SMTP_SERVER=${SMTP_SERVER}"
-      - "SMTP_USERNAME=${SMTP_USERNAME}"
-      - "SMTP_PASSWORD=${SMTP_PASSWORD}"
-    env_file:
-      - "/mnt/docker/Librenms/all.env"
+      - "SMTP_SERVER={{domain}}"
+      - "SMTP_USERNAME={{librenms_smtp_user}}"
+      - "SMTP_PASSWORD={{librenms_smtp_password}}"
     deploy:
       replicas: 1
       placement:
@@ -107,17 +104,34 @@ services:
     volumes:
       - "/mnt/nfs/librenms/librenms:/data"
     environment:
-      - "TZ=${TZ}"
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
+      - "TZ=Europe/Paris"
+      - "PUID=1024"
+      - "PGID=100"
       - "DB_HOST=db"
-      - "DB_NAME=${MYSQL_DATABASE}"
-      - "DB_USER=${MYSQL_USER}"
-      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_NAME=librenms"
+      - "DB_USER={{librenms_mysql_user}}"
+      - "DB_PASSWORD={{librenms_mysql_password}}"
       - "DB_TIMEOUT=60"
-    env_file:
-      - "/mnt/docker/Librenms/librenms.env"
-      - "/mnt/docker/Librenms/all.env"
+      - "MEMORY_LIMIT=256M"
+      - "UPLOAD_MAX_SIZE=16M"
+      - "OPCACHE_MEM_SIZE=128"
+      - "REAL_IP_FROM=0.0.0.0/32"
+      - "REAL_IP_HEADER=X-Forwarded-For"
+      - "LOG_IP_VAR=http_x_forwarded_for"
+      - "LIBRENMS_POLLER_THREADS=16"
+      - "LIBRENMS_POLLER_INTERVAL=5"
+      - "LIBRENMS_CRON_DISCOVERY_ENABLE=true"
+      - "LIBRENMS_CRON_DAILY_ENABLE=true"
+      - "LIBRENMS_CRON_ALERTS_ENABLE=true"
+      - "LIBRENMS_CRON_BILLING_ENABLE=true"
+      - "LIBRENMS_CRON_BILLING_CALCULATE_ENABLE=true"
+      - "LIBRENMS_CRON_CHECK_SERVICES_ENABLE=true"
+      - "LIBRENMS_CRON_POLLER_ENABLE=true"
+      - "LIBRENMS_SNMP_COMMUNITY=public"
+      - "MEMCACHED_HOST=memcached"
+      - "MEMCACHED_PORT=11211"
+      - "RRDCACHED_HOST=rrdcached"
+      - "RRDCACHED_PORT=42217"
     deploy:
       replicas: 1
       placement:
@@ -152,18 +166,35 @@ services:
     volumes:
       - "/mnt/nfs/librenms/librenms:/data"
     environment:
-      - "TZ=${TZ}"
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
+      - "TZ=Europe/Paris"
+      - "PUID=1024"
+      - "PGID=100"
       - "DB_HOST=db"
-      - "DB_NAME=${MYSQL_DATABASE}"
-      - "DB_USER=${MYSQL_USER}"
-      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_NAME=librenms"
+      - "DB_USER={{librenms_mysql_user}}"
+      - "DB_PASSWORD={{librenms_mysql_password}}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_CRON=1"
-    env_file:
-      - "/mnt/docker/Librenms/librenms.env"
-      - "/mnt/docker/Librenms/all.env"
+      - "MEMORY_LIMIT=256M"
+      - "UPLOAD_MAX_SIZE=16M"
+      - "OPCACHE_MEM_SIZE=128"
+      - "REAL_IP_FROM=0.0.0.0/32"
+      - "REAL_IP_HEADER=X-Forwarded-For"
+      - "LOG_IP_VAR=http_x_forwarded_for"
+      - "LIBRENMS_POLLER_THREADS=16"
+      - "LIBRENMS_POLLER_INTERVAL=5"
+      - "LIBRENMS_CRON_DISCOVERY_ENABLE=true"
+      - "LIBRENMS_CRON_DAILY_ENABLE=true"
+      - "LIBRENMS_CRON_ALERTS_ENABLE=true"
+      - "LIBRENMS_CRON_BILLING_ENABLE=true"
+      - "LIBRENMS_CRON_BILLING_CALCULATE_ENABLE=true"
+      - "LIBRENMS_CRON_CHECK_SERVICES_ENABLE=true"
+      - "LIBRENMS_CRON_POLLER_ENABLE=true"
+      - "LIBRENMS_SNMP_COMMUNITY=public"
+      - "MEMCACHED_HOST=memcached"
+      - "MEMCACHED_PORT=11211"
+      - "RRDCACHED_HOST=rrdcached"
+      - "RRDCACHED_PORT=42217"
     deploy:
       replicas: 1
       placement:
@@ -191,18 +222,35 @@ services:
     volumes:
       - "/mnt/nfs/librenms/librenms:/data"
     environment:
-      - "TZ=${TZ}"
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
+      - "TZ=Europe/Paris"
+      - "PUID=1024"
+      - "PGID=100"
       - "DB_HOST=db"
-      - "DB_NAME=${MYSQL_DATABASE}"
-      - "DB_USER=${MYSQL_USER}"
-      - "DB_PASSWORD=${MYSQL_PASSWORD}"
+      - "DB_NAME=librenms"
+      - "DB_USER={{librenms_mysql_user}}"
+      - "DB_PASSWORD={{librenms_mysql_password}}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
-    env_file:
-      - "/mnt/docker/Librenms/librenms.env"
-      - "/mnt/docker/Librenms/all.env"
+      - "MEMORY_LIMIT=256M"
+      - "UPLOAD_MAX_SIZE=16M"
+      - "OPCACHE_MEM_SIZE=128"
+      - "REAL_IP_FROM=0.0.0.0/32"
+      - "REAL_IP_HEADER=X-Forwarded-For"
+      - "LOG_IP_VAR=http_x_forwarded_for"
+      - "LIBRENMS_POLLER_THREADS=16"
+      - "LIBRENMS_POLLER_INTERVAL=5"
+      - "LIBRENMS_CRON_DISCOVERY_ENABLE=true"
+      - "LIBRENMS_CRON_DAILY_ENABLE=true"
+      - "LIBRENMS_CRON_ALERTS_ENABLE=true"
+      - "LIBRENMS_CRON_BILLING_ENABLE=true"
+      - "LIBRENMS_CRON_BILLING_CALCULATE_ENABLE=true"
+      - "LIBRENMS_CRON_CHECK_SERVICES_ENABLE=true"
+      - "LIBRENMS_CRON_POLLER_ENABLE=true"
+      - "LIBRENMS_SNMP_COMMUNITY=public"
+      - "MEMCACHED_HOST=memcached"
+      - "MEMCACHED_PORT=11211"
+      - "RRDCACHED_HOST=rrdcached"
+      - "RRDCACHED_PORT=42217"
     deploy:
       replicas: 1
       placement:
