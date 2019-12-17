@@ -49,8 +49,8 @@ services:
   rrdcached:
     image: crazymax/rrdcached
     volumes:
-      - "/mnt/nfs/librenms/rrd:/data/db"
-      - "/mnt/nfs/librenms/rrd-journal:/data/journal"
+      - "/mnt/nfs/librenms/librenms/rrd:/data/db"
+      - "/mnt/nfs/librenms/librenms/rrd-journal:/data/journal"
     environment:
       - "TZ=Europe/Paris"
       - "LOG_LEVEL=LOG_INFO"
