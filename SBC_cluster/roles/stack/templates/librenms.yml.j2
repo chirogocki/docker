@@ -96,6 +96,10 @@ services:
     image: librenms/librenms:latest
     domainname: "{{domain}}"
     hostname: librenms
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
     depends_on:
       - db
       - memcached
