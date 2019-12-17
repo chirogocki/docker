@@ -2,7 +2,7 @@
 - name: Configure env for 'Librenms'
   template:
     src: .env.j2
-    dest: "{{docker_conf_path}}/Librenms/.env"
+    dest: "{{docker_conf_path}}/Librenms/all.env"
     owner: '1024'
     group: '100'
 
