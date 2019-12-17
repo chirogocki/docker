@@ -109,6 +109,7 @@ services:
       - "/mnt/nfs/librenms/librenms:/data"
     environment:
       - "TZ=Europe/Paris"
+      - "APP_URL=https://librenms.{{domain}}"
       - "PUID=1024"
       - "PGID=100"
       - "DB_HOST=db"
