@@ -107,6 +107,7 @@ services:
       - smtp
     volumes:
       - "/mnt/nfs/librenms/librenms:/data"
+      - "{{docker_conf_path}}/Librenms/config.php:/opt/librenms/config.php"
     environment:
       - "TZ=Europe/Paris"
       - "PUID=1024"
