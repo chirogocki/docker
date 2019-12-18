@@ -113,7 +113,6 @@ services:
       - smtp
     volumes:
       - "/mnt/nfs/librenms/librenms:/data"
-      - "{{docker_conf_path}}/Librenms/config.php:/opt/librenms/config.php"
     environment:
       - "TZ=Europe/Paris"
       - "APP_URL=https://librenms.{{domain}}"

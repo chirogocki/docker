@@ -13,12 +13,12 @@
     owner: '1024'
     group: '100'
 
-- name: Configure Librenms config.php for 'Librenms'
-  template:
-    src: librenms/config.php.j2
-    dest: "{{docker_conf_path}}/Librenms/config.php"
-    owner: '1024'
-    group: '100'
+# - name: Configure Librenms config.php for 'Librenms'
+#   template:
+#     src: librenms/config.php.j2
+#     dest: "{{docker_conf_path}}/Librenms/config.php"
+#     owner: '1024'
+#     group: '100'
 
 - name: Template 'Librenms' compose file
   template:
