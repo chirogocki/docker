@@ -3,6 +3,8 @@ version: "3.7"
 services:
   db:
     image: mariadb:10.2
+    networks:
+      - traefik_network
     command:
       - "mysqld"
       - "--sql-mode="
@@ -33,6 +35,8 @@ services:
 
   memcached:
     image: memcached:alpine
+    networks:
+      - traefik_network
     environment:
       - "TZ=TZ=Europe/Paris"
     deploy:
@@ -48,6 +52,8 @@ services:
 
   rrdcached:
     image: crazymax/rrdcached
+    networks:
+      - traefik_network
     volumes:
       - "/mnt/nfs/librenms/librenms/rrd:/data/db"
       - "/mnt/nfs/librenms/librenms/rrd-journal:/data/journal"
@@ -73,6 +79,8 @@ services:
 
   smtp:
     image: juanluisbaptiste/postfix
+    networks:
+      - traefik_network
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
     environment:
@@ -94,10 +102,10 @@ services:
 
   librenms:
     image: librenms/librenms:latest
-    domainname: "{{domain}}"
-    hostname: librenms
     networks:
       - traefik_network
+    domainname: "{{domain}}"
+    hostname: librenms
     depends_on:
       - db
       - memcached
@@ -162,6 +170,8 @@ services:
 
   cron:
     image: librenms/librenms:latest
+    networks:
+      - traefik_network
     domainname: "{{domain}}"
     hostname: librenms
     depends_on:
@@ -211,6 +221,8 @@ services:
 
   syslog-ng:
     image: librenms/librenms:latest
+    networks:
+      - traefik_network
     domainname: "{{domain}}"
     hostname: librenms
     depends_on:
