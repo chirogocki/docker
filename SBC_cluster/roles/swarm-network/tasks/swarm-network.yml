@@ -2,7 +2,7 @@
 
 - name: Create a Traefik network
   docker_network:
-    name: traefik_public
+    name: traefik_network
     attachable: yes
     driver: overlay
     ipam_config:
