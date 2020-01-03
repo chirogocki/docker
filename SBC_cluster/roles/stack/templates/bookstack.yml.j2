@@ -13,7 +13,7 @@ services:
       - DB_DATABASE=bookstackapp
       - APP_URL=https://bs.{{domain}}
     volumes:
-      - /storage/Bookstack/config:/config
+      - /mnt/nfs/Bookstack/config:/config
     depends_on:
       - bookstack_db
     networks:
@@ -51,7 +51,7 @@ services:
       - MYSQL_USER=bookstack
       - MYSQL_PASSWORD={{bookstack_mysql_pass}}
     volumes:
-      - /storage/Bookstack/db:/config
+      - /mnt/nfs/Bookstack/db:/config
     networks:
       - traefik_network
     deploy:

@@ -10,7 +10,7 @@ services:
       - MAXMEM=1024
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /storage/Ubooquity:/config
+      - /mnt/nfs/Ubooquity:/config
       - /mount/books:/books
       - /mount/books/files:/files
       - /mount/comics:/comics

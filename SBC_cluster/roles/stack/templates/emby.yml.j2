@@ -17,7 +17,7 @@ services:
       - /dev/dri/renderD128:/dev/dri
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /storage/Emby:/config
+    - /mnt/nfs/Emby:/config
     - /mount/tv-archive:/tv-archive
     - /mount/music:/music
     - /mount/private:/mnt/private

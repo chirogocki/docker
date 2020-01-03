@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /storage/Sabnzbd:/config
+    - /mnt/nfs/Sabnzbd:/config
     - /mount/downloads:/downloads
     - /mount/incomplete-downloads:/incomplete-downloads
     - /mount/docker/SSL:/ssl

@@ -14,8 +14,8 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /storage/Observium/logs:/opt/observium/logs
-    - /storage/Observium/rrds:/opt/observium/rrd
+    - /mnt/nfs/Observium/logs:/opt/observium/logs
+    - /mnt/nfs/Observium/rrds:/opt/observium/rrd
     networks:
       - traefik_network
     depends_on:
@@ -57,7 +57,7 @@ services:
       - MARIADB_VERSION=1:10.4.8+maria~bionic
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /storage/Observium/config:/var/lib/mysql
+    - /mnt/nfs/Observium/config:/var/lib/mysql
       
     networks:
       - traefik_network

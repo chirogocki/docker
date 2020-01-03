@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /storage/Bazarr:/config
+    - /mnt/nfs/Bazarr:/config
     - /mount/tv:/tv
     - /mount/tv-archive:/tv-archive
     - /mount/video/movies

@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /storage/Lazylibrarian:/config
+    - /mnt/nfs/Lazylibrarian:/config
     - /mount/downloads:/downloads
     - /mount/books:/books
       

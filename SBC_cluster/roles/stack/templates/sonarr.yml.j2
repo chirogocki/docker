@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /storage/Sonarr:/config
+    - /mnt/nfs/Sonarr:/config
     - /mount/downloads:/downloads
     - /mount/tv:/tv
     - /mount/tv-archive:/tv-archive

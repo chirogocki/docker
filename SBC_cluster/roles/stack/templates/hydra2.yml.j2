@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /storage/Hydra2:/config
+    - /mnt/nfs/Hydra2:/config
     - /mount/downloads:/downloads
       
     networks:

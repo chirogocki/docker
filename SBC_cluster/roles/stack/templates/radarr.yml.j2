@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /storage/Radarr:/config
+    - /mnt/nfs/Radarr:/config
     - /mount/downloads:/downloads
     - /mount/video:/movies
       
