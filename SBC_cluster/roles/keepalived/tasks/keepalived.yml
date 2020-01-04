@@ -8,6 +8,14 @@
   tags:
     - keepalived-install
 
+- name: Install keepalived
+  yum:
+    name: keepalived
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags:
+    - keepalived-install
+
 - name: Check service
   template: 
     src: check_script.sh.j2 
