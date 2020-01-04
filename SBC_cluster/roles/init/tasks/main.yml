@@ -4,29 +4,29 @@
   tags:
     - init
 
-- import_tasks: iscsi.yml
-  tags:
-    - iscsi
+#- import_tasks: iscsi.yml
+#  tags:
+#    - iscsi
 
 - import_tasks: snmp.yml
   tags:
     - snmp
 
-- import_tasks: cockpit.yml
-  tags:
-    - cockpit
+#- import_tasks: cockpit.yml
+#  tags:
+#    - cockpit
 
 - import_tasks: bashrc.yml
   tags:
     - bashrc
 
-- import_tasks: autofs.yml
-  tags:
-    - autofs
+#- import_tasks: autofs.yml
+#  tags:
+#    - autofs
 
-- import_tasks: multipath.yml
-  tags:
-    - multipath
+#- import_tasks: multipath.yml
+#  tags:
+#    - multipath
 
 - import_tasks: mount.yml
   tags:
