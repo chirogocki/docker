@@ -65,9 +65,9 @@
       - python3
       - nfs-utils
       - python3-pip
-      - iscsi-initiator-utils #Needed for Iscsi
+      - #iscsi-initiator-utils #Needed for Iscsi
       - net-snmp
-      - autofs
+      - #autofs
       - neofetch
   when: ansible_os_family == "RedHat"
   tags:
