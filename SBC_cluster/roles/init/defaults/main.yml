@@ -19,6 +19,7 @@ private_path: "/mnt/private"
 
 mount_nfs_path:
   - "/mnt/docker"
+  - "/mnt/nfs"
 
 auto_direct_path: "/etc/auto_direct"
 auto_master_path: "/etc/auto.master"
