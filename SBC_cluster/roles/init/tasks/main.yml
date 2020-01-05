@@ -8,9 +8,9 @@
 #  tags:
 #    - iscsi
 
-- import_tasks: snmp.yml
+- import_tasks: snmp_librenms.yml
   tags:
-    - snmp
+    - snmp_librenms
 
 #- import_tasks: cockpit.yml
 #  tags:
