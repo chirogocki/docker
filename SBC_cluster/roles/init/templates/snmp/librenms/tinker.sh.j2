@@ -1,0 +1,13 @@
+#!/bin/bash
+# {{ ansible_tag }}
+#######################################
+# Asus Tinker Board Cpu and Volt      #
+# sensors on Armbian                  #
+#######################################
+cat='/bin/cat'
+awk='/usr/bin/awk'
+getTemp='/sys/class/thermal/thermal_zone0/temp'
+getVoltsCore='/sys/class/regulator/regulator.4/microvolts'
+
+$cat $getTemp | $awk '{ print ($1 / 1000) }'
+$cat $getVoltsCore  | $awk '{ print ($1 / 1000000) }'

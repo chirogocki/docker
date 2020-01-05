@@ -21,3 +21,10 @@
     daemon_reload: yes
     enabled: yes
     name: autofs
+
+- name: Start and enable check_mk_agent
+  systemd:
+    state: started
+    daemon_reload: yes
+    enabled: yes
+    name: check_mk.socket
