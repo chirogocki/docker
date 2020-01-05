@@ -6,7 +6,6 @@
     repo: 'https://github.com/librenms/librenms-agent.git'
     dest: /opt/
     clone: yes
-    update: yes
   tags:
     - init_snmp_librenms
     - init_snmp_librenms_git
