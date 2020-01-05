@@ -12,7 +12,10 @@ services:
     - /mnt/nfs/Bazarr:/config
     - tv:/tv
     - tv-archive:/tv-archive
-    - movies:/movies
+    - movies:/movies/Movies
+    - m2018:/movies/2018
+    - ok:/movies/OK
+    - July2016:/movies/July2016
       
     networks:
       - traefik_network
@@ -57,3 +60,18 @@ volumes:
       type: "nfs"
       o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
       device: ":/{{video_remote_path}}Movies"
+  m2018:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{video_remote_path}}2018"
+  July2016:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{video_remote_path}}July2016"
+  ok:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{video_remote_path}}OK"
