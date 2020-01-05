@@ -10,8 +10,8 @@ services:
     volumes:
     - /etc/localtime:/etc/localtime:ro
     - /mnt/nfs/Mylar:/config
-    - /mount/downloads:/downloads
-    - /mount/comics:/comics
+    - downloads:/downloads
+    - comics:/comics
       
     networks:
       - traefik_network
@@ -40,3 +40,14 @@ networks:
   traefik_network:
     external: true
 
+volumes:
+  downloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{downloads_remote_path}}"
+  comics:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{books_remote_path}}Comics"

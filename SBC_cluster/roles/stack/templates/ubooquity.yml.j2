@@ -11,10 +11,10 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /mnt/nfs/Ubooquity:/config
-      - /mount/books:/books
-      - /mount/books/files:/files
-      - /mount/comics:/comics
-      - /mount/private/Manga:/private
+      - books:/books
+      - files:/files
+      - comics:/comics
+      - private:/private
     networks:
       - traefik_network
     deploy:
@@ -56,23 +56,23 @@ volumes:
   books:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
       device: ":/{{books_remote_path}}"
   files:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
       device: ":/{{books_remote_path}}files"
   comics:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
       device: ":/{{comics_remote_path}}"
   private:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS2}},nolock,soft,rw,timeo=600,vers=4.1"
-      device: ":/{{private_remote_path}}"
+      o: "addr={{NAS2}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{private_remote_path}}Mangas"
 
 networks:
   traefik_network:

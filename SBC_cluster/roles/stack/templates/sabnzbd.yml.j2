@@ -10,9 +10,9 @@ services:
     volumes:
     - /etc/localtime:/etc/localtime:ro
     - /mnt/nfs/Sabnzbd:/config
-    - /mount/downloads:/downloads
-    - /mount/incomplete-downloads:/incomplete-downloads
-    - /mount/docker/SSL:/ssl
+    - downloads:/downloads
+    - incomplete-downloads:/incomplete-downloads
+    - /mnt/docker/SSL:/ssl
       
     networks:
       - traefik_network
@@ -46,3 +46,14 @@ networks:
   traefik_network:
     external: true
 
+volumes:
+  downloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{downloads_remote_path}}"
+  incomplete-downloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{incomplete-downloads_remote_path}}"

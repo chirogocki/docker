@@ -10,9 +10,9 @@ services:
     volumes:
     - /etc/localtime:/etc/localtime:ro
     - /mnt/nfs/Sonarr:/config
-    - /mount/downloads:/downloads
-    - /mount/tv:/tv
-    - /mount/tv-archive:/tv-archive
+    - downloads:/downloads
+    - tv:/tv
+    - tv-archive:/tv-archive
       
     networks:
       - traefik_network
@@ -46,3 +46,19 @@ networks:
   traefik_network:
     external: true
 
+volumes:
+  tv:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{tv_remote_path}}"
+  tv-archive:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{tv_archive_remote_path}}"
+  downloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      device: ":/{{downloads_remote_path}}"
