@@ -4,7 +4,7 @@
 - name: Clone Check_mk Librenms agent
   git:
     repo: 'https://github.com/librenms/librenms-agent.git'
-    dest: /opt/
+    dest: /opt/librenms-agent
     clone: yes
   tags:
     - init_snmp_librenms
