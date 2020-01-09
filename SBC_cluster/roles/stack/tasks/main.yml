@@ -124,3 +124,8 @@
   tags:
     - stack
     - stack_librenms
+
+- import_tasks: all.yml
+  tags:
+    - stack
+    - stack_all

@@ -1,0 +1,108 @@
+---
+
+#- import_tasks: traefik2.yml
+#  tags:
+#    - stack
+#    - stack_traefik2
+
+#- import_tasks: docker-cleanup.yml
+#  tags:
+#    - stack
+#    - stack_docker-cleanup
+
+#- import_tasks: registry.yml
+#  tags:
+#    - stack
+#    - stack_registry
+
+- import_tasks: visualizer.yml
+  tags:
+    - stack
+    - stack_visualizer
+
+- import_tasks: swarmprom.yml
+  tags:
+    - stack
+    - stack_swarmprom
+
+- import_tasks: librenms.yml
+  tags:
+    - stack
+    - stack_librenms
+
+
+
+- import_tasks: sabnzbd.yml
+  tags:
+    - stack
+    - stack_sabnzbd
+
+- import_tasks: hydra2.yml
+  tags:
+    - stack
+    - stack_hydra2
+
+- import_tasks: jackett.yml
+  tags:
+    - stack
+    - stack_jackett
+
+
+
+
+
+- import_tasks: heimdall.yml
+  tags:
+    - stack
+    - stack_heimdall
+
+- import_tasks: ubooquity.yml
+  tags:
+    - stack
+    - stack_ubooquity
+
+- import_tasks: bazarr.yml
+  tags:
+    - stack
+    - stack_bazarr
+
+- import_tasks: emby.yml
+  tags:
+    - stack
+    - stack_emby
+
+- import_tasks: lazylibrarian.yml
+  tags:
+    - stack
+    - stack_lazylibrarian
+
+- import_tasks: lidarr.yml
+  tags:
+    - stack
+    - stack_lidarr
+
+- import_tasks: mylar.yml
+  tags:
+    - stack
+    - stack_mylar
+
+- import_tasks: radarr.yml
+  tags:
+    - stack
+    - stack_radarr
+
+- import_tasks: sonarr.yml
+  tags:
+    - stack
+    - stack_sonarr
+
+- import_tasks: sonarr2.yml
+  tags:
+    - stack
+    - stack_sonarr2
+
+- import_tasks: bookstack.yml
+  tags:
+    - stack
+    - stack_bookstack
+
