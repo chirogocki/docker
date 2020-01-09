@@ -60,8 +60,7 @@ configs:
     file: {{docker_conf_path}}/Traefik2S/traefik.yml
 
 networks:
-  network:
-    driver: overlay
-    attachable: true
+  traefik_network:
+    external: true
 
 
