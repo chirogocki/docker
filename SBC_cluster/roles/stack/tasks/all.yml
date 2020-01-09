@@ -15,10 +15,10 @@
 #    - stack
 #    - stack_registry
 
-- import_tasks: visualizer.yml
-  tags:
-    - stack
-    - stack_visualizer
+#- import_tasks: visualizer.yml
+#  tags:
+#    - stack
+#    - stack_visualizer
 
 - import_tasks: swarmprom.yml
   tags:
