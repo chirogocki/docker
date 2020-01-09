@@ -16,3 +16,5 @@
       arch: "{{arch}}"
       board: "{{board}}"
   when: inventory_hostname in groups['workers']
+  delegate_to: "akira.{{domain}}"
+  tags: labels
