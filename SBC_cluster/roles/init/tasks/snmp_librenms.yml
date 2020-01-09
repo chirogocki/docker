@@ -1,0 +1,103 @@
+---
+# Check_mk agent for Librenms
+#Clone Check_mk
+- name: Clone Check_mk Librenms agent
+  git:
+    repo: 'https://github.com/librenms/librenms-agent.git'
+    dest: /opt/librenms-agent
+    clone: yes
+  tags:
+    - init_snmp_librenms
+    - init_snmp_librenms_git
+
+- name : Copy check_mk_agent
+  copy:
+    src: /opt/librenms-agent/check_mk_agent
+    dest: /usr/bin/check_mk_agent
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - init_snmp_librenms
+    - init_snmp_librenms_check_mk_agent
+
+- name: Copy check_mk_agent service
+  copy:
+    src: "{{ item }}"
+    dest: /etc/systemd/system
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0644'
+  with_items:
+    - '/opt/librenms-agent/check_mk@.service'
+    - '/opt/librenms-agent/check_mk.socket'
+  notify: Start and enable check_mk_agent
+  tags:
+    - init_snmp_librenms
+    - init_snmp_librenms_check_mk_agent_service
+
+- block:
+  - name: Template Librenms distro SNMP extend
+    template:
+      src: snmp/librenms/distro.sh.j2
+      dest: /usr/bin/distro
+      mode: 0755
+      owner: root
+      group: root
+  - name: Template Librenms OS Uupdate SNMP extend
+    template:
+      src: snmp/librenms/osupdate.sh.j2
+      dest: /etc/snmp/osupdate
+      mode: 0755
+      owner: root
+      group: root
+  - name: Template Librenms Ntp Client SNMP extend
+    template:
+      src: snmp/librenms/ntp-client.sh.j2
+      dest: /etc/snmp/ntp-client
+      mode: 0755
+      owner: root
+      group: root
+  - name: Template Librenms ifAlias_persist script
+    template:
+      src: snmp/ifAlias_persist.pl.j2
+      dest: /usr/local/bin/ifAlias_persist
+      mode: 0755
+      owner: root
+      group: root
+  - name: Template Librenms Asus Tinker Board S SNMP extend
+    template:
+      src: snmp/librenms/tinker.sh.j2
+      dest: /etc/snmp/tinker.sh
+      mode: 0755
+      owner: root
+      group: root
+    when: board == 'tinker'
+  - name: Template Librenms Raspberry Pi SNMP extend
+    template:
+      src: snmp/librenms/raspberry.sh.j2
+      dest: /etc/snmp/raspberry.sh
+      mode: 0755
+      owner: root
+      group: root
+    when: board == 'rpi'
+  tags:
+    - init_snmp_librenms
+    - init_snmp_librenms_agent_script
+    
+- name: Configure snmpd for Librenms
+  template:
+    src: snmp/librenms/snmpd.conf.j2
+    dest: /etc/snmp/snmpd.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: Restart snmpd
+  tags:
+    - init_snmp_librenms
+    - init_snmp_librenms_snmp_conf
+
+      # to do other script + link to enabled
+
