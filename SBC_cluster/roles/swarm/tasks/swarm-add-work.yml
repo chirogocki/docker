@@ -16,5 +16,5 @@
       arch: "{{arch}}"
       board: "{{board}}"
   when: inventory_hostname in groups['workers']
-  delegate_to: "{{ inventory_hostname in groups['manager1']}}"
+  delegate_to: " inventory_hostname in groups['manager1']"
   tags: labels
