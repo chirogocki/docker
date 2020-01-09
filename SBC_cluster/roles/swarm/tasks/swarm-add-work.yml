@@ -11,7 +11,7 @@
 
 - name: Label assignment
   docker_node:
-    hostname: "{{ansible_hostname}}"
+    hostname: "{{ansible_hostname}}.{{domain}}"
     labels:
       arch: "{{arch}}"
       board: "{{board}}"
