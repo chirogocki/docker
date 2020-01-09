@@ -10,7 +10,7 @@ services:
       - MAXMEM=1024
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/nfs/Ubooquity:/config
+      - config:/config
       - books:/books
       - files:/files
       - comics:/comics
@@ -53,25 +53,30 @@ services:
         window: 120s
 
 volumes:
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Ubooquity"
   books:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{books_remote_path}}"
   files:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{books_remote_path}}files"
   comics:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{comics_remote_path}}"
   private:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS2}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS2}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{private_remote_path}}Manga"
 
 networks:

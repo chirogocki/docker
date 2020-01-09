@@ -8,3 +8,11 @@
     - inventory_hostname in groups['managers']
   retries: 6
   delay: 30
+
+- name: Label assignment
+  docker_node:
+    hostname: "{{ansible_hostname}}"
+    labels:
+      arch: "{{arch}}"
+      board: "{{board}}"
+  when: inventory_hostname in groups['managers']

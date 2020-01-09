@@ -19,3 +19,11 @@
   shell: docker swarm join-token -q worker
   register: worker_token
   when: inventory_hostname in groups['manager1']
+
+- name: Label assignment
+  docker_node:
+    hostname: "{{ansible_hostname}}"
+    labels:
+      arch: "{{arch}}"
+      board: "{{board}}"
+  when: inventory_hostname in groups['manager1']

@@ -13,7 +13,7 @@ services:
       - "--character-set-server=utf8"
       - "--collation-server=utf8_unicode_ci"
     volumes:
-      - "/mnt/nfs/librenms/db:/var/lib/mysql"
+      - "db:/var/lib/mysql"
     environment:
       - "TZ=Europe/Paris"
       - "MYSQL_ALLOW_EMPTY_PASSWORD=yes"
@@ -55,8 +55,8 @@ services:
     networks:
       - traefik_network
     volumes:
-      - "/mnt/nfs/librenms/librenms/rrd:/data/db"
-      - "/mnt/nfs/librenms/librenms/rrd-journal:/data/journal"
+      - "rrd:/data/db"
+      - "rrd-journal:/data/journal"
     environment:
       - "TZ=Europe/Paris"
       - "LOG_LEVEL=LOG_INFO"
@@ -112,7 +112,7 @@ services:
       - rrdcached
       - smtp
     volumes:
-      - "/mnt/nfs/librenms/librenms:/data"
+      - "librenms:/data"
     environment:
       - "TZ=Europe/Paris"
       - "APP_URL=https://librenms.{{domain}}"
@@ -177,7 +177,7 @@ services:
     depends_on:
       - librenms
     volumes:
-      - "/mnt/nfs/librenms/librenms:/data"
+      - "librenms:/data"
     environment:
       - "TZ=Europe/Paris"
       - "PUID=1024"
@@ -235,7 +235,7 @@ services:
         published: 514
         protocol: udp
     volumes:
-      - "/mnt/nfs/librenms/librenms:/data"
+      - "librenms:/data"
     environment:
       - "TZ=Europe/Paris"
       - "PUID=1024"
@@ -281,3 +281,24 @@ networks:
   traefik_network:
     external: true
 
+volumes:
+  db:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/librenms/db"
+  rrd:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/librenms/librenms/rrd"
+  rrd-journal:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/librenms/librenms/rrd-journal"
+  librenms:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/librenms/librenms"

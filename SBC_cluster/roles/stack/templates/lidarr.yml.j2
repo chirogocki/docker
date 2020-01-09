@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /mnt/nfs/Lidarr:/config
+    - config:/config
     - downloads:/downloads
     - music:/music
       
@@ -44,13 +44,18 @@ networks:
     external: true
 
 volumes:
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Lidarr"
   downloads:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{downloads_remote_path}}"
   music:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS2}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS2}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{music_remote_path}}"

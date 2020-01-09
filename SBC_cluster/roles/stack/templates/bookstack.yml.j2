@@ -13,7 +13,7 @@ services:
       - DB_DATABASE=bookstackapp
       - APP_URL=https://bs.{{domain}}
     volumes:
-      - /mnt/nfs/Bookstack/config:/config
+      - config:/config
     depends_on:
       - bookstack_db
     networks:
@@ -51,7 +51,7 @@ services:
       - MYSQL_USER=bookstack
       - MYSQL_PASSWORD={{bookstack_mysql_pass}}
     volumes:
-      - /mnt/nfs/Bookstack/db:/config
+      - db:/config
     networks:
       - traefik_network
     deploy:
@@ -68,3 +68,15 @@ services:
 networks:
   traefik_network:
     external: true
+
+volumes:
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Bookstack/config"
+  db:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Bookstack/db"

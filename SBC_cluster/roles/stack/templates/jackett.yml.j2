@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /mnt/nfs/Jackett:/config
+    - config:/config
     - downloads:/downloads
       
     networks:
@@ -18,7 +18,9 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.role==worker
+        preferences:
+          - spread: node.labels.arch==arm
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.jackett-unsecure.rule=Host(`jtt.{{domain}}`)"
@@ -43,5 +45,10 @@ volumes:
   downloads:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{downloads_remote_path}}torrent_hole"
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Jackett"

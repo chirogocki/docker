@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /mnt/nfs/Sonarr2:/config
+    - config:/config
     - downloads:/downloads
     - private:/private
     - tv:/tv
@@ -49,28 +49,33 @@ networks:
     external: true
 
 volumes:
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Sonarr2"
   tv-archive:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{tv_archive_remote_path}}"
   tv:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{tv_remote_path}}"
   private:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS2}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS2}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{private_remote_path}}"
   downloads:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{downloads_remote_path}}"
   anime:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{anime_remote_path}}"

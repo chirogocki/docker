@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Paris
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /mnt/nfs/Mylar:/config
+    - config:/config
     - downloads:/downloads
     - comics:/comics
       
@@ -41,13 +41,18 @@ networks:
     external: true
 
 volumes:
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Mylar"
   downloads:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{downloads_remote_path}}"
   comics:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,hard,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{comics_remote_path}}"
