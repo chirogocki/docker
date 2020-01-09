@@ -50,7 +50,7 @@ volumes:
   config:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/data/Sabnzbd"
   downloads:
     driver_opts:
