@@ -27,7 +27,7 @@ services:
       - source: privkey.pem
         target: /etc/traefik/certs/privkey.key
     networks:
-      - network
+      - traefik_network
     configs:
       - source: traefik.yml
         target: /etc/traefik/traefik.yml
