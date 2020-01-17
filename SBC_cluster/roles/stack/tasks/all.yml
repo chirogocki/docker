@@ -5,20 +5,20 @@
 #    - stack
 #    - stack_traefik2
 
-#- import_tasks: docker-cleanup.yml
-#  tags:
-#    - stack
-#    - stack_docker-cleanup
+- import_tasks: docker-cleanup.yml
+  tags:
+   - stack
+   - stack_docker-cleanup
 
 #- import_tasks: registry.yml
 #  tags:
 #    - stack
 #    - stack_registry
 
-#- import_tasks: visualizer.yml
-#  tags:
-#    - stack
-#    - stack_visualizer
+- import_tasks: visualizer.yml
+  tags:
+   - stack
+   - stack_visualizer
 
 - import_tasks: swarmprom.yml
   tags:
