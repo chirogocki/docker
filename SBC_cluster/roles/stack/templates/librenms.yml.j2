@@ -20,10 +20,6 @@ services:
       - "MYSQL_DATABASE=librenms"
       - "MYSQL_USER={{librenms_mysql_user}}"
       - "MYSQL_PASSWORD={{librenms_mysql_password}}"
-      - "PUID=1024"
-      - "PGID=100"
-    env_file:
-      - all.env
     deploy:
       replicas: 1
       placement:
@@ -41,8 +37,6 @@ services:
       - traefik_network
     environment:
       - "TZ=TZ=Europe/Paris"
-    env_file:
-      - all.env
     deploy:
       replicas: 1
       placement:
@@ -70,8 +64,6 @@ services:
       - "FLUSH_DEAD_DATA_INTERVAL=3600"
       - "PUID=1024"
       - "PGID=100"
-    env_file:
-      - all.env
     deploy:
       replicas: 1
       placement:
@@ -90,13 +82,10 @@ services:
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
     environment:
-      - "TZ=Europe/Paris"
       - "SERVER_HOSTNAME=librenms.{{domain}}"
       - "SMTP_SERVER={{domain}}"
       - "SMTP_USERNAME={{librenms_smtp_user}}"
       - "SMTP_PASSWORD={{librenms_smtp_password}}"
-    env_file:
-      - all.env
     deploy:
       replicas: 1
       placement:
@@ -132,8 +121,7 @@ services:
       - "DB_PASSWORD={{librenms_mysql_password}}"
       - "DB_TIMEOUT=60"
     env_file:
-      - librenms.env
-      - all.env
+      - "./librenms.yml"
     deploy:
       replicas: 1
       placement:
@@ -158,7 +146,6 @@ services:
         max_attempts: 3
         window: 120s
 
-
   cron:
     image: librenms/librenms:latest
     networks:
@@ -180,8 +167,7 @@ services:
       - "DB_TIMEOUT=60"
       - "SIDECAR_CRON=1"
     env_file:
-      - librenms.yml
-      - all.env
+      - "./librenms.env"
     deploy:
       replicas: 1
       placement:
@@ -221,8 +207,7 @@ services:
       - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
     env_file:
-      - librenms.env
-      - all.env
+      - "./librenms.env"
     deploy:
       replicas: 1
       placement:
