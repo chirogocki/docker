@@ -12,7 +12,7 @@ services:
     - config:/config
     - downloads:/downloads
     - incomplete:/incomplete-downloads
-    - /mnt/docker/SSL:/ssl
+    - ssl:/ssl
       
     networks:
       - traefik_network
@@ -62,3 +62,8 @@ volumes:
       type: "nfs"
       o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{incomplete_remote_path}}"
+  ssl:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/{{docker_remote_path}}SSL"
