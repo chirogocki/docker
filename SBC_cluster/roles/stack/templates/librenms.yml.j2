@@ -1,6 +1,6 @@
 version: "3.7"
-
 services:
+
   db:
     image: mariadb:10.2
     networks:
@@ -123,7 +123,7 @@ services:
       - "librenms:/data"
     environment:
       - "TZ=Europe/Paris"
-      #- "APP_URL=https://librenms.{{domain}}"
+      - "APP_URL=https://librenms.{{domain}}"
       - "PUID=1024"
       - "PGID=100"
       - "DB_HOST=db"
@@ -131,26 +131,6 @@ services:
       - "DB_USER={{librenms_mysql_user}}"
       - "DB_PASSWORD={{librenms_mysql_password}}"
       - "DB_TIMEOUT=60"
-      #- "MEMORY_LIMIT=256M"
-      #- "UPLOAD_MAX_SIZE=16M"
-      #- "OPCACHE_MEM_SIZE=128"
-      #- "REAL_IP_FROM=0.0.0.0/32"
-      #- "REAL_IP_HEADER=X-Forwarded-For"
-      #- "LOG_IP_VAR=http_x_forwarded_for"
-      #- "LIBRENMS_POLLER_THREADS=16"
-      #- "LIBRENMS_POLLER_INTERVAL=5"
-      #- "LIBRENMS_CRON_DISCOVERY_ENABLE=true"
-      #- "LIBRENMS_CRON_DAILY_ENABLE=true"
-      #- "LIBRENMS_CRON_ALERTS_ENABLE=true"
-      #- "LIBRENMS_CRON_BILLING_ENABLE=true"
-      #- "LIBRENMS_CRON_BILLING_CALCULATE_ENABLE=true"
-      #- "LIBRENMS_CRON_CHECK_SERVICES_ENABLE=true"
-      #- "LIBRENMS_CRON_POLLER_ENABLE=true"
-      #- "LIBRENMS_SNMP_COMMUNITY=public"
-      #- "MEMCACHED_HOST=memcached"
-      #- "MEMCACHED_PORT=11211"
-      #- "RRDCACHED_HOST=rrdcached"
-      #- "RRDCACHED_PORT=42217"
     env_file:
       - librenms.env
       - all.env
@@ -199,26 +179,6 @@ services:
       - "DB_PASSWORD={{librenms_mysql_password}}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_CRON=1"
-      #- "MEMORY_LIMIT=256M"
-      #- "UPLOAD_MAX_SIZE=16M"
-      #- "OPCACHE_MEM_SIZE=128"
-      #- "REAL_IP_FROM=0.0.0.0/32"
-      #- "REAL_IP_HEADER=X-Forwarded-For"
-      #- "LOG_IP_VAR=http_x_forwarded_for"
-      #- "LIBRENMS_POLLER_THREADS=16"
-      #- "LIBRENMS_POLLER_INTERVAL=5"
-      #- "LIBRENMS_CRON_DISCOVERY_ENABLE=true"
-      #- "LIBRENMS_CRON_DAILY_ENABLE=true"
-      #- "LIBRENMS_CRON_ALERTS_ENABLE=true"
-      #- "LIBRENMS_CRON_BILLING_ENABLE=true"
-      #- "LIBRENMS_CRON_BILLING_CALCULATE_ENABLE=true"
-      #- "LIBRENMS_CRON_CHECK_SERVICES_ENABLE=true"
-      #- "LIBRENMS_CRON_POLLER_ENABLE=true"
-      #- "LIBRENMS_SNMP_COMMUNITY=public"
-      #- "MEMCACHED_HOST=memcached"
-      #- "MEMCACHED_PORT=11211"
-      #- "RRDCACHED_HOST=rrdcached"
-      #- "RRDCACHED_PORT=42217"
     env_file:
       - librenms.yml
       - all.env
@@ -260,26 +220,6 @@ services:
       - "DB_PASSWORD={{librenms_mysql_password}}"
       - "DB_TIMEOUT=60"
       - "SIDECAR_SYSLOGNG=1"
-      #- "MEMORY_LIMIT=256M"
-      #- "UPLOAD_MAX_SIZE=16M"
-      #- "OPCACHE_MEM_SIZE=128"
-      #- "REAL_IP_FROM=0.0.0.0/32"
-      #- "REAL_IP_HEADER=X-Forwarded-For"
-      #- "LOG_IP_VAR=http_x_forwarded_for"
-      #- "LIBRENMS_POLLER_THREADS=16"
-      #- "LIBRENMS_POLLER_INTERVAL=5"
-      #- "LIBRENMS_CRON_DISCOVERY_ENABLE=true"
-      #- "LIBRENMS_CRON_DAILY_ENABLE=true"
-      #- "LIBRENMS_CRON_ALERTS_ENABLE=true"
-      #- "LIBRENMS_CRON_BILLING_ENABLE=true"
-      #- "LIBRENMS_CRON_BILLING_CALCULATE_ENABLE=true"
-      #- "LIBRENMS_CRON_CHECK_SERVICES_ENABLE=true"
-      #- "LIBRENMS_CRON_POLLER_ENABLE=true"
-      #- "LIBRENMS_SNMP_COMMUNITY=public"
-      #- "MEMCACHED_HOST=memcached"
-      #- "MEMCACHED_PORT=11211"
-      #- "RRDCACHED_HOST=rrdcached"
-      #- "RRDCACHED_PORT=42217"
     env_file:
       - librenms.env
       - all.env
