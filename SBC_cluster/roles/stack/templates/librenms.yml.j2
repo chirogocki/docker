@@ -144,7 +144,7 @@ services:
       #- "RRDCACHED_HOST=rrdcached"
       #- "RRDCACHED_PORT=42217"
     env_file:
-      - "{{docker_conf_path}}/Librenms/librenms.env"
+      - {{docker_conf_path}}/Librenms/librenms.env
     deploy:
       replicas: 1
       placement:
@@ -271,7 +271,7 @@ services:
       #- "RRDCACHED_HOST=rrdcached"
       #- "RRDCACHED_PORT=42217"
     env_file:
-      - "{{docker_conf_path}}/Librenms/librenms.env"
+      - {{docker_conf_path}}/Librenms/librenms.env
     deploy:
       replicas: 1
       placement:
