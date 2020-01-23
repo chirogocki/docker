@@ -1,19 +1,19 @@
 ---
 
-#- import_tasks: traefik2.yml
-#  tags:
-#    - stack
-#    - stack_traefik2
+- import_tasks: traefik2.yml
+  tags:
+    - stack
+    - stack_traefik2
 
 - import_tasks: docker-cleanup.yml
   tags:
    - stack
    - stack_docker-cleanup
 
-#- import_tasks: registry.yml
-#  tags:
-#    - stack
-#    - stack_registry
+- import_tasks: registry.yml
+  tags:
+    - stack
+    - stack_registry
 
 - import_tasks: visualizer.yml
   tags:
