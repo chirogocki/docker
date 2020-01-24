@@ -19,5 +19,3 @@
     name: diun
     compose:
      - "{{docker_conf_path}}/Diun/diun.yml"
-
-
