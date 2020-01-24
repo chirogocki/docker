@@ -5,7 +5,7 @@ services:
     image: crazymax/diun:latest
     volumes:
       - data:/data
-      - config/diun.yml:/diun.yml:ro
+      - /mnt/docker/Diun/diun.yml:/diun.yml:ro
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       - "TZ=Europe/Paris"
