@@ -5,7 +5,7 @@ services:
     image: crazymax/diun:latest
     volumes:
       - data:/data
-      - config/diun.yml:/diun.yml:ro
+      - config:/diun.yml:ro
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       - "TZ=Europe/Paris"
@@ -26,4 +26,4 @@ volumes:
     driver_opts:
       type: "nfs"
       o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
-      device: ":/{{docker_remote_path}}Diun"
+      device: ":/{{docker_remote_path}}Diun/diun.yml"
