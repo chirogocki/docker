@@ -1,18 +1,18 @@
 db:
-    path: diun.db
+  path: diun.db
   
-  watch:
-    workers: 10
-    schedule: "0 * * * *"
-    first_check_notif: true
+watch:
+  workers: 10
+  schedule: "0 * * * *"
+  first_check_notif: true
   
-  notif:
-    slack:
-      enable: true
-      webhook_url: "{{ slack_token }}"
+notif:
+  slack:
+    enable: true
+    webhook_url: "{{ slack_token }}"
   
-  providers:
-    swarm:
-      # Watch all services on local Swarm cluster
-      myswarm:
-        watch_by_default: true
+providers:
+  swarm:
+    # Watch all services on local Swarm cluster
+    myswarm:
+      watch_by_default: true

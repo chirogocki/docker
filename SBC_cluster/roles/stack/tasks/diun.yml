@@ -2,14 +2,14 @@
 - name: Template 'Diun' config file
   template:
     src: diun/diun.yml.j2
-    dest: "{{docker_conf_path}}/Diun/diun_config.yml"
+    dest: "{{docker_conf_path}}/Diun/diun.yml"
     owner: '1024'
     group: '100'
 
 - name: Template 'Diun' compose file
   template:
     src: diun/diun_stack.yml.j2
-    dest: "{{docker_conf_path}}/Diun/diun.yml"
+    dest: "{{docker_conf_path}}/Diun/diun_stack.yml"
     owner: '1024'
     group: '100'
 
@@ -18,4 +18,4 @@
     state: present
     name: diun
     compose:
-     - "{{docker_conf_path}}/Diun/diun.yml"
+     - "{{docker_conf_path}}/Diun/diun_stacks.yml"
