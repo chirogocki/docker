@@ -1,0 +1,23 @@
+---
+- name: Template 'Diun' config file
+  template:
+    src: diun/diun.yml.j2
+    dest: "{{docker_conf_path}}/Diun/diun_config.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Template 'Diun' compose file
+  template:
+    src: diun/diun_stack.yml.j2
+    dest: "{{docker_conf_path}}/Diun/diun.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Diun' stack from file
+  docker_stack:
+    state: present
+    name: diun
+    compose:
+     - "{{docker_conf_path}}/Diun/diun.yml"
+
+

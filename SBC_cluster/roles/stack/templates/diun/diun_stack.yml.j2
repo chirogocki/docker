@@ -1,0 +1,29 @@
+version: "3.5"
+
+services:
+  diun:
+    image: crazymax/diun:latest
+    volumes:
+      - data:/data
+      - config:/diun_config.yml:ro
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - "TZ=Europe/Paris"
+      - "LOG_LEVEL=info"
+      - "LOG_JSON=false"
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+volumes:
+  data:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Diun"
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/{{docker_remote_path}}Diun"

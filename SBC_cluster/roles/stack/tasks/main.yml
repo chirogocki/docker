@@ -125,6 +125,11 @@
     - stack
     - stack_librenms
 
+- import_tasks: diun.yml
+  tags:
+    - stack
+    - stack_diun
+
 - import_tasks: all.yml
   tags:
     - stack
