@@ -18,4 +18,4 @@
     state: present
     name: diun
     compose:
-     - "{{docker_conf_path}}/Diun/diun_stacks.yml"
+     - "{{docker_conf_path}}/Diun/diun_stack.yml"
