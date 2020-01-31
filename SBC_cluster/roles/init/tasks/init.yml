@@ -91,11 +91,21 @@
     - init
     - init_pip_docker
 
+- name: Ensure neofetch dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+  with_items: 
+    - $HOME/.config/neofetch/
+  tags:
+    - mount
+    - mount-ensure-dir
+
 - name: Template Neofetch
   template:
     src: config.conf.j2
-    dest: /root/.config/neofetch/config.conf
-  become: yes
+    dest: $HOME/.config/neofetch/config.conf
   tags:
     - init
     - init_install_neofetch
