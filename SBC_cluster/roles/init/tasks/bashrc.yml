@@ -5,8 +5,8 @@
     src: .bashrc.j2
     dest: /root/.bashrc
     mode: 0600
-    owner: root
-    group: root
+    #owner: root
+    #group: root
   tags:
     - init
     - init_bashrc

@@ -23,6 +23,7 @@
       - autofs
       - neofetch
   when: ansible_os_family == "Debian"
+  become: yes
   tags:
     - init
     - init_install
@@ -78,12 +79,14 @@
 
 - name: Install pip python3
   command: pip3 install pip --upgrade
+  become: yes
   tags:
     - init
     - init_pip
 
 - name: Install docker python SDK
   command: pip install docker
+  become: yes
   tags:
     - init
     - init_pip_docker
@@ -92,6 +95,7 @@
   template:
     src: config.conf.j2
     dest: /root/.config/neofetch/config.conf
+  become: yes
   tags:
     - init
     - init_install_neofetch
