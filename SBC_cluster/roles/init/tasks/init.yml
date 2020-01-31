@@ -99,8 +99,8 @@
   with_items: 
     - $HOME/.config/neofetch/
   tags:
-    - mount
-    - mount-ensure-dir
+    - init
+    - init-ensure-dir
 
 - name: Template Neofetch
   template:
