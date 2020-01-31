@@ -3,7 +3,7 @@
 - name: Copy root bash profile
   template:
     src: .bashrc.j2
-    dest: /root/.bashrc
+    dest: $HOME/.bashrc
     mode: 0600
     #owner: root
     #group: root
