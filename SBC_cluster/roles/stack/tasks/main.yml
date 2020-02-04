@@ -130,7 +130,7 @@
     - stack
     - stack_diun
 
-- import_tasks: all.yml
-  tags:
-    - stack
-    - stack_all
+# - import_tasks: all.yml
+#   tags:
+#     - stack
+#     - stack_all
