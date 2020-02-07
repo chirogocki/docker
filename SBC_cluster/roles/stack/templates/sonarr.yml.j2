@@ -60,7 +60,7 @@ volumes:
   tv-archive:
     driver_opts:
       type: "nfs"
-      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      o: "addr={{NAS2}},nolock,soft,rw,timeo=600,vers=4.1"
       device: ":/{{tv_archive_remote_path}}"
   downloads:
     driver_opts:
