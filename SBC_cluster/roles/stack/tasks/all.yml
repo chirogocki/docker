@@ -2,50 +2,50 @@
 
 - import_tasks: traefik2.yml
   tags:
-    - stack
-    - stack_traefik2
+    - stack_all
+    - stack_all_traefik2
 
 - import_tasks: docker-cleanup.yml
   tags:
-   - stack
-   - stack_docker-cleanup
+   - stack_all
+   - stack_all_docker-cleanup
 
 - import_tasks: registry.yml
   tags:
-    - stack
-    - stack_registry
+    - stack_all
+    - stack_all_registry
 
 - import_tasks: visualizer.yml
   tags:
-   - stack
-   - stack_visualizer
+   - stack_all
+   - stack_all_visualizer
 
 - import_tasks: swarmprom.yml
   tags:
-    - stack
-    - stack_swarmprom
+    - stack_all
+    - stack_all_swarmprom
 
 - import_tasks: librenms.yml
   tags:
-    - stack
-    - stack_librenms
+    - stack_all
+    - stack_all_librenms
 
 
 
 - import_tasks: sabnzbd.yml
   tags:
-    - stack
-    - stack_sabnzbd
+    - stack_all
+    - stack_all_sabnzbd
 
 - import_tasks: hydra2.yml
   tags:
-    - stack
-    - stack_hydra2
+    - stack_all
+    - stack_all_hydra2
 
 - import_tasks: jackett.yml
   tags:
-    - stack
-    - stack_jackett
+    - stack_all
+    - stack_all_jackett
 
 
 
@@ -53,56 +53,56 @@
 
 - import_tasks: heimdall.yml
   tags:
-    - stack
-    - stack_heimdall
+    - stack_all
+    - stack_all_heimdall
 
 - import_tasks: ubooquity.yml
   tags:
-    - stack
-    - stack_ubooquity
+    - stack_all
+    - stack_all_ubooquity
 
 - import_tasks: bazarr.yml
   tags:
-    - stack
-    - stack_bazarr
+    - stack_all
+    - stack_all_bazarr
 
 - import_tasks: emby.yml
   tags:
-    - stack
-    - stack_emby
+    - stack_all
+    - stack_all_emby
 
 - import_tasks: lazylibrarian.yml
   tags:
-    - stack
-    - stack_lazylibrarian
+    - stack_all
+    - stack_all_lazylibrarian
 
 - import_tasks: lidarr.yml
   tags:
-    - stack
-    - stack_lidarr
+    - stack_all
+    - stack_all_lidarr
 
 - import_tasks: mylar.yml
   tags:
-    - stack
-    - stack_mylar
+    - stack_all
+    - stack_all_mylar
 
 - import_tasks: radarr.yml
   tags:
-    - stack
-    - stack_radarr
+    - stack_all
+    - stack_all_radarr
 
 - import_tasks: sonarr.yml
   tags:
-    - stack
-    - stack_sonarr
+    - stack_all
+    - stack_all_sonarr
 
 - import_tasks: sonarr2.yml
   tags:
-    - stack
-    - stack_sonarr2
+    - stack_all
+    - stack_all_sonarr2
 
-- import_tasks: bookstack.yml
+- import_tasks: bookstack_all.yml
   tags:
-    - stack
-    - stack_bookstack
+    - stack_all
+    - stack_all_bookstack_all
 
