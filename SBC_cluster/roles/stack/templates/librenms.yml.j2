@@ -30,8 +30,9 @@ services:
       placement:
         constraints:
           - node.labels.arch==x86
-        preferences:
-          - spread: node.hostname==docker.{{domain}}
+          - node.hostname==docker.{{domain}}
+        {# preferences:
+          - spread: node.hostname==docker.{{domain}} #}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -57,8 +58,9 @@ services:
       placement:
         constraints:
           - node.labels.arch==x86
-        preferences:
-          - spread: node.hostname==docker.{{domain}}
+          - node.hostname==docker.{{domain}}
+        {# preferences:
+          - spread: node.hostname==docker.{{domain}} #}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -92,8 +94,9 @@ services:
       placement:
         constraints:
           - node.labels.arch==x86
-        preferences:
-          - spread: node.hostname==docker.{{domain}}
+          - node.hostname==docker.{{domain}}
+        {# preferences:
+          - spread: node.hostname==docker.{{domain}} #}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -122,8 +125,9 @@ services:
       placement:
         constraints:
           - node.labels.arch==x86
-        preferences:
-          - spread: node.hostname==docker.{{domain}}
+          - node.hostname==docker.{{domain}}
+        {# preferences:
+          - spread: node.hostname==docker.{{domain}} #}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -187,8 +191,9 @@ services:
       placement:
         constraints:
           - node.labels.arch==x86
-        preferences:
-          - spread: node.hostname==docker.{{domain}}
+          - node.hostname==docker.{{domain}}
+        {# preferences:
+          - spread: node.hostname==docker.{{domain}} #}
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.librenms-unsecure.rule=Host(`librenms.{{domain}}`)"
@@ -262,8 +267,9 @@ services:
       placement:
         constraints:
           - node.labels.arch==x86
-        preferences:
-          - spread: node.hostname==docker.{{domain}}
+          - node.hostname==docker.{{domain}}
+        {# preferences:
+          - spread: node.hostname==docker.{{domain}} #}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -331,8 +337,9 @@ services:
       placement:
         constraints:
           - node.labels.arch==x86
-        preferences:
-          - spread: node.hostname==docker.{{domain}}
+          - node.hostname==docker.{{domain}}
+        {# preferences:
+          - spread: node.hostname==docker.{{domain}} #}
       restart_policy:
         condition: on-failure
         delay: 15s
