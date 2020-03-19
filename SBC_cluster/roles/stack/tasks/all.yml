@@ -106,3 +106,8 @@
     - stack_all
     - stack_all_bookstack_all
 
+- import_tasks: diun.yml
+  tags:
+    - stack_all
+    - stack_all_diun_all
+
