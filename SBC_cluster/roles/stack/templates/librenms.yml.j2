@@ -208,6 +208,7 @@ services:
       - librenms
     volumes:
       - "librenms:/data"
+      - "/mnt/nfs/librenms/librenms/config/php.ini:/etc/php7/php.ini"
     environment:
       - "DB_HOST=db"
       - "DB_NAME=librenms"

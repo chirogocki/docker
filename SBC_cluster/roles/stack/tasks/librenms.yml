@@ -20,6 +20,13 @@
     owner: '1024'
     group: '100'
 
+- name: Configure Librenms php.ini for 'Librenms'
+  template:
+    src: librenms/php.ini.j2
+    dest: "/mnt/nfs/librenms/librenms/config/php.ini"
+    owner: '1024'
+    group: '100'
+
 - name: Template 'Librenms' compose file
   template:
     src: librenms.yml.j2
