@@ -3,3 +3,10 @@
 $config['nets'][] = "192.168.20.0/24";
 $config['discovery_by_ip'] = true;
 $config['mydomain'] = '{{domain}}';
+$config['syslog_purge'] = 10;
+$config['eventlog_purge'] = 10;
+$config['authlog_purge'] = 10;
+$config['perf_times_purge'] = 10;
+$config['device_perf_purge'] = 10;
+$config['rrd_purge'] = 90;
+$config['ports_purge'] = true;
