@@ -135,7 +135,6 @@ services:
       - smtp
     volumes:
       - "librenms:/data"
-      - "/mnt/nfs/librenms/librenms/config/php.ini:/etc/php7/php.ini"
     environment:
       - "APP_URL=https://librenms.{{domain}}"
       - "DB_HOST=db"
