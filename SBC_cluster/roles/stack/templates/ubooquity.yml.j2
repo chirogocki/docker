@@ -38,8 +38,8 @@ services:
         - "traefik.http.routers.books.rule=Host(`books.{{domain}}`)"
         - "traefik.http.routers.books.tls=true"
         - "traefik.http.routers.books.entrypoints=https"
-        - "traefik.http.routers.books.service=admbooksservice"
-        - "traefik.http.services.admbooksservice.loadbalancer.server.port=2202"
+        - "traefik.http.routers.books.service=booksservice"
+        - "traefik.http.services.booksservice.loadbalancer.server.port=2202"
       resources:
         limits:
           memory: 2048M
