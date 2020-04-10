@@ -4,9 +4,8 @@ services:
   jellyfin:
     image: linuxserver/jellyfin:latest
     environment:
-      - GID=100
-      - UID=1024
-      - GIDLIST=27
+      - PGID=100
+      - PUID=1024
       - TZ=Europe/Paris
     devices:
       - /dev/dri/renderD128:/dev/dri
