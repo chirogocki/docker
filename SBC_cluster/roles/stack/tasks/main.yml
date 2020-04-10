@@ -130,6 +130,11 @@
     - stack
     - stack_diun
 
+- import_tasks: jellyfin.yml
+  tags:
+    - stack
+    - stack_jellyfin
+
 - import_tasks: all.yml
   tags:
           ##    - stack

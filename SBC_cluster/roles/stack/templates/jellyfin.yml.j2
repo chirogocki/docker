@@ -1,0 +1,84 @@
+version: "3.7"
+
+services:
+  jellyfin:
+    image: linuxserver/jellyfin:latest
+    environment:
+      - GID=100
+      - UID=1024
+      - GIDLIST=27
+      - TZ=Europe/Paris
+    devices:
+      - /dev/dri/renderD128:/dev/dri
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - config:/config
+    - tv-archive:/data/tv-archive
+    - music:/data/music
+    - private:/data/private
+    - video:/data/video
+    - anime:/data/anime
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname==docker.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.jellyfin-unsecure.rule=Host(`jellyfin.{{domain}}`)"
+        - "traefik.http.routers.jellyfin-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.jellyfin-unsecure.entrypoints=http"
+        - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.{{domain}}`)"
+        - "traefik.http.routers.jellyfin.tls=true"
+        - "traefik.http.routers.jellyfin.entrypoints=https"
+        - "traefik.http.routers.jellyfin.service=jellyfin"
+        - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      resources:
+        limits:
+          memory: 4096M
+        reservations:
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+
+volumes:
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Jellyfin"
+  tv-archive:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS2}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/{{tv_archive_remote_path}}"
+  music:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS2}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/{{music_remote_path}}"
+  private:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS2}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/{{private_remote_path}}"
+  video:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/{{video_remote_path}}"
+  anime:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/{{anime_remote_path}}"

@@ -71,6 +71,11 @@
     - stack_all
     - stack_all_emby
 
+- import_tasks: jellyfin.yml
+  tags:
+    - stack_all
+    - stack_all_jellyfin
+
 - import_tasks: lazylibrarian.yml
   tags:
     - stack_all

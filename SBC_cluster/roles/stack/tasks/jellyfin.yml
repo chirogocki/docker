@@ -1,0 +1,16 @@
+---
+- name: Template 'Jellyfin' compose file
+  template:
+    src: jellyfin.yml.j2
+    dest: "{{docker_conf_path}}/Jellyfin/jellyfin.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Jellyfin' stack from file
+  docker_stack:
+    state: present
+    name: jellyfin
+    compose:
+     - "{{docker_conf_path}}/Jellyfin/jellyfin.yml"
+
+
