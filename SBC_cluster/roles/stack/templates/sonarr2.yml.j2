@@ -22,7 +22,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.sonarr2-unsecure.rule=Host(`srr2.{{domain}}`)"

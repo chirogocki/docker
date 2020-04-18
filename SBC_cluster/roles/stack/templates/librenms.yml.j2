@@ -29,7 +29,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -54,7 +54,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -87,7 +87,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -115,7 +115,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -178,7 +178,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.librenms-unsecure.rule=Host(`librenms.{{domain}}`)"
@@ -251,7 +251,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       restart_policy:
         condition: on-failure
         delay: 15s
@@ -318,7 +318,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       restart_policy:
         condition: on-failure
         delay: 15s

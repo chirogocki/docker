@@ -82,7 +82,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       resources:
         limits:
           memory: 128M
@@ -121,7 +121,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       resources:
         limits:
           memory: 128M
@@ -223,7 +223,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.hostname==docker.{{domain}}
+          - node.hostname==fractal.{{domain}}
       resources:
         limits:
           memory: 768M
