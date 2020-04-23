@@ -6,6 +6,7 @@ services:
     environment:
       - PGID=100
       - PUID=1024
+      - GIDLIST=44,109
       - TZ=Europe/Paris
     devices:
       - /dev/dri/renderD128:/dev/dri
