@@ -90,6 +90,11 @@
     - stack
     - stack_mylar
 
+- import_tasks: mlr.yml
+  tags:
+    - stack
+    - stack_mlr
+
 - import_tasks: observium.yml
   tags:
     - stack
