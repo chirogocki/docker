@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  mylar:
+    image: linuxserver/mylar:latest
+    environment:
+      - PGID=100
+      - PUID=1024
+      - TZ=Europe/Paris
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - config:/config
+    - downloads:/downloads
+    - comics:/comics
+      
+    networks:
+      - traefik_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname==fractal.{{domain}}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.mlr-unsecure.rule=Host(`mlr.{{domain}}`)"
+        - "traefik.http.routers.mlr-unsecure.middlewares=redirect@file"
+        - "traefik.http.routers.mlr-unsecure.entrypoints=http"
+        - "traefik.http.routers.mlr.rule=Host(`mlr.{{domain}}`)"
+        - "traefik.http.routers.mlr.tls=true"
+        - "traefik.http.routers.mlr.entrypoints=https"
+        - "traefik.http.routers.mlr.service=mlr"
+        - "traefik.http.services.mlr.loadbalancer.server.port=8090"
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  traefik_network:
+    external: true
+
+volumes:
+  config:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/data/Mlr"
+  downloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/{{downloads_remote_path}}"
+  comics:
+    driver_opts:
+      type: "nfs"
+      o: "addr={{NAS1}},nolock,soft,rw,timeo=600,vers=4.1"
+      device: ":/{{comics_remote_path}}"
