@@ -91,6 +91,11 @@
     - stack_all
     - stack_all_mylar
 
+- import_tasks: mlr.yml
+  tags:
+    - stack_all
+    - stack_all_mlr
+
 - import_tasks: radarr.yml
   tags:
     - stack_all
