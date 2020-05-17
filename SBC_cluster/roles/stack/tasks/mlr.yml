@@ -9,7 +9,7 @@
 - name: Deploy 'Mylar' stack from file
   docker_stack:
     state: present
-    name: mylar
+    name: mlr
     compose:
      - "{{docker_conf_path}}/Mlr/mlr.yml"
 
