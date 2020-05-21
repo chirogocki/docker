@@ -9,7 +9,8 @@ services:
       - GIDLIST=44,109
       - TZ=Europe/Paris
     devices:
-      - /dev/dri/renderD128:/dev/dri
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
     volumes:
     - /etc/localtime:/etc/localtime:ro
     - config:/config
