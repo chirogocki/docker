@@ -140,6 +140,11 @@
     - stack
     - stack_jellyfin
 
+- import_tasks: swarmpit.yml
+  tags:
+    - stack
+    - stack_swarmpit
+
 - import_tasks: all.yml
   tags:
           ##    - stack

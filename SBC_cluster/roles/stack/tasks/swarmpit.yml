@@ -1,0 +1,16 @@
+---
+- name: Template 'Swarmpit' compose file
+  template:
+    src: swarmpit.yml.j2
+    dest: "{{docker_conf_path}}/Swarmpit/swarmpit.yml"
+    owner: '1024'
+    group: '100'
+
+- name: Deploy 'Swarmpit' stack from file
+  docker_stack:
+    state: present
+    name: sonarr2
+    compose:
+     - "{{docker_conf_path}}/Swarmpit/swarmpit.yml"
+
+
