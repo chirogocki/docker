@@ -9,7 +9,7 @@
 - name: Deploy 'Swarmpit' stack from file
   docker_stack:
     state: present
-    name: sonarr2
+    name: swarmpit
     compose:
      - "{{docker_conf_path}}/Swarmpit/swarmpit.yml"
 
