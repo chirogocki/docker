@@ -84,11 +84,6 @@ services:
 
 volumes:
   swarmpit-db-data:
-    name: ${SWARMPIT_DB_VOLUME:?SWARMPIT_DB_VOLUME is not set!}
-  influx-data:
-    name: ${SWARMPIT_INFLUX_VOLUME:?SWARMPIT_INFLUX_VOLUME is not set!}
-volumes:
-  swarmpit-db-data:
     driver_opts:
       type: "nfs"
       o: "addr={{NFS}},nolock,soft,rw,timeo=600,vers=4.1"
