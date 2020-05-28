@@ -26,6 +26,7 @@ services:
         - "traefik.http.routers.hydra2-unsecure.entrypoints=http"
         - "traefik.http.routers.hydra2.rule=Host(`hydra2.{{domain}}`)"
         - "traefik.http.routers.hydra2.tls=true"
+        - "traefik.http.routers.hydra2.tls.certresolver=myresolver"
         - "traefik.http.routers.hydra2.entrypoints=https"
         - "traefik.http.routers.hydra2.service=hydra2"
         - "traefik.http.services.hydra2.loadbalancer.server.port=5076"

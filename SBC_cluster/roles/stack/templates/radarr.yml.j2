@@ -27,6 +27,7 @@ services:
         - "traefik.http.routers.radarr-unsecure.entrypoints=http"
         - "traefik.http.routers.radarr.rule=Host(`rrr.{{domain}}`)"
         - "traefik.http.routers.radarr.tls=true"
+        - "traefik.http.routers.radarr.tls.certresolver=myresolver"
         - "traefik.http.routers.radarr.entrypoints=https"
         - "traefik.http.routers.radarr.service=radarr"
         - "traefik.http.services.radarr.loadbalancer.server.port=7878"

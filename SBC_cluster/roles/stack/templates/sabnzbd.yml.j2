@@ -28,6 +28,7 @@ services:
         - "traefik.http.routers.sabnzbd-unsecure.entrypoints=http"
         - "traefik.http.routers.sabnzbd.rule=Host(`sn.{{domain}}`)"
         - "traefik.http.routers.sabnzbd.tls=true"
+        - "traefik.http.routers.sabnzbd.tls.certresolver=myresolver"
         - "traefik.http.routers.sabnzbd.entrypoints=https"
         - "traefik.http.routers.sabnzbd.service=sabnzbd"
         - "traefik.http.services.sabnzbd.loadbalancer.server.port=8080"

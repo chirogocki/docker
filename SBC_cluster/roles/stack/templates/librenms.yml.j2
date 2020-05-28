@@ -186,6 +186,7 @@ services:
         - "traefik.http.routers.librenms-unsecure.entrypoints=http"
         - "traefik.http.routers.librenms.rule=Host(`librenms.{{domain}}`)"
         - "traefik.http.routers.librenms.tls=true"
+        - "traefik.http.routers.librenms.tls.certresolver=myresolver"
         - "traefik.http.routers.librenms.entrypoints=https"
         - "traefik.http.routers.librenms.service=librenms"
         - "traefik.http.services.librenms.loadbalancer.server.port=8000"

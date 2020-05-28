@@ -5,16 +5,6 @@
     - stack
     - stack_traefik2
 
-#- import_tasks: traefik-forward-auth.yml
-#  tags:
-#    - stack
-#    - stack_traefik-forward-auth
-
-- import_tasks: visualizer.yml
-  tags:
-    - stack
-    - stack_visualizer
-
 - import_tasks: docker-cleanup.yml
   tags:
     - stack
@@ -30,20 +20,10 @@
     - stack
     - stack_swarmprom
 
-- import_tasks: portainer.yml
-  tags:
-    - stack
-    - stack_portainer
-
 - import_tasks: heimdall.yml
   tags:
     - stack
     - stack_heimdall
-
-#- import_tasks: whoami.yml
-#  tags:
-#    - stack
-#    - stack_whoami
 
 - import_tasks: ubooquity.yml
   tags:
@@ -85,20 +65,10 @@
     - stack
     - stack_lidarr
 
-- import_tasks: mylar.yml
-  tags:
-    - stack
-    - stack_mylar
-
 - import_tasks: mlr.yml
   tags:
     - stack
     - stack_mlr
-
-- import_tasks: observium.yml
-  tags:
-    - stack
-    - stack_observium
 
 - import_tasks: radarr.yml
   tags:
@@ -115,11 +85,6 @@
     - stack
     - stack_sonarr2
 
-# - import_tasks: transmission-openvpn.yml
-#   tags:
-#     - stack
-#     - stack_transmission-openvpn
-
 - import_tasks: bookstack.yml
   tags:
     - stack
@@ -129,11 +94,6 @@
   tags:
     - stack
     - stack_librenms
-
-- import_tasks: diun.yml
-  tags:
-    - stack
-    - stack_diun
 
 - import_tasks: jellyfin.yml
   tags:
@@ -147,5 +107,4 @@
 
 - import_tasks: all.yml
   tags:
-          ##    - stack
     - stack_all

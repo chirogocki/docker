@@ -7,21 +7,21 @@
     owner: '1024'
     group: '100'
 
-- name: Create secret cert
-  docker_secret:
-    name: cert.pem
-    data: "{{ lookup('file', '{{docker_conf_path}}/SSL/cert.pem') | b64encode }}"
-    data_is_b64: true
-    force: yes
-    state: present
+# - name: Create secret cert
+#   docker_secret:
+#     name: cert.pem
+#     data: "{{ lookup('file', '{{docker_conf_path}}/SSL/cert.pem') | b64encode }}"
+#     data_is_b64: true
+#     force: yes
+#     state: present
 
-- name: Create secret privkey
-  docker_secret:
-    name: privkey.pem
-    data: "{{ lookup('file', '{{docker_conf_path}}/SSL/privkey.pem') | b64encode }}"
-    data_is_b64: true
-    force: yes
-    state: present
+# - name: Create secret privkey
+#   docker_secret:
+#     name: privkey.pem
+#     data: "{{ lookup('file', '{{docker_conf_path}}/SSL/privkey.pem') | b64encode }}"
+#     data_is_b64: true
+#     force: yes
+#     state: present
 
 - name: Deploy 'Traefik2' stack from file
   docker_stack:

@@ -29,6 +29,7 @@ services:
         - "traefik.http.routers.lazylibrarian-unsecure.entrypoints=http"
         - "traefik.http.routers.lazylibrarian.rule=Host(`library.{{domain}}`)"
         - "traefik.http.routers.lazylibrarian.tls=true"
+        - "traefik.http.routers.lazylibrarian.tls.certresolver=myresolver"
         - "traefik.http.routers.lazylibrarian.entrypoints=https"
         - "traefik.http.routers.lazylibrarian.service=lazylibrarian"
         - "traefik.http.services.lazylibrarian.loadbalancer.server.port=5299"

@@ -19,6 +19,7 @@ services:
         - "traefik.http.routers.swarmpit-unsecure.entrypoints=http"
         - "traefik.http.routers.swarmpit.rule=Host(`swarmpit.{{domain}}`)"
         - "traefik.http.routers.swarmpit.tls=true"
+        - "traefik.http.routers.swarmpit.tls.certresolver=myresolver"
         - "traefik.http.routers.swarmpit.entrypoints=https"
         - "traefik.http.services.swarmpit.loadbalancer.server.port=8080"
       resources:

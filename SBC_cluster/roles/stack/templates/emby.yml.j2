@@ -39,6 +39,7 @@ services:
         - "traefik.http.routers.emby-unsecure.entrypoints=http"
         - "traefik.http.routers.emby.rule=Host(`emby.{{domain}}`)"
         - "traefik.http.routers.emby.tls=true"
+        - "traefik.http.routers.emby.tls.certresolver=myresolver"
         - "traefik.http.routers.emby.entrypoints=https"
         - "traefik.http.routers.emby.service=emby"
         - "traefik.http.services.emby.loadbalancer.server.port=8096"

@@ -27,6 +27,7 @@ services:
         - "traefik.http.routers.mlr-unsecure.entrypoints=http"
         - "traefik.http.routers.mlr.rule=Host(`mlr.{{domain}}`)"
         - "traefik.http.routers.mlr.tls=true"
+        - "traefik.http.routers.mlr.tls.certresolver=myresolver"
         - "traefik.http.routers.mlr.entrypoints=https"
         - "traefik.http.routers.mlr.service=mlr"
         - "traefik.http.services.mlr.loadbalancer.server.port=8090"

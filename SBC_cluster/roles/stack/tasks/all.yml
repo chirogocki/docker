@@ -15,11 +15,6 @@
     - stack_all
     - stack_all_registry
 
-- import_tasks: visualizer.yml
-  tags:
-   - stack_all
-   - stack_all_visualizer
-
 - import_tasks: swarmprom.yml
   tags:
     - stack_all
@@ -86,11 +81,6 @@
     - stack_all
     - stack_all_lidarr
 
-- import_tasks: mylar.yml
-  tags:
-    - stack_all
-    - stack_all_mylar
-
 - import_tasks: mlr.yml
   tags:
     - stack_all
@@ -115,9 +105,4 @@
   tags:
     - stack_all
     - stack_all_bookstack_all
-
-- import_tasks: diun.yml
-  tags:
-    - stack_all
-    - stack_all_diun_all
 
