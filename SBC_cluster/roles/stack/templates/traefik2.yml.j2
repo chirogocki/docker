@@ -36,8 +36,6 @@ services:
     configs:
       - source: traefik.yml
         target: /etc/traefik/traefik.yml
-      - source: acme.json
-        target: /letsencrypt/acme.json
     deploy:
       labels:
         - "traefik.enable=true"
@@ -66,8 +64,6 @@ services:
 configs:
   traefik.yml:
     file: {{docker_conf_path}}/Traefik2S/traefik.yml
-  acme.json:
-    file: {{docker_conf_path}}/Traefik2S/letsencrypt/acme.json
 
 networks:
   traefik_network:
