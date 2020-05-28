@@ -26,11 +26,11 @@ services:
         mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    {# secrets:
-      - source: cert.pem
-        target: /etc/traefik/certs/cert.crt
-      - source: privkey.pem
-        target: /etc/traefik/certs/privkey.key #}
+    #secrets:
+    #  - source: cert.pem
+    #    target: /etc/traefik/certs/cert.crt
+    #  - source: privkey.pem
+    #    target: /etc/traefik/certs/privkey.key
     networks:
       - traefik_network
     configs:
@@ -57,11 +57,11 @@ services:
       restart_policy:
         condition: on-failure
 
-{# secrets:
-  cert.pem:
-    external: true
-  privkey.pem:
-    external: true #}
+# secrets:
+#  cert.pem:
+#    external: true
+#  privkey.pem:
+#    external: true
 
 configs:
   traefik.yml:
