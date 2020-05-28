@@ -26,7 +26,7 @@ services:
         mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - {{docker_conf_path}}/Traefik2S/acme.json:/acme.json
+      - /mnt/nfs/Traefik/acme.json:/acme.json
     #secrets:
     #  - source: cert.pem
     #    target: /etc/traefik/certs/cert.crt
