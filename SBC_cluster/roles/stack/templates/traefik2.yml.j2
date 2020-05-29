@@ -40,6 +40,7 @@ services:
       - source: traefik.yml
         target: /etc/traefik/traefik.yml
     deploy:
+      replicas: 1
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.traefik-unsecure.rule=Host(`traefik.{{domain}}`)"
@@ -52,7 +53,6 @@ services:
         - "traefik.http.routers.traefik.middlewares=auth-traefik"
         - "traefik.http.services.traefik.loadbalancer.server.port=8080"
         - "traefik.http.middlewares.auth-traefik.basicauth.users=admin:$$apr1$$Ux7zvNx5$$ohgAm9jcAtLbnyheCOekZ1"
-      mode: global
       placement:
         constraints:
           - node.hostname==fractal.{{domain}}
