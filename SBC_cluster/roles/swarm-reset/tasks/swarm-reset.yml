@@ -7,6 +7,7 @@
   tags:
     - swarm_reset
     - swarm_reset_leave
+  become: true
 
 - name: Stop docker
   systemd:
@@ -15,6 +16,7 @@
   tags:
     - swarm_reset
     - swarm_reset_docker_stop
+  become: true
 
 - name: Delete docker related
   file:
@@ -26,6 +28,7 @@
   tags:
     - swarm_reset
     - swarm_reset_docker_delete
+  become: true
 
 #- name: Prune system
 #  command: "{{ item }}"
