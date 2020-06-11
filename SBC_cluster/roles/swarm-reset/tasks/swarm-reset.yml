@@ -24,7 +24,6 @@
     state: absent
   with_items:
     - "/var/lib/docker"
-    - "/mnt/dietpi_userdata"
   tags:
     - swarm_reset
     - swarm_reset_docker_delete
