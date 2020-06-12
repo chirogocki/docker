@@ -47,6 +47,9 @@ services:
         reservations:
           cpus: "0.15"
           memory: 256M
+      placement:
+        constraints:
+          - node.hostname==fractal.{{domain}}
 
   swarmpit-agent:
     image: swarmpit/agent:latest
@@ -84,6 +87,9 @@ services:
         reservations:
           cpus: '0.30'
           memory: 128M
+      placement:
+        constraints:
+          - node.hostname==fractal.{{domain}}
 
 volumes:
   swarmpit-db-data:
