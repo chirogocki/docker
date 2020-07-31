@@ -16,6 +16,7 @@
     state: directory
   with_items: 
     - "{{ mount_nfs_path }}"
+  become: yes
   tags:
     - mount
     - mount-ensure-dir
@@ -33,6 +34,7 @@
     insertafter: EOF
     state: present
     validate: "/bin/mount -fav %s"
+  become: yes
   tags :
     - mount
     - mount_share
